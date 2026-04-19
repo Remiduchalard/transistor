@@ -29,6 +29,11 @@ const Game = {
     gameSpeed: 1,
     usedAssistance: false,        // tracked if bot or gameSpeed > 1 was ever used in this run
 
+    // Boost variables
+    consumables: 0,
+    purchaseCounter: 0,
+    boostMs: 0,                   // Remaining real-time ms for the x50 boost
+
     // Accumulator for smooth production
     productionAccumulator: new Decimal(0),
     autoSellAccumulator: new Decimal(0),
@@ -74,6 +79,9 @@ const Game = {
         this.autoSellAccumulator = new Decimal(0);
         this.gameSpeed = 1;
         this.usedAssistance = false;
+        this.consumables = 0;
+        this.purchaseCounter = 0;
+        this.boostMs = 0;
         this.startTime = Date.now();
         this.virtualElapsed = 0;
         this.decadeMilestones = {};
@@ -175,6 +183,32 @@ const Game = {
     },
 
     /**
+     * Increment purchase counter and award consumables
+     */
+    addPurchases(amount) {
+        this.purchaseCounter += amount;
+        while (this.purchaseCounter >= 100) {
+            this.consumables++;
+            this.purchaseCounter -= 100;
+            if (typeof UI !== 'undefined' && UI.notify) {
+                UI.notify("🎁 Boost x50 gagné !", "bonus");
+            }
+        }
+    },
+
+    /**
+     * Use a consumable to trigger the 1-minute x50 boost
+     */
+    useConsumable() {
+        if (this.consumables > 0) {
+            this.consumables--;
+            this.boostMs += 60_000; // Adds 1 minute
+            return true;
+        }
+        return false;
+    },
+
+    /**
      * Handle a click on the transistor button
      */
     click() {
@@ -186,11 +220,26 @@ const Game = {
     },
 
     /**
+     * Return effective time multiplier for external systems (like the Bot)
+     */
+    getEffectiveTimeMultiplier() {
+        return this.gameSpeed * (this.boostMs > 0 ? 50 : 1);
+    },
+
+    /**
      * Game tick — called every TICK_INTERVAL ms
      */
     tick(deltaMs) {
-        // Apply game speed
-        const effectiveDelta = deltaMs * this.gameSpeed;
+        // Handle consumable boost timer (always real-time countdown regardless of gameSpeed)
+        let boostMult = 1;
+        if (this.boostMs > 0) {
+            this.boostMs -= deltaMs;
+            if (this.boostMs < 0) this.boostMs = 0;
+            boostMult = 50;
+        }
+
+        // Apply game speed & boost
+        const effectiveDelta = deltaMs * this.gameSpeed * boostMult;
 
         // Accumulate virtual elapsed time (for stats)
         this.virtualElapsed += effectiveDelta;
@@ -245,6 +294,7 @@ const Game = {
 
         this.money = this.money.sub(cost);
         this.unlockedRD[machineId] = true;
+        this.addPurchases(1); // Gain 1 purchase towards consumable
         this.recalculate();
         return true;
     },
@@ -268,6 +318,7 @@ const Game = {
         }
 
         if (bought > 0) {
+            this.addPurchases(bought); // Gain towards consumable
             this.recalculate();
             if (machineId === "terrafab" && this.ownedMachines[machineId] === 1 && !this.globals.unlockedMusk) {
                 this.globals.unlockedMusk = true;
@@ -349,6 +400,9 @@ const Game = {
             lastSavedTime: this.lastSavedTime,
             gameSpeed: this.gameSpeed,
             usedAssistance: this.usedAssistance,
+            consumables: this.consumables,
+            purchaseCounter: this.purchaseCounter,
+            boostMs: this.boostMs,
         };
         localStorage.setItem("transistor_clicker_save", JSON.stringify(data));
     },
@@ -389,6 +443,9 @@ const Game = {
             if (data.lastRecordedYear) this.lastRecordedYear = data.lastRecordedYear;
             if (data.gameSpeed) this.gameSpeed = data.gameSpeed;
             if (data.usedAssistance !== undefined) this.usedAssistance = data.usedAssistance;
+            this.consumables = data.consumables || 0;
+            this.purchaseCounter = data.purchaseCounter || 0;
+            this.boostMs = data.boostMs || 0;
             this.lastSavedTime = data.lastSavedTime || Date.now();
 
             this.recalculate(); // Need this first for offline logic

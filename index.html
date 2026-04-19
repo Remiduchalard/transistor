@@ -234,6 +234,22 @@
                 </button>
                 <div id="floating-numbers"></div>
 
+                <!-- Boost Section -->
+                <div id="boost-container" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 20px 0; text-align: center;">
+                    <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 8px;">
+                        Prochain boost : <span id="boost-progress-text" style="color: var(--text); font-weight: bold;">0 / 100</span> achats
+                    </div>
+                    <div style="background: var(--bg-dark); height: 6px; border-radius: 3px; margin-bottom: 12px; overflow: hidden;">
+                        <div id="boost-progress-bar" style="background: var(--accent); height: 100%; width: 0%; transition: width 0.2s;"></div>
+                    </div>
+                    <button id="use-boost-btn" style="width: 100%; padding: 10px; background: linear-gradient(135deg, var(--gold), #d97706); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: none; transition: all 0.2s; margin-bottom: 8px;">
+                        Activer Boost x50 (Stock: <span id="boost-stock">0</span>)
+                    </button>
+                    <div id="boost-active-display" style="display: none; color: var(--gold); font-weight: bold; font-size: 1.1rem; animation: pulse 1s infinite;">
+                        🔥 BOOST x50 ACTIF : <span id="boost-timer">60.0</span>s
+                    </div>
+                </div>
+
                 <div id="sell-section">
                     <h3>Vente</h3>
                     <div class="sell-buttons">

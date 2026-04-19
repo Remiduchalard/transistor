@@ -274,9 +274,9 @@ const MACHINES = [
         desc: "Diélectrique high-k et grille métallique pour réduire les fuites.",
         icon: "🛡️",
         unlockYear: 2007,
-        baseCost: 32_000_000_000,
+        baseCost: 50_000_000_000,
         rdCost: 10_000_000_000,                 // $5B — R&D HKMG
-        baseProduction: 160_000_000_000_000,
+        baseProduction: 300_000_000_000_000,
         tier: 9,
         realInfo: "2007 — Intel introduit le High-K Metal Gate au nœud 45nm (Core 2).",
         rdInfo: "R&D : $5B — Le SiO₂ à 1.2nm d'épaisseur fuit par effet tunnel. Intel remplace par du hafnium (HfO₂, constante k=25 vs 3.9) et une grille métal. 15 ans de recherche depuis les premières publications. Réduit les fuites de 100x."
@@ -287,9 +287,9 @@ const MACHINES = [
         desc: "Transistors 3D FinFET pour les nœuds sub-22nm.",
         icon: "🦈",
         unlockYear: 2012,
-        baseCost: 20_000_000_000,
+        baseCost: 30_000_000_000,
         rdCost: 16_000_000_000,                 // $8B — R&D FinFET
-        baseProduction: 400_000_000_000_000,
+        baseProduction: 600_000_000_000_000,
         tier: 9,
         realInfo: "2012 — Intel produit les premiers FinFET commerciaux au nœud 22nm (Ivy Bridge).",
         rdInfo: "R&D : $8B — Chenming Hu (UC Berkeley) invente le FinFET en 1999 : le canal devient une ailette 3D entourée par la grille sur 3 côtés. Intel met 13 ans à l'industrialiser. Gain de 37% en performance et 50% en consommation vs planaire."
@@ -300,9 +300,9 @@ const MACHINES = [
         desc: "Extreme Ultraviolet : gravure à 13.5nm de longueur d'onde.",
         icon: "☀️",
         unlockYear: 2018,
-        baseCost: 40_000_000_000,
+        baseCost: 60_000_000_000,
         rdCost: 30_000_000_000,                // $15B — R&D EUV (~20 ans de développement)
-        baseProduction: 3_200_000_000_000_000,
+        baseProduction: 6_200_000_000_000_000,
         tier: 10,
         realInfo: "2018 — ASML livre les premières machines EUV à Samsung et TSMC. Nœud 7nm.",
         rdInfo: "R&D : $15B — Démarrée en 1997 par le consortium EUV LLC (Intel, AMD, Motorola, DOE). ASML développe la source plasma d'étain (50 000 gouttelettes/sec frappées par laser CO₂). Chaque machine NXE:3400 coûte $150M et pèse 180 tonnes."
@@ -313,9 +313,9 @@ const MACHINES = [
         desc: "Gate-All-Around FET : la prochaine révolution après FinFET.",
         icon: "🧬",
         unlockYear: 2022,
-        baseCost: 50_000_000_000,
+        baseCost: 80_000_000_000,
         rdCost: 40_000_000_000,                // $20B — R&D GAA nanosheet
-        baseProduction: 12_000_000_000_000_000,
+        baseProduction: 24_000_000_000_000_000,
         tier: 10,
         realInfo: "2022 — Samsung lance la production GAA-FET (nanosheet) au nœud 3nm.",
         rdInfo: "R&D : $20B — Évolution du FinFET : le canal devient un empilement de nanofeuilles (nanosheets) entourées par la grille sur 4 côtés. Samsung produit en premier (2022), TSMC et Intel suivent au nœud 2nm (2025). Gain de 35% en densité."
@@ -326,9 +326,9 @@ const MACHINES = [
         desc: "High-NA EUV : la lithographie ultime pour le nœud 2nm et au-delà.",
         icon: "🌟",
         unlockYear: 2025,
-        baseCost: 80_000_000_000,
+        baseCost: 150_000_000_000,
         rdCost: 50_000_000_000,                // $25B — R&D High-NA EUV
-        baseProduction: 160_000_000_000_000_000,
+        baseProduction: 400_000_000_000_000_000,
         tier: 11,
         realInfo: "2025 — ASML Twinscan EXE:5000, première machine High-NA EUV. Intel et TSMC au nœud 2nm.",
         rdInfo: "R&D : $25B — ASML Twinscan EXE:5000 : ouverture numérique de 0.55 (vs 0.33). Miroirs anamorphiques, wafer tilt. Chaque machine coûte $350M+. Intel est le premier client. Permet la gravure sub-2nm sans multi-patterning extrême."
@@ -339,9 +339,9 @@ const MACHINES = [
         desc: "Complementary FET : empilement 3D des transistors nMOS et pMOS.",
         icon: "🏢",
         unlockYear: 2029,
-        baseCost: 500_000_000_000,
+        baseCost: 900_000_000_000,
         rdCost: 80_000_000_000,
-        baseProduction: 5_500_000_000_000_000_000,
+        baseProduction: 12_500_000_000_000_000_000,
         tier: 11,
         realInfo: "2029 (Estimé) — Le CFET (Complementary FET) empile littéralement les transistors N et P les uns sur les autres pour diviser la surface de la cellule par deux.",
         rdInfo: "R&D : $40B — Le défi ultime du routage et de la dissipation thermique. Intel (Intel 10A) et l'IMEC préparent cette architecture pour succéder au GAA-FET. Nécessite une précision d'alignement inter-couches atomique."

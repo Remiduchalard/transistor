@@ -34,6 +34,12 @@ const UI = {
             yearNextLabel: document.getElementById("year-next-label"),
             botPlanner: document.getElementById("bot-planner"),
             botNextAction: document.getElementById("bot-next-action"),
+            boostProgressText: document.getElementById("boost-progress-text"),
+            boostProgressBar: document.getElementById("boost-progress-bar"),
+            useBoostBtn: document.getElementById("use-boost-btn"),
+            boostStock: document.getElementById("boost-stock"),
+            boostActiveDisplay: document.getElementById("boost-active-display"),
+            boostTimer: document.getElementById("boost-timer"),
         };
     },
 
@@ -154,6 +160,24 @@ const UI = {
             }
         } else {
             this.els.marketShare.textContent = "0%";
+        }
+
+        // Boost UI
+        this.els.boostProgressText.textContent = Game.purchaseCounter + " / 100";
+        this.els.boostProgressBar.style.width = Game.purchaseCounter + "%";
+        
+        if (Game.boostMs > 0) {
+            this.els.boostActiveDisplay.style.display = "block";
+            this.els.boostTimer.textContent = (Game.boostMs / 1000).toFixed(1);
+        } else {
+            this.els.boostActiveDisplay.style.display = "none";
+        }
+        
+        if (Game.consumables > 0) {
+            this.els.useBoostBtn.style.display = "block";
+            this.els.boostStock.textContent = Game.consumables;
+        } else {
+            this.els.useBoostBtn.style.display = "none";
         }
 
         // Year

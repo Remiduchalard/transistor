@@ -787,7 +787,10 @@
         // Physics tick + bot tick
         const oldYear = Game.currentYear;
         Game.tick(delta);
-        botTick(delta * Game.gameSpeed);
+        
+        // Pass the effective time multiplier to the bot so it acts 50x faster too
+        const effectiveBotDelta = delta * Game.getEffectiveTimeMultiplier();
+        botTick(effectiveBotDelta);
 
         // Check year changes from production + bot actions
         if (Game.currentYear !== oldYear) {
@@ -864,6 +867,16 @@
             }
         });
     }
+
+    // === Boost ===
+    document.getElementById("use-boost-btn").addEventListener("click", () => {
+        if (Game.useConsumable()) {
+            if (typeof UI !== 'undefined' && UI.notify) {
+                UI.notify("🔥 Boost temporel activé !", "bonus");
+            }
+            UI.updateStats();
+        }
+    });
 
     // Start game loop
     requestAnimationFrame(gameLoop);
