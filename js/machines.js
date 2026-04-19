@@ -394,8 +394,8 @@ function getDynamicRDCost(machine, currentYear) {
     let cost = new Decimal(machine.rdCost);
     if (currentYear >= machine.unlockYear) return cost;
     const yearsBefore = machine.unlockYear - currentYear;
-    // Penalty: +60% per year (compounded)
-    return cost.mul(Decimal.pow(1.6, yearsBefore)).floor();
+    // Penalty: +100% per year (compounded)
+    return cost.mul(Decimal.pow(2, yearsBefore)).floor();
 }
 
 /**
@@ -404,10 +404,10 @@ function getDynamicRDCost(machine, currentYear) {
 function getMachineCost(machine, owned, currentYear) {
     let cost = new Decimal(machine.baseCost).mul(Decimal.pow(CONFIG.PRICE_SCALE, owned));
     
-    // Penalty for early purchase: +60% per year (compounded)
+    // Penalty for early purchase: +100% per year (compounded)
     if (currentYear < machine.unlockYear) {
         const yearsBefore = machine.unlockYear - currentYear;
-        cost = cost.mul(Decimal.pow(1.6, yearsBefore));
+        cost = cost.mul(Decimal.pow(2, yearsBefore));
     }
     
     return cost.floor();

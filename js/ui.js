@@ -245,7 +245,7 @@ const UI = {
             }
 
             let costAreaHtml;
-            const earlyLabel = isEarly ? `<div class="early-warning">Avance : +${Math.round((Math.pow(1.6, machine.unlockYear - Game.currentYear) - 1)*100)}%</div>` : "";
+            const earlyLabel = isEarly ? `<div class="early-warning">Avance : +${Math.round((Math.pow(2, machine.unlockYear - Game.currentYear) - 1)*100)}%</div>` : "";
             
             if (!rdDone) {
                 // Show R&D cost (potentially dynamic)
