@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transistor Clicker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/machines.css">
+    <link rel="stylesheet" href="css/animations.css">
+
+    <!-- Google tag (gtag.js) - Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VOTRE_ID_ICI"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VOTRE_ID_ICI');
+    </script>
+</head>
+<body>
+    <div id="game-container">
+        <!-- Intro popup -->
+        <div id="intro-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.9); z-index: 2000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+            <div style="background: var(--bg-panel); border: 1px solid var(--accent); border-radius: 16px; padding: 40px; max-width: 650px; width: 90%; text-align: left; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(56, 189, 248, 0.15);">
+                <h2 style="color: var(--accent); font-size: 1.5rem; text-align: center; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Bienvenue dans Transistor Clicker</h2>
+
+                <div style="font-size: 1rem; line-height: 1.6; color: var(--text); display: flex; flex-direction: column; gap: 16px;">
+                    <p>
+                        Ce jeu éducatif est ouvertement inspiré du célèbre 
+                        <a href="https://orteil.dashnet.org/cookieclicker/" target="_blank" style="color: var(--accent); text-decoration: underline; font-weight: bold;">Cookie Clicker</a>.
+                    </p>
+                    <p>
+                        Si le fait de produire des quantités absurdes de cookies n'a pas vraiment de sens, <strong>cette croissance exponentielle affolante n'est en revanche pas absurde pour la production de transistors !</strong>
+                    </p>
+                    <p>
+                        Depuis 1970, la production mondiale de transistors double tous les 14 mois. Aucun autre domaine n'a connu une croissance pareille. Cette évolution est restée discrète car les coûts de fabrication sont divisés par deux tous les 24 mois.
+                        <br><span style="font-size: 0.85rem; color: var(--text-dim);"><em>Pour l'équilibrage du jeu, sachez que les usines les plus récentes sont d'ailleurs <strong>moins</strong> efficaces que dans la réalité !</em></span>
+                    </p>
+                    <p>
+                        La valeur des transistors devient aujourd'hui la partie la plus importante d'un produit. La radio portative avec ses transistors fut une telle révolution que nos aînés parlent de "transistor" pour une radio. À l'époque, il y avait dedans un nombre de transistors qui se comptait sur les doigts d'une main et ne représentait qu'une petite fraction du prix du produit.
+                    </p>
+                    <p>
+                        Aujourd'hui, une carte Nvidia moderne peut contenir <strong>400 milliards de transistors</strong> (soit 400 fois la production mondiale de 1970 à elle seule) et ces composants représentent plus de 80% des coûts de fabrication de la carte !
+                    </p>
+                </div>
+
+                <div style="text-align: center; margin-top: 32px;">
+                    <button id="intro-start-btn" style="padding: 12px 40px; font-size: 1.1rem; background: var(--accent); color: var(--bg-dark); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s;">Commencer la production</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Offline popup -->
+        <div id="offline-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.9); z-index: 2500; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+            <div style="background: var(--bg-panel); border: 1px solid var(--green); border-radius: 16px; padding: 40px; max-width: 500px; width: 90%; text-align: center; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(52, 211, 153, 0.15);">
+                <h2 style="color: var(--green); font-size: 1.5rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Retour à l'usine</h2>
+                <p style="margin-bottom: 16px; color: var(--text); line-height: 1.5;">Pendant votre absence (<span id="offline-time" style="color: var(--accent); font-weight: bold;"></span>), vos usines ont continué de tourner à <span id="offline-rate" style="color: var(--accent); font-weight: bold;"></span>% de leur capacité normale.</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px; background: var(--bg-dark); padding: 20px; border-radius: 8px; margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-dim);">Transistors produits :</span>
+                        <strong id="offline-produced" style="color: var(--text);">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-dim);">Ventes automatiques :</span>
+                        <strong id="offline-earned" style="color: var(--green);">+$0</strong>
+                    </div>
+                </div>
+
+                <button id="offline-close-btn" style="padding: 10px 30px; font-size: 1rem; background: var(--bg-card); color: var(--text); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">Reprendre le travail</button>
+            </div>
+        </div>
+
+        <!-- Header: Stats and Year -->
+        <header id="stats-bar">
+            <div class="stat-group">
+                <div class="stat">
+                    <span class="stat-label">Stock</span>
+                    <span id="stock" class="stat-value stock-value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Produits (total)</span>
+                    <span id="total-transistors" class="stat-value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Production / an</span>
+                    <span id="per-year" class="stat-value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Prod. mondiale</span>
+                    <span id="world-prod" class="stat-value world-value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Part mondiale</span>
+                    <span id="market-share" class="stat-value">0%</span>
+                </div>
+            </div>
+            <div class="stat-group">
+                <div class="stat">
+                    <span class="stat-label">Argent</span>
+                    <span id="money" class="stat-value">$0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Prix unitaire</span>
+                    <span id="unit-price" class="stat-value">$0.00</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Temps de jeu</span>
+                    <span id="play-time" class="stat-value">0s</span>
+                </div>
+            </div>
+            <div class="stat-group year-display">
+                <div class="stat">
+                    <span class="stat-label">Année</span>
+                    <span id="current-year" class="stat-value year-value">1947</span>
+                </div>
+                <div id="era-name" class="era-label">L'ère du Germanium</div>
+                <div id="year-progress-section">
+                    <div id="year-total-produced"></div>
+                    <div id="year-progress-bar">
+                        <div id="year-progress-fill"></div>
+                    </div>
+                    <div id="year-next-label"></div>
+                </div>
+                <button id="settings-btn" title="Paramètres">&#9881;</button>
+            </div>
+        </header>
+
+        <!-- Settings popup -->
+        <div id="settings-popup" class="hidden">
+            <div class="settings-content">
+                <h2>Paramètres</h2>
+                <div class="settings-buttons">
+                    <button id="stats-btn" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer">Statistiques</button>
+                    <a href="proliferation.html" class="settings-link">Loi de Moore vs. Loi de la Prolifération</a>
+                    <button id="reset-save-btn" class="settings-danger">Réinitialiser la sauvegarde</button>
+                </div>
+                <div class="settings-bot">
+                    <button id="bot-toggle-btn" class="settings-link" style="border-color:var(--green);color:var(--green);cursor:pointer">Activer le Bot</button>
+                    <span id="bot-status" class="bot-status-off">Inactif</span>
+                </div>
+                <div class="settings-speed">
+                    <span class="speed-label">Vitesse du jeu</span>
+                    <div class="speed-buttons">
+                        <button class="speed-btn" data-speed="0.5">x0.5</button>
+                        <button class="speed-btn active" data-speed="1">x1</button>
+                        <button class="speed-btn" data-speed="2">x2</button>
+                        <button class="speed-btn" data-speed="5">x5</button>
+                        <button class="speed-btn" data-speed="10">x10</button>
+                        <button class="speed-btn" data-speed="50">x50</button>
+                        <button class="speed-btn" data-speed="100">x100</button>
+                        <button class="speed-btn" data-speed="500">x500</button>
+                        <button class="speed-btn" data-speed="1000">x1000</button>
+                    </div>
+                </div>
+                <button id="settings-close">Fermer</button>
+            </div>
+        </div>
+
+        <!-- Stats popup -->
+        <div id="stats-popup" class="hidden">
+            <div class="stats-content">
+                <h2>Statistiques</h2>
+                <div id="stats-table-container"></div>
+                <div id="stats-chart-container" style="margin-top: 20px; width: 100%; height: 300px; display: none; position: relative;">
+                    <div style="position: absolute; top: -15px; right: 0; z-index: 10;">
+                        <button id="chart-toggle-btn" style="margin: 0; padding: 4px 8px; font-size: 0.75rem; background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-dim); border-radius: 4px;">Axe : Année</button>
+                    </div>
+                    <canvas id="stats-chart"></canvas>
+                </div>
+                <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
+                    <button id="stats-export-btn" class="settings-link" style="margin: 0; padding: 8px 20px; font-size: 0.9rem;">Exporter (JSON)</button>
+                    <button id="stats-close" style="margin: 0;">Fermer</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <main id="main-area">
+            <!-- Left: Click zone -->
+            <section id="click-zone">
+                <h2>Fabrication manuelle</h2>
+                <button id="click-btn">
+                    <div class="transistor-icon">
+                        <svg viewBox="0 0 100 120" width="120" height="140">
+                            <!-- Transistor symbol -->
+                            <line x1="20" y1="60" x2="45" y2="60" stroke="currentColor" stroke-width="3"/>
+                            <line x1="45" y1="30" x2="45" y2="90" stroke="currentColor" stroke-width="3"/>
+                            <line x1="45" y1="40" x2="75" y2="20" stroke="currentColor" stroke-width="3"/>
+                            <line x1="45" y1="80" x2="75" y2="100" stroke="currentColor" stroke-width="3"/>
+                            <line x1="75" y1="20" x2="75" y2="5" stroke="currentColor" stroke-width="3"/>
+                            <line x1="75" y1="100" x2="75" y2="115" stroke="currentColor" stroke-width="3"/>
+                            <!-- Arrow -->
+                            <polygon points="68,78 75,100 60,88" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <span class="click-text">Fabriquer un transistor</span>
+                    <span class="click-bonus" id="click-power-display">+1 par clic</span>
+                </button>
+                <div id="floating-numbers"></div>
+
+                <div id="sell-section">
+                    <h3>Vente</h3>
+                    <div class="sell-buttons">
+                        <button class="sell-btn" data-amount="1">Vendre 1</button>
+                        <button class="sell-btn" data-amount="10">Vendre 10</button>
+                        <button class="sell-btn" data-amount="100">Vendre 100</button>
+                        <button class="sell-btn" data-amount="max">Tout vendre</button>
+                    </div>
+                </div>
+
+                <div id="upgrades-section">
+                    <h3>Améliorations</h3>
+                    <div id="upgrades-list"></div>
+                </div>
+            </section>
+
+            <!-- Right: Machines shop -->
+            <section id="shop-zone">
+                <div id="shop-header">
+                    <h2>Machines & Procédés</h2>
+                    <div id="buy-qty-selector">
+                        <button class="qty-btn active" data-qty="1">x1</button>
+                        <button class="qty-btn" data-qty="10">x10</button>
+                        <button class="qty-btn" data-qty="100">x100</button>
+                        <button class="qty-btn" data-qty="1000">x1000</button>
+                    </div>
+                </div>
+                <div id="machines-list"></div>
+            </section>
+        </main>
+
+        <!-- Notifications -->
+        <div id="notifications-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 200; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; pointer-events: none;">
+            <div id="bot-planner" class="hidden" style="background: var(--bg-panel); border: 1px solid var(--accent); border-radius: 8px; padding: 12px; pointer-events: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.5); width: 300px;">
+                <div style="font-size: 0.7rem; color: var(--accent); text-transform: uppercase; margin-bottom: 4px;">Prochaine action du bot</div>
+                <div id="bot-next-action" style="font-size: 0.85rem; font-weight: 600; color: var(--text);">Analyse en cours...</div>
+            </div>
+            <div id="notifications" style="display: flex; flex-direction: column-reverse; gap: 8px;"></div>
+        </div>
+
+        <!-- Year milestone popup -->
+        <div id="milestone-popup" class="hidden">
+            <div class="milestone-content">
+                <h2 id="milestone-title"></h2>
+                <p id="milestone-text"></p>
+                <button id="milestone-close">Continuer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/break_eternity.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/machines.js"></script>
+    <script src="js/upgrades.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,806 @@
+/* === Reset & Base === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-dark: #0a0e17;
+    --bg-panel: #111827;
+    --bg-card: #1a2332;
+    --bg-card-hover: #223044;
+    --border: #2a3a4e;
+    --text: #e2e8f0;
+    --text-dim: #8892a4;
+    --accent: #38bdf8;
+    --accent-glow: rgba(56, 189, 248, 0.3);
+    --gold: #fbbf24;
+    --gold-glow: rgba(251, 191, 36, 0.3);
+    --green: #34d399;
+    --red: #f87171;
+    --purple: #a78bfa;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#game-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* === Header Stats === */
+#stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    gap: 12px;
+}
+
+.stat-group {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+/* Row 1: Production Stats (Full width) */
+.stat-group:nth-child(1) {
+    flex: 1 1 100%;
+    justify-content: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Row 2: Money & Time (Left) */
+.stat-group:nth-child(2) {
+    flex: 0 1 auto;
+    justify-content: flex-start;
+}
+
+/* Row 2: Year & Progress (Right) */
+.stat-group.year-display {
+    flex: 1 1 auto;
+    justify-content: flex-end;
+}
+
+.stat {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.stat-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-dim);
+}
+
+.stat-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+}
+
+.stock-value {
+    color: var(--green) !important;
+    font-size: 1.05rem;
+}
+
+.world-value {
+    color: var(--text-dim) !important;
+    font-size: 0.9rem;
+}
+
+.year-display {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.year-value {
+    font-size: 1.3rem;
+    color: var(--gold) !important;
+    text-shadow: 0 0 8px var(--gold-glow);
+}
+
+.era-label {
+    font-size: 0.7rem;
+    color: var(--gold);
+    font-style: italic;
+}
+
+#year-progress-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 200px;
+}
+
+#year-total-produced {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    white-space: nowrap;
+}
+
+#year-progress-bar {
+    flex: 1;
+    height: 6px;
+    min-width: 80px;
+    background: var(--bg-card);
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+#year-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold), #f59e0b);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+#year-next-label {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    white-space: nowrap;
+}
+
+/* === Main Layout === */
+#main-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 24px 0;
+    align-items: start;
+}
+
+/* === Click Zone === */
+#click-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#click-zone h2,
+#shop-zone h2 {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-align: center;
+}
+
+#click-btn {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #1e3a5f, #0f1b2d);
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 30px var(--accent-glow), inset 0 0 30px rgba(56, 189, 248, 0.1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    transition: transform 0.1s, box-shadow 0.1s;
+    user-select: none;
+}
+
+#click-btn:hover {
+    box-shadow: 0 0 50px var(--accent-glow), inset 0 0 40px rgba(56, 189, 248, 0.15);
+}
+
+#click-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 60px var(--accent-glow), inset 0 0 50px rgba(56, 189, 248, 0.2);
+}
+
+.click-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.click-bonus {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-top: 2px;
+}
+
+#floating-numbers {
+    position: relative;
+    height: 0;
+    width: 220px;
+    pointer-events: none;
+}
+
+/* === Sell Section === */
+#sell-section {
+    width: 100%;
+    max-width: 400px;
+    padding: 16px;
+    background: var(--bg-panel);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+#sell-section h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: var(--green);
+}
+
+.sell-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.sell-btn {
+    padding: 8px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    color: var(--green);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.sell-btn:hover {
+    background: rgba(52, 211, 153, 0.15);
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.2);
+}
+
+/* === Upgrades === */
+#upgrades-section {
+    width: 100%;
+    max-width: 400px;
+}
+
+#upgrades-section h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: var(--purple);
+}
+
+#upgrades-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.upgrade-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.upgrade-item:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--purple);
+}
+
+.upgrade-item.locked {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.upgrade-item.purchased {
+    opacity: 0.5;
+    border-color: var(--green);
+    cursor: default;
+}
+
+.upgrade-info {
+    flex: 1;
+}
+
+.upgrade-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.upgrade-desc {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 2px;
+}
+
+.upgrade-cost {
+    font-weight: 700;
+    color: var(--gold);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    margin-left: 12px;
+}
+
+/* === Shop / Machines === */
+#shop-zone {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: sticky;
+    top: 60px;
+    align-self: start;
+    max-height: calc(100vh - 70px);
+}
+
+#shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#buy-qty-selector {
+    display: flex;
+    gap: 4px;
+}
+
+.qty-btn {
+    padding: 4px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.qty-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+.qty-btn.active {
+    background: var(--accent);
+    color: var(--bg-dark);
+    border-color: var(--accent);
+}
+
+#machines-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    padding-right: 6px;
+    flex: 1;
+    min-height: 0;
+}
+
+#machines-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+#machines-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#machines-list::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+#machines-list::-webkit-scrollbar-thumb:hover {
+    background: var(--text-dim);
+}
+
+/* === Settings button === */
+#settings-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-dim);
+    font-size: 1.2rem;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+}
+
+#settings-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* === Settings Popup === */
+#settings-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+}
+
+#settings-popup.hidden {
+    display: none;
+}
+
+.settings-content {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 40px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    animation: popIn 0.3s ease;
+}
+
+.settings-content h2 {
+    color: var(--text);
+    font-size: 1.3rem;
+    margin-bottom: 24px;
+}
+
+.settings-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.settings-link {
+    display: block;
+    padding: 10px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s;
+}
+
+.settings-link:hover {
+    background: rgba(56, 189, 248, 0.1);
+}
+
+.settings-danger {
+    padding: 10px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--red);
+    border-radius: 8px;
+    color: var(--red);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.settings-danger:hover {
+    background: rgba(248, 113, 113, 0.15);
+}
+
+.settings-speed {
+    margin-top: 4px;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+}
+
+.speed-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+}
+
+.speed-buttons {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.speed-btn {
+    padding: 5px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.speed-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+.speed-btn.active {
+    background: var(--accent);
+    color: var(--bg-dark);
+    border-color: var(--accent);
+}
+
+/* === Bot section === */
+.settings-bot {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+    justify-content: center;
+}
+
+.bot-status-off {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.bot-status-on {
+    font-size: 0.8rem;
+    color: var(--green);
+    font-weight: 700;
+}
+
+#settings-close {
+    padding: 8px 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+#settings-close:hover {
+    border-color: var(--text-dim);
+}
+
+/* === Stats Popup === */
+#stats-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 310;
+}
+
+#stats-popup.hidden {
+    display: none;
+}
+
+.stats-content {
+    background: var(--bg-panel);
+    border: 1px solid var(--gold);
+    border-radius: 16px;
+    padding: 28px 32px;
+    max-width: 700px;
+    width: 95%;
+    max-height: 80vh;
+    overflow-y: auto;
+    text-align: center;
+    animation: popIn 0.3s ease;
+}
+
+.stats-content h2 {
+    color: var(--gold);
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+#stats-table-container {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+}
+
+.stats-table th,
+.stats-table td {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.stats-table th {
+    background: var(--bg-card);
+    color: var(--gold);
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+}
+
+.stats-table td {
+    color: var(--text);
+}
+
+.stats-table .row-label {
+    text-align: left;
+    color: var(--text-dim);
+    font-weight: 600;
+}
+
+.stats-table .current-run {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.stats-table .best-time {
+    color: var(--green);
+}
+
+#stats-close {
+    padding: 8px 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+#stats-close:hover {
+    border-color: var(--text-dim);
+}
+
+/* === Notifications === */
+#notifications {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+    z-index: 200;
+    pointer-events: none;
+}
+
+.notification {
+    padding: 12px 20px;
+    background: var(--bg-panel);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.85rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    animation: slideInRight 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+    pointer-events: auto;
+}
+
+.notification.milestone {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, #1a1a0a, var(--bg-panel));
+}
+
+/* === Bot UI elements === */
+.bot-highlight {
+    box-shadow: 0 0 25px var(--green) !important;
+    border-color: var(--green) !important;
+    transform: scale(1.02);
+    transition: all 0.1s ease !important;
+}
+
+/* === Milestone Popup === */
+#milestone-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+}
+
+#milestone-popup.hidden {
+    display: none;
+}
+
+.milestone-content {
+    background: var(--bg-panel);
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 0 60px var(--gold-glow);
+    animation: popIn 0.4s ease;
+}
+
+.milestone-content h2 {
+    color: var(--gold);
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+}
+
+.milestone-content p {
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+#milestone-close {
+    padding: 10px 32px;
+    background: var(--gold);
+    color: var(--bg-dark);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+#milestone-close:hover {
+    transform: scale(1.05);
+}
+
+/* === Responsive === */
+@media (max-width: 900px) {
+    #main-area {
+        grid-template-columns: 1fr;
+    }
+
+    #stats-bar {
+        justify-content: center;
+    }
+
+    #machines-list {
+        max-height: none;
+    }
+}
