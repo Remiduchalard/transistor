@@ -328,7 +328,7 @@ const MACHINES = [
         unlockYear: 2025,
         baseCost: 80_000_000_000,
         rdCost: 50_000_000_000,                // $25B — R&D High-NA EUV
-        baseProduction: 80_000_000_000_000_000,
+        baseProduction: 160_000_000_000_000_000,
         tier: 11,
         realInfo: "2025 — ASML Twinscan EXE:5000, première machine High-NA EUV. Intel et TSMC au nœud 2nm.",
         rdInfo: "R&D : $25B — ASML Twinscan EXE:5000 : ouverture numérique de 0.55 (vs 0.33). Miroirs anamorphiques, wafer tilt. Chaque machine coûte $350M+. Intel est le premier client. Permet la gravure sub-2nm sans multi-patterning extrême."
@@ -341,7 +341,7 @@ const MACHINES = [
         unlockYear: 2029,
         baseCost: 500_000_000_000,
         rdCost: 80_000_000_000,
-        baseProduction: 2_500_000_000_000_000_000,
+        baseProduction: 5_500_000_000_000_000_000,
         tier: 11,
         realInfo: "2029 (Estimé) — Le CFET (Complementary FET) empile littéralement les transistors N et P les uns sur les autres pour diviser la surface de la cellule par deux.",
         rdInfo: "R&D : $40B — Le défi ultime du routage et de la dissipation thermique. Intel (Intel 10A) et l'IMEC préparent cette architecture pour succéder au GAA-FET. Nécessite une précision d'alignement inter-couches atomique."
@@ -354,7 +354,7 @@ const MACHINES = [
         unlockYear: 2033,
         baseCost: 800_000_000_000,
         rdCost: 140_000_000_000,
-        baseProduction: 10_000_000_000_000_000_000,
+        baseProduction: 20_000_000_000_000_000_000,
         tier: 12,
         realInfo: "2033 (Estimé) — Remplacement des bus en cuivre par des guides d'ondes optiques pour résoudre le goulot d'étranglement de la bande passante et la chaleur.",
         rdInfo: "R&D : $70B — Intégration monolithique de lasers, modulateurs et photodétecteurs sur le même substrat CMOS. Réduit drastiquement la consommation énergétique des interconnexions (I/O) dans les datacenters d'IA."
@@ -367,7 +367,7 @@ const MACHINES = [
         unlockYear: 2038,
         baseCost: 1_200_000_000_000,
         rdCost: 240_000_000_000,
-        baseProduction: 90_000_000_000_000_000_000,
+        baseProduction: 180_000_000_000_000_000_000,
         tier: 12,
         realInfo: "2038 (Estimé) — Le silicium atteint ses limites physiques. Remplacement par des matériaux 2D (MoS2, WSe2) de l'épaisseur d'un à trois atomes.",
         rdInfo: "R&D : $120B — Le silicium en deçà de 1nm subit un effet tunnel incontrôlable. Les TMD offrent un contrôle parfait du canal même à l'échelle de la monocouche atomique. Nécessite de réinventer 70 ans de chimie des procédés."
@@ -380,7 +380,7 @@ const MACHINES = [
         unlockYear: 2045,
         baseCost: 1_000_000_000_000,
         rdCost: 600_000_000_000,
-        baseProduction: 200_000_000_000_000_000_000,
+        baseProduction: 400_000_000_000_000_000_000,
         tier: 13,
         realInfo: "2045 (Estimé) — La Terrafab représente la fusion totale de la nanotechnologie et de l'automatisation globale. Les transistors ne sont plus 'gravés' mais s'auto-assemblent molécule par molécule.",
         rdInfo: "R&D : $300B — Maîtrise de l'auto-assemblage dirigé (DSA) à l'échelle macroscopique. Permet une densité de transistors approchant les limites thermodynamiques de l'informatique. C'est le sommet de l'ère industrielle du transistor."
