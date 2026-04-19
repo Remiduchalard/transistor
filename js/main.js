@@ -139,6 +139,7 @@
             document.querySelectorAll(".speed-btn").forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
             Game.gameSpeed = parseFloat(btn.dataset.speed);
+            if (Game.gameSpeed > 1) Game.usedAssistance = true;
         });
     });
 
@@ -222,6 +223,16 @@
             html += `<td>${formatElapsed(run.totalElapsed)}</td>`;
         });
         html += `<td class="current-run">${formatElapsed(currentElapsed)}</td>`;
+        html += "</tr>";
+
+        // Assistance row
+        html += '<tr><td class="row-label" title="Utilisation de l\'accélérateur de temps ou du bot">Assistée</td>';
+        history.forEach(run => {
+            const ast = run.usedAssistance ? '<span style="color:var(--gold)">Oui 🤖</span>' : '<span style="color:var(--text-dim)">Non</span>';
+            html += `<td>${ast}</td>`;
+        });
+        const cAst = Game.usedAssistance ? '<span style="color:var(--gold)">Oui 🤖</span>' : '<span style="color:var(--text-dim)">Non</span>';
+        html += `<td class="current-run">${cAst}</td>`;
         html += "</tr>";
 
         // Global production row
@@ -545,6 +556,7 @@
     botToggleBtn.addEventListener("click", () => {
         botActive = !botActive;
         if (botActive) {
+            Game.usedAssistance = true;
             botToggleBtn.textContent = "Désactiver le Bot";
             botToggleBtn.style.borderColor = "var(--red)";
             botToggleBtn.style.color = "var(--red)";

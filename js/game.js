@@ -27,6 +27,7 @@ const Game = {
 
     // Speed multiplier (affects production tick + stat time accounting)
     gameSpeed: 1,
+    usedAssistance: false,        // tracked if bot or gameSpeed > 1 was ever used in this run
 
     // Accumulator for smooth production
     productionAccumulator: new Decimal(0),
@@ -71,6 +72,8 @@ const Game = {
         this.purchasedUpgrades = new Set();
         this.productionAccumulator = new Decimal(0);
         this.autoSellAccumulator = new Decimal(0);
+        this.gameSpeed = 1;
+        this.usedAssistance = false;
         this.startTime = Date.now();
         this.virtualElapsed = 0;
         this.decadeMilestones = {};
@@ -345,6 +348,7 @@ const Game = {
             lastRecordedYear: this.lastRecordedYear,
             lastSavedTime: this.lastSavedTime,
             gameSpeed: this.gameSpeed,
+            usedAssistance: this.usedAssistance,
         };
         localStorage.setItem("transistor_clicker_save", JSON.stringify(data));
     },
@@ -384,6 +388,7 @@ const Game = {
             if (data.lastRecordedDecade) this.lastRecordedDecade = data.lastRecordedDecade;
             if (data.lastRecordedYear) this.lastRecordedYear = data.lastRecordedYear;
             if (data.gameSpeed) this.gameSpeed = data.gameSpeed;
+            if (data.usedAssistance !== undefined) this.usedAssistance = data.usedAssistance;
             this.lastSavedTime = data.lastSavedTime || Date.now();
 
             this.recalculate(); // Need this first for offline logic
@@ -449,6 +454,7 @@ const Game = {
             maxYear: this.currentYear,
             milestones: { ...this.decadeMilestones },
             yearlyProduction: { ...this.yearlyProduction },
+            usedAssistance: this.usedAssistance,
         };
 
         // Load history
