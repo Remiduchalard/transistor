@@ -13,26 +13,14 @@
     // Mobile Tab Navigation
     document.querySelectorAll(".nav-btn[data-target]").forEach(btn => {
         btn.addEventListener("click", () => {
-            // Remove active from all nav btns
             document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
-            
-            // Hide all tabs
             document.querySelectorAll(".mobile-tab").forEach(tab => tab.classList.remove("active-tab"));
-            
-            // Show target
             const targetId = btn.dataset.target;
             const targetEl = document.getElementById(targetId);
             if (targetEl) targetEl.classList.add("active-tab");
-            
-            // Scroll to top to ensure the tab is visible from the beginning
             window.scrollTo(0, 0);
         });
-    });
-
-    document.getElementById("nav-settings-btn").addEventListener("click", () => {
-        // Option button in nav acts as settings trigger
-        document.getElementById("settings-popup").classList.remove("hidden");
     });
 
     const introPopup = document.getElementById("intro-popup");
@@ -93,31 +81,37 @@
 
     // Expert mode toggle
     const expertToggleBtn = document.getElementById("expert-toggle-btn");
+    const expertToggleBtnMobile = document.getElementById("expert-toggle-btn-mobile");
     const expertStatsRow = document.querySelector(".advanced-stat");
 
     function updateExpertMode() {
+        const txt = Game.globals.expertMode ? "Mode Avancé : ACTIVÉ" : "Mode Avancé : DÉSACTIVÉ";
+        const col = Game.globals.expertMode ? "var(--green)" : "var(--accent)";
+        
+        [expertToggleBtn, expertToggleBtnMobile].forEach(btn => {
+            if (!btn) return;
+            btn.textContent = txt;
+            btn.style.color = col;
+            btn.style.borderColor = col;
+        });
+
         if (Game.globals.expertMode) {
-            expertToggleBtn.textContent = "Mode Avancé : ACTIVÉ";
-            expertToggleBtn.style.color = "var(--green)";
-            expertToggleBtn.style.borderColor = "var(--green)";
             expertStatsRow.classList.remove("hidden");
         } else {
-            expertToggleBtn.textContent = "Mode Avancé : DÉSACTIVÉ";
-            expertToggleBtn.style.color = "var(--accent)";
-            expertToggleBtn.style.borderColor = "var(--accent)";
             expertStatsRow.classList.add("hidden");
         }
     }
     
-    // Call it initially
     updateExpertMode();
 
-    expertToggleBtn.addEventListener("click", () => {
+    const toggleExpert = () => {
         Game.globals.expertMode = !Game.globals.expertMode;
         Game.saveGlobals();
         updateExpertMode();
-    });
-    
+    };
+    expertToggleBtn.addEventListener("click", toggleExpert);
+    if (expertToggleBtnMobile) expertToggleBtnMobile.addEventListener("click", toggleExpert);
+
     const settingsPopup = document.getElementById("settings-popup");
     document.getElementById("settings-btn").addEventListener("click", () => {
         settingsPopup.classList.remove("hidden");
@@ -130,16 +124,17 @@
     });
     
     const resetPopup = document.getElementById("reset-popup");
-    document.getElementById("reset-save-btn").addEventListener("click", () => {
+    const triggerResetPopup = () => {
         resetPopup.classList.remove("hidden");
-        settingsPopup.classList.add("hidden");
-        
+        settingsPopup.classList.add("hidden"); // Only affects desktop
         if (Game.globals.unlockedMusk) {
             document.getElementById("reset-musk-btn").classList.remove("hidden");
         } else {
             document.getElementById("reset-musk-btn").classList.add("hidden");
         }
-    });
+    };
+    document.getElementById("reset-save-btn").addEventListener("click", triggerResetPopup);
+    if (document.getElementById("reset-save-btn-mobile")) document.getElementById("reset-save-btn-mobile").addEventListener("click", triggerResetPopup);
 
     document.getElementById("reset-cancel-btn").addEventListener("click", () => {
         resetPopup.classList.add("hidden");
@@ -181,26 +176,31 @@
 
     // === Game speed ===
     // Restore active button from saved speed
-    document.querySelectorAll(".speed-btn").forEach(btn => {
-        if (parseFloat(btn.dataset.speed) === Game.gameSpeed) {
-            document.querySelectorAll(".speed-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-        }
+    const updateSpeedBtns = () => {
+        document.querySelectorAll(".speed-btn, .speed-btn-mobile").forEach(b => {
+            b.classList.toggle("active", parseFloat(b.dataset.speed) === Game.gameSpeed);
+        });
+    };
+    updateSpeedBtns();
+
+    document.querySelectorAll(".speed-btn, .speed-btn-mobile").forEach(btn => {
         btn.addEventListener("click", () => {
-            document.querySelectorAll(".speed-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
             Game.gameSpeed = parseFloat(btn.dataset.speed);
             if (Game.gameSpeed > 1) Game.usedAssistance = true;
+            updateSpeedBtns();
+            Game.save();
         });
     });
 
     // === Stats popup ===
     const statsPopup = document.getElementById("stats-popup");
-    document.getElementById("stats-btn").addEventListener("click", () => {
+    const openStats = () => {
         settingsPopup.classList.add("hidden");
         buildStatsTable();
         statsPopup.classList.remove("hidden");
-    });
+    };
+    document.getElementById("stats-btn").addEventListener("click", openStats);
+    if(document.getElementById("stats-btn-mobile")) document.getElementById("stats-btn-mobile").addEventListener("click", openStats);
     document.getElementById("stats-close").addEventListener("click", () => {
         statsPopup.classList.add("hidden");
     });
@@ -602,28 +602,41 @@
     const BOT_CLICK_STOP = 10_000;    // stop clicking after 10k total transistors
 
     const botToggleBtn = document.getElementById("bot-toggle-btn");
+    const botToggleBtnMobile = document.getElementById("bot-toggle-btn-mobile");
     const botStatus = document.getElementById("bot-status");
+    const botStatusMobile = document.getElementById("bot-status-mobile");
 
-    botToggleBtn.addEventListener("click", () => {
+    const toggleBot = () => {
         botActive = !botActive;
+        const txt = botActive ? "Désactiver le Bot" : "Activer le Bot";
+        const col = botActive ? "var(--red)" : "var(--green)";
+        const statTxt = botActive ? "Actif" : "Inactif";
+        const cls = botActive ? "bot-status-on" : "bot-status-off";
+
+        [botToggleBtn, botToggleBtnMobile].forEach(b => {
+            if(!b) return;
+            b.textContent = txt;
+            b.style.borderColor = col;
+            b.style.color = col;
+        });
+
+        [botStatus, botStatusMobile].forEach(s => {
+            if(!s) return;
+            s.textContent = statTxt;
+            s.className = cls;
+        });
+
         if (botActive) {
             Game.usedAssistance = true;
-            botToggleBtn.textContent = "Désactiver le Bot";
-            botToggleBtn.style.borderColor = "var(--red)";
-            botToggleBtn.style.color = "var(--red)";
-            botStatus.textContent = "Actif";
-            botStatus.className = "bot-status-on";
             botClickAccumulator = 0;
             botSellAccumulator = 0;
         } else {
-            botToggleBtn.textContent = "Activer le Bot";
-            botToggleBtn.style.borderColor = "var(--green)";
-            botToggleBtn.style.color = "var(--green)";
-            botStatus.textContent = "Inactif";
-            botStatus.className = "bot-status-off";
             UI.setBotNextAction(null);
         }
-    });
+    };
+
+    botToggleBtn.addEventListener("click", toggleBot);
+    if(botToggleBtnMobile) botToggleBtnMobile.addEventListener("click", toggleBot);
 
     function botTick(effectiveDeltaMs) {
         if (!botActive) return;

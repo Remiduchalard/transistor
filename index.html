@@ -314,6 +314,40 @@
                 </div>
                 <div id="machines-list" style="width: 100%; max-width: 800px;"></div>
             </section>
+            <!-- Settings Tab (Mobile Only) -->
+            <section id="tab-settings" class="mobile-tab">
+                <div class="settings-content" style="box-shadow: none; border: none; padding: 20px 10px; max-width: 100%; margin-bottom: 0;">
+                    <h2 style="color: var(--text); font-size: 1.3rem; margin-bottom: 24px;">Options</h2>
+                    
+                    <div class="settings-buttons">
+                        <button id="expert-toggle-btn-mobile" class="settings-link" style="border-color:var(--accent);color:var(--accent);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
+                            Mode Avancé : DÉSACTIVÉ
+                        </button>
+                        <button id="stats-btn-mobile" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer">Statistiques</button>
+                        <a href="proliferation.html" class="settings-link">Loi de Moore vs. Loi de la Prolifération</a>
+                        <button id="reset-save-btn-mobile" class="settings-danger">Réinitialiser la sauvegarde</button>
+                    </div>
+                    
+                    <div class="settings-bot">
+                        <button id="bot-toggle-btn-mobile" class="settings-link" style="border-color:var(--green);color:var(--green);cursor:pointer">Activer le Bot</button>
+                        <span id="bot-status-mobile" class="bot-status-off">Inactif</span>
+                    </div>
+                    <div class="settings-speed">
+                        <span class="speed-label">Vitesse du jeu</span>
+                        <div class="speed-buttons">
+                            <button class="speed-btn-mobile" data-speed="0.5">x0.5</button>
+                            <button class="speed-btn-mobile active" data-speed="1">x1</button>
+                            <button class="speed-btn-mobile" data-speed="2">x2</button>
+                            <button class="speed-btn-mobile" data-speed="5">x5</button>
+                            <button class="speed-btn-mobile" data-speed="10">x10</button>
+                            <button class="speed-btn-mobile" data-speed="50">x50</button>
+                            <button class="speed-btn-mobile" data-speed="100">x100</button>
+                            <button class="speed-btn-mobile" data-speed="500">x500</button>
+                            <button class="speed-btn-mobile" data-speed="1000">x1000</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <!-- Notifications -->
@@ -340,7 +374,7 @@
         <button class="nav-btn active" data-target="tab-action"><span class="nav-icon">⚡</span>Action</button>
         <button class="nav-btn" data-target="tab-upgrades"><span class="nav-icon">✨</span>Bonus</button>
         <button class="nav-btn" data-target="tab-machines"><span class="nav-icon">🏭</span>Usines</button>
-        <button class="nav-btn" id="nav-settings-btn"><span class="nav-icon">⚙️</span>Options</button>
+        <button class="nav-btn" data-target="tab-settings"><span class="nav-icon">⚙️</span>Options</button>
     </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/break_eternity.js"></script>
