@@ -125,8 +125,13 @@ body {
     transform: none;
 }
 
-.tooltip-center {
+.year-block {
+    width: 100%;
+}
+
+.tooltip-text.tooltip-center {
     width: 320px;
+    top: calc(100% + 5px);
 }
 
 .tooltip-container:hover .tooltip-text,
