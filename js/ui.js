@@ -135,7 +135,8 @@ const UI = {
 
         // Stock + sell section: hide only when 100% auto-sell
         this.els.stock.parentElement.style.display = fullAutoSell ? "none" : "";
-        document.getElementById("sell-section").style.display = fullAutoSell ? "none" : "";
+        const sellBtnMax = document.getElementById("sell-btn-max");
+        if (sellBtnMax) sellBtnMax.style.display = fullAutoSell ? "none" : "";
 
         this.els.stock.textContent = this.formatNumber(Game.transistors);
         this.els.perYear.textContent = this.formatNumber(Game.productionPerYear) + "/an";

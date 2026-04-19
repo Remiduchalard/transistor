@@ -418,44 +418,20 @@ body {
 }
 
 /* === Sell Section === */
-#sell-section {
-    width: 100%;
-    max-width: 400px;
-    padding: 16px;
-    background: var(--bg-panel);
-    border-radius: 12px;
-    border: 1px solid var(--border);
+#sell-btn-max {
+    border-color: var(--border);
 }
 
-#sell-section h3 {
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 0.95rem;
-    color: var(--green);
+#sell-btn-max:hover {
+    background: rgba(52, 211, 153, 0.15) !important;
+    border-color: var(--green) !important;
+    box-shadow: 0 0 20px rgba(52, 211, 153, 0.3) !important;
+    transform: translateY(-2px);
+    color: var(--green) !important;
 }
 
-.sell-buttons {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.sell-btn {
-    padding: 8px 16px;
-    background: var(--bg-card);
-    border: 1px solid var(--green);
-    border-radius: 8px;
-    color: var(--green);
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.sell-btn:hover {
-    background: rgba(52, 211, 153, 0.15);
-    box-shadow: 0 0 12px rgba(52, 211, 153, 0.2);
+#sell-btn-max:active {
+    transform: translateY(0);
 }
 
 /* === Upgrades === */
