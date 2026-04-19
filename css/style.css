@@ -1167,15 +1167,19 @@ html, body {
     }
 
     #stats-bar { 
+        position: fixed; /* Change from sticky to fixed to remove it from document flow */
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
         padding: 8px 6px; 
-        min-height: 104px; /* Unscrolled full height */
-        transition: min-height 0.2s ease, padding 0.2s ease, box-shadow 0.2s ease;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
     
     body.scrolled #stats-bar {
-        min-height: 50px; /* Scrolled compact height */
         padding: 4px 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.6);
     }
     .main-stat { font-size: 0.9rem; padding: 6px 8px; flex: 1 1 calc(50% - 10px); }
     .stats-center-group { min-width: 100%; margin-top: 5px; }
@@ -1183,7 +1187,13 @@ html, body {
     .progress-labels { font-size: 0.7rem; }
     .era-label { font-size: 0.65rem; }
     
-    #main-area { display: flex; flex-direction: column; gap: 0; padding: 0 10px; }
+    #main-area { 
+        display: flex; 
+        flex-direction: column; 
+        gap: 0; 
+        padding: 0 10px; 
+        margin-top: 140px; /* Static space to prevent content hiding behind fixed header initially */
+    }
     
     #left-panel, #shop-zone {
         max-width: 100%;
