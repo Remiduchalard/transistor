@@ -358,7 +358,10 @@ html, body {
         margin: 0 auto;
     }
 
-    /* Ensure children don't overflow */
+    /* Ensure the main blocks act as central columns on desktop */
+#click-zone, #tab-upgrades, #shop-zone {
+    width: 100%;
+}
     #tab-action > *, #tab-upgrades > *, #tab-machines > *, #tab-settings > * {
         max-width: 100%;
     }
@@ -555,11 +558,13 @@ html, body {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    /* Order is implicit in HTML: left-panel is first, shop-zone is second */
 }
 
 #shop-zone {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* === Click Zone === */
@@ -570,6 +575,7 @@ html, body {
     gap: 20px;
     width: 100%;
     max-width: 500px;
+    margin: 0 auto;
 }
 
 /* Fix width issues from mobile class leak on desktop */
@@ -586,14 +592,28 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0 auto;
 }
 
 #tab-machines {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#shop-header {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
 #machines-list {
     width: 100%;
+    max-width: 800px;
 }
 
 #click-zone h2,
