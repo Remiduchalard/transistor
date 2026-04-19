@@ -555,13 +555,14 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 500px;
+    width: 50%;
+    order: 2; /* Move manual fabrication and upgrades to the right side on desktop */
 }
 
 #shop-zone {
     flex: 1;
-    width: 100%;
-    max-width: 500px;
+    width: 50%;
+    order: 1; /* Move machines and processes to the left side on desktop */
 }
 
 /* === Click Zone === */
@@ -1161,6 +1162,9 @@ html, body {
         max-width: 100%;
         width: 100%;
     }
+    
+    #left-panel { order: 1; }
+    #shop-zone { order: 2; }
     
     #mobile-nav {
         display: flex;
