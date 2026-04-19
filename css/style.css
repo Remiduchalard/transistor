@@ -22,12 +22,13 @@
     --purple: #a78bfa;
 }
 
-body {
+html, body {
     font-family: 'Segoe UI', 'Roboto', sans-serif;
     background: var(--bg-dark);
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .hidden {
@@ -262,6 +263,7 @@ body {
     display: none !important;
 }
 
+/* === Responsive === */
 @media (max-width: 1100px) {
     .stats-main-row {
         grid-template-columns: 1fr;
@@ -270,6 +272,78 @@ body {
     .left-stats, .right-stats {
         justify-content: center;
         flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 768px) {
+    #stats-bar {
+        padding: 8px 10px;
+    }
+
+    .main-stat {
+        font-size: 1rem;
+        padding: 6px 10px;
+        flex: 1 1 calc(50% - 10px); /* 2 per row on mobile */
+    }
+
+    .stats-center-group {
+        min-width: 100%; /* Take full width on mobile */
+    }
+
+    .year-value {
+        font-size: 1.5rem;
+    }
+
+    .progress-labels {
+        font-size: 0.7rem;
+    }
+
+    .era-label {
+        font-size: 0.65rem;
+    }
+
+    #main-area {
+        grid-template-columns: 1fr; /* Stack panels vertically */
+        gap: 15px;
+    }
+
+    #shop-zone {
+        position: static; /* Remove sticky positioning so user can scroll naturally */
+        max-height: none;
+    }
+
+    .machine-card {
+        grid-template-columns: 40px 1fr auto;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .machine-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+    }
+
+    .machine-name {
+        font-size: 0.9rem;
+    }
+
+    .machine-cost {
+        font-size: 0.85rem;
+    }
+
+    /* Tooltips on mobile: tap to show instead of hover, position adjust */
+    .tooltip-text {
+        width: 250px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.8rem;
+    }
+
+    .tooltip-right {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
     }
 }
 
@@ -950,17 +1024,4 @@ body {
     transform: scale(1.05);
 }
 
-/* === Responsive === */
-@media (max-width: 900px) {
-    #main-area {
-        grid-template-columns: 1fr;
-    }
 
-    #stats-bar {
-        justify-content: center;
-    }
-
-    #machines-list {
-        max-height: none;
-    }
-}
