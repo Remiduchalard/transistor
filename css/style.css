@@ -309,10 +309,65 @@ html, body {
 }
 
 @media (max-width: 768px) {
+    .desktop-only-btn {
+        display: none !important;
+    }
+
     /* Mobile Layout Overrides */
     body {
         padding-bottom: 70px; /* Space for fixed bottom nav */
     }
+
+    /* Small tweaks for mobile sizes */
+    #stats-bar { padding: 8px 6px; }
+    .main-stat { font-size: 0.9rem; padding: 6px 8px; flex: 1 1 calc(50% - 10px); }
+    .stats-center-group { min-width: 100%; margin-top: 5px; }
+    .year-value { font-size: 1.5rem; }
+    .progress-labels { font-size: 0.7rem; }
+    .era-label { font-size: 0.65rem; }
+    
+    #main-area { grid-template-columns: 1fr; gap: 0; padding: 0 10px; }
+    
+    /* Center the Action Tab */
+    #tab-action {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    #click-zone h2 {
+        text-align: center;
+    }
+    
+    #floating-numbers {
+        margin: 0 auto;
+    }
+
+    /* Ensure Upgrades take full width */
+    #tab-upgrades {
+        width: 100%;
+        padding: 0;
+    }
+    #upgrades-section {
+        max-width: 100%;
+    }
+
+    /* Fix Machines cutoff */
+    #tab-machines {
+        width: 100%;
+        padding: 0;
+    }
+    .machine-card { grid-template-columns: 40px 1fr auto; padding: 10px; gap: 10px; margin-bottom: 8px; }
+    .machine-icon { width: 40px; height: 40px; font-size: 1.4rem; }
+    .machine-name { font-size: 0.9rem; }
+    .machine-cost { font-size: 0.85rem; }
+    .machine-cost-area { align-items: flex-end; }
+    
+    .tooltip-text { width: 250px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; }
+    .tooltip-right { left: 50%; right: auto; transform: translateX(-50%); }
 
     #mobile-nav {
         display: flex;
@@ -359,7 +414,6 @@ html, body {
         filter: grayscale(0);
     }
 
-    /* Hide/Show logic for tabs */
     .mobile-tab {
         display: none !important;
     }
@@ -372,7 +426,6 @@ html, body {
         animation: fadeIn 0.2s ease;
     }
 
-    /* Reset sticky position for machines on mobile since it's a dedicated tab */
     #tab-machines.active-tab {
         position: static;
         max-height: none;
@@ -383,25 +436,9 @@ html, body {
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Fix popups overlapping mobile nav */
     .settings-content, .stats-content, .milestone-content {
-        margin-bottom: 80px; /* ensure they don't hide behind nav */
+        margin-bottom: 80px;
     }
-
-    /* Small tweaks for mobile sizes */
-    #stats-bar { padding: 8px 10px; }
-    .main-stat { font-size: 1rem; padding: 6px 10px; flex: 1 1 calc(50% - 10px); }
-    .stats-center-group { min-width: 100%; }
-    .year-value { font-size: 1.5rem; }
-    .progress-labels { font-size: 0.7rem; }
-    .era-label { font-size: 0.65rem; }
-    #main-area { grid-template-columns: 1fr; gap: 0; }
-    .machine-card { grid-template-columns: 40px 1fr auto; padding: 10px; gap: 10px; }
-    .machine-icon { width: 40px; height: 40px; font-size: 1.4rem; }
-    .machine-name { font-size: 0.9rem; }
-    .machine-cost { font-size: 0.85rem; }
-    .tooltip-text { width: 250px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; }
-    .tooltip-right { left: 50%; right: auto; transform: translateX(-50%); }
 }
 
 .stat-label {
