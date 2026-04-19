@@ -41,13 +41,31 @@ const Game = {
     lastRecordedYear: 1946,
     lastSavedTime: Date.now(),            // real-time ms timestamp for offline calc
 
+    globals: { unlockedMusk: false },
+
+    saveGlobals() {
+        localStorage.setItem("transistor_clicker_globals", JSON.stringify(this.globals));
+    },
+
+    loadGlobals() {
+        const raw = localStorage.getItem("transistor_clicker_globals");
+        if (raw) {
+            try {
+                this.globals = JSON.parse(raw);
+            } catch (e) {}
+        } else {
+            this.globals = { unlockedMusk: false };
+        }
+    },
+
     /**
      * Initialize / reset game state
      */
-    init() {
+    init(startingMoney = 0) {
+        this.loadGlobals();
         this.totalTransistors = new Decimal(0);
         this.transistors = new Decimal(0);
-        this.money = new Decimal(0);
+        this.money = new Decimal(startingMoney);
         this.currentYear = 1947;
         this.previousYear = 1947;
         this.purchasedUpgrades = new Set();
@@ -246,7 +264,16 @@ const Game = {
             bought++;
         }
 
-        if (bought > 0) this.recalculate();
+        if (bought > 0) {
+            this.recalculate();
+            if (machineId === "terrafab" && this.ownedMachines[machineId] === 1 && !this.globals.unlockedMusk) {
+                this.globals.unlockedMusk = true;
+                this.saveGlobals();
+                if (typeof UI !== 'undefined' && UI.showAchievement) {
+                    UI.showAchievement("terrafab_musk");
+                }
+            }
+        }
         return bought;
     },
 
@@ -326,6 +353,7 @@ const Game = {
      * Load game from localStorage
      */
     load() {
+        this.loadGlobals();
         const raw = localStorage.getItem("transistor_clicker_save");
         if (!raw) return false;
 
@@ -414,7 +442,7 @@ const Game = {
     /**
      * Archive current run stats into history, then reset
      */
-    archiveAndReset() {
+    archiveAndReset(startingMoney = 0) {
         const run = {
             date: new Date().toLocaleDateString("fr-FR"),
             totalElapsed: this.virtualElapsed,
@@ -430,7 +458,7 @@ const Game = {
 
         // Reset
         localStorage.removeItem("transistor_clicker_save");
-        this.init();
+        this.init(startingMoney);
     },
 
     /**

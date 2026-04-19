@@ -436,6 +436,17 @@ const UI = {
         });
     },
 
+    showAchievement(id) {
+        const popup = document.getElementById("achievement-popup");
+        if (popup) {
+            popup.classList.remove("hidden");
+            // Auto hide after 10s
+            setTimeout(() => {
+                popup.classList.add("hidden");
+            }, 10000);
+        }
+    },
+
     // === Check for new machine unlocks ===
 
     checkUnlocks(oldYear, newYear) {

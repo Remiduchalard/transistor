@@ -77,26 +77,56 @@
     settingsPopup.addEventListener("click", (e) => {
         if (e.target === settingsPopup) settingsPopup.classList.add("hidden");
     });
+    
+    const resetPopup = document.getElementById("reset-popup");
     document.getElementById("reset-save-btn").addEventListener("click", () => {
-        if (confirm("Réinitialiser la sauvegarde ? Toute ta progression sera perdue.")) {
-            // Analytics: End of run
-            if (typeof gtag === "function") {
-                gtag('event', 'level_end', {
-                    'level_name': 'Max Year Reached',
-                    'success': true,
-                    'score': Game.currentYear,
-                    'virtual_elapsed_time': Math.floor(Game.virtualElapsed / 1000)
-                });
-            }
-
-            Game.archiveAndReset();
-            UI.updateStats();
-            UI.renderMachines();
-            UI.renderUpgrades();
-            settingsPopup.classList.add("hidden");
-            checkIntroPopup();
+        resetPopup.classList.remove("hidden");
+        settingsPopup.classList.add("hidden");
+        
+        if (Game.globals.unlockedMusk) {
+            document.getElementById("reset-musk-btn").classList.remove("hidden");
+        } else {
+            document.getElementById("reset-musk-btn").classList.add("hidden");
         }
     });
+
+    document.getElementById("reset-cancel-btn").addEventListener("click", () => {
+        resetPopup.classList.add("hidden");
+    });
+
+    function performReset(startingMoney) {
+        // Analytics: End of run
+        if (typeof gtag === "function") {
+            gtag('event', 'level_end', {
+                'level_name': 'Max Year Reached',
+                'success': true,
+                'score': Game.currentYear,
+                'virtual_elapsed_time': Math.floor(Game.virtualElapsed / 1000)
+            });
+        }
+
+        Game.archiveAndReset(startingMoney);
+        UI.updateStats();
+        UI.renderMachines();
+        UI.renderUpgrades();
+        resetPopup.classList.add("hidden");
+        checkIntroPopup();
+    }
+
+    document.getElementById("reset-bob-btn").addEventListener("click", () => {
+        performReset(0);
+    });
+
+    document.getElementById("reset-musk-btn").addEventListener("click", () => {
+        performReset(300_000_000_000); // 300B
+    });
+
+    const achCloseBtn = document.getElementById("achievement-close-btn");
+    if (achCloseBtn) {
+        achCloseBtn.addEventListener("click", () => {
+            document.getElementById("achievement-popup").classList.add("hidden");
+        });
+    }
 
     // === Game speed ===
     // Restore active button from saved speed
