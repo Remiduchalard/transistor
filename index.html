@@ -137,22 +137,36 @@
             </div>
 
             <!-- Row 3: Progression & Year -->
-            <div class="stats-bottom-row">
-                <div class="year-badge">
-                    <span style="color:var(--text-dim);font-size:0.8rem;margin-right:4px;">ANNÉE</span> 
-                    <span id="current-year" class="year-value" style="font-size:1.3rem;">1947</span>
+            <div class="stats-bottom-row" style="position: relative; display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 10px; margin-bottom: 10px;">
+                <!-- Left: Produced total -->
+                <div style="flex: 1; text-align: right; padding-right: 20px;">
+                    <div id="year-total-produced" style="font-size: 0.9rem; color: var(--text); font-weight: bold;">0</div>
+                    <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Produit</div>
                 </div>
-                <div id="year-progress-section" style="flex:1;">
-                    <div style="display:flex; justify-content:space-between; align-items:baseline;">
-                        <div id="year-total-produced"></div>
-                        <div id="year-next-label"></div>
+
+                <!-- Center: Year Badge -->
+                <div style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; z-index: 2;">
+                    <div class="year-badge" style="font-size: 2rem; padding: 10px 24px; border-width: 2px; box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);">
+                        <span id="current-year" class="year-value">1947</span>
                     </div>
-                    <div id="year-progress-bar">
-                        <div id="year-progress-fill"></div>
-                    </div>
+                    <div id="era-name" class="era-label" style="margin-top: 6px; font-size: 0.85rem;">L'ère du Germanium</div>
                 </div>
-                <div id="era-name" class="era-label">L'ère du Germanium</div>
-                <button id="settings-btn" title="Paramètres">&#9881;</button>
+
+                <!-- Right: Goal for next year -->
+                <div style="flex: 1; text-align: left; padding-left: 20px;">
+                    <div id="year-next-label" style="font-size: 0.9rem; color: var(--accent); font-weight: bold;">10</div>
+                    <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Objectif (<span id="next-year-display">1948</span>)</div>
+                </div>
+
+                <!-- Background Progress Bar (spanning behind the year) -->
+                <div id="year-progress-bar" style="position: absolute; top: 22px; left: 10%; right: 10%; height: 4px; background: rgba(0,0,0,0.3); border-radius: 2px; z-index: 1; overflow: hidden;">
+                    <div id="year-progress-fill" style="height: 100%; width: 0%; background: linear-gradient(90deg, transparent, var(--accent)); transition: width 0.3s ease;"></div>
+                </div>
+
+                <!-- Settings button pinned to the absolute right -->
+                <div style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                    <button id="settings-btn" title="Paramètres" style="font-size: 1.5rem; background: transparent; border: none; color: var(--text-dim); cursor: pointer; transition: color 0.2s;">&#9881;</button>
+                </div>
             </div>
         </header>
 

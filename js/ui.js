@@ -32,6 +32,7 @@ const UI = {
             yearTotalProduced: document.getElementById("year-total-produced"),
             yearProgressFill: document.getElementById("year-progress-fill"),
             yearNextLabel: document.getElementById("year-next-label"),
+            nextYearDisplay: document.getElementById("next-year-display"),
             botPlanner: document.getElementById("bot-planner"),
             botNextAction: document.getElementById("bot-next-action"),
             boostProgressText: document.getElementById("boost-progress-text"),
@@ -195,14 +196,15 @@ const UI = {
 
         // Year progress
         const yp = getYearProgress(Game.totalTransistors);
-        this.els.yearTotalProduced.textContent =
-            "Produits depuis 1947 : " + this.formatNumber(Game.totalTransistors);
+        this.els.yearTotalProduced.textContent = this.formatNumber(Game.totalTransistors);
         this.els.yearProgressFill.style.width = (yp.progress * 100).toFixed(1) + "%";
+        
         if (yp.needed > 0) {
-            this.els.yearNextLabel.textContent =
-                yp.nextYear + " → " + this.formatNumber(yp.needed) + " transistors";
+            this.els.yearNextLabel.textContent = this.formatNumber(yp.needed);
+            this.els.nextYearDisplay.textContent = yp.nextYear;
         } else {
-            this.els.yearNextLabel.textContent = "Année maximale atteinte";
+            this.els.yearNextLabel.textContent = "MAX";
+            this.els.nextYearDisplay.textContent = "MAX";
         }
     },
 
