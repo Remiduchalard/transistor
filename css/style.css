@@ -51,6 +51,7 @@ html, body {
     position: sticky;
     top: 0;
     z-index: 100;
+    min-height: 90px; /* Prevent layout jumps */
 }
 
 .stats-main-row {
@@ -1165,7 +1166,17 @@ html, body {
         padding-bottom: 70px;
     }
 
-    #stats-bar { padding: 8px 6px; }
+    #stats-bar { 
+        padding: 8px 6px; 
+        min-height: 104px; /* Unscrolled full height */
+        transition: min-height 0.2s ease, padding 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    body.scrolled #stats-bar {
+        min-height: 50px; /* Scrolled compact height */
+        padding: 4px 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
     .main-stat { font-size: 0.9rem; padding: 6px 8px; flex: 1 1 calc(50% - 10px); }
     .stats-center-group { min-width: 100%; margin-top: 5px; }
     .year-value { font-size: 1.5rem; }
@@ -1269,11 +1280,6 @@ html, body {
     
     body.scrolled .right-stats {
         justify-content: flex-end;
-    }
-    
-    body.scrolled #stats-bar {
-        padding: 4px 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
 }
 #milestone-popup {
