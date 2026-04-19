@@ -66,7 +66,33 @@
         });
     });
 
-    // === Settings ===
+    // Expert mode toggle
+    const expertToggleBtn = document.getElementById("expert-toggle-btn");
+    const expertStatsRow = document.querySelector(".advanced-stat");
+
+    function updateExpertMode() {
+        if (Game.globals.expertMode) {
+            expertToggleBtn.textContent = "Mode Avancé : ACTIVÉ";
+            expertToggleBtn.style.color = "var(--green)";
+            expertToggleBtn.style.borderColor = "var(--green)";
+            expertStatsRow.classList.remove("hidden");
+        } else {
+            expertToggleBtn.textContent = "Mode Avancé : DÉSACTIVÉ";
+            expertToggleBtn.style.color = "var(--accent)";
+            expertToggleBtn.style.borderColor = "var(--accent)";
+            expertStatsRow.classList.add("hidden");
+        }
+    }
+    
+    // Call it initially
+    updateExpertMode();
+
+    expertToggleBtn.addEventListener("click", () => {
+        Game.globals.expertMode = !Game.globals.expertMode;
+        Game.saveGlobals();
+        updateExpertMode();
+    });
+    
     const settingsPopup = document.getElementById("settings-popup");
     document.getElementById("settings-btn").addEventListener("click", () => {
         settingsPopup.classList.remove("hidden");

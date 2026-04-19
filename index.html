@@ -108,55 +108,50 @@
 
         <!-- Header: Stats and Year -->
         <header id="stats-bar">
-            <div class="stat-group">
-                <div class="stat">
-                    <span class="stat-label">Stock</span>
-                    <span id="stock" class="stat-value stock-value">0</span>
+            <!-- Row 1: Essential Game Stats -->
+            <div class="stats-top-row">
+                <div class="stat main-stat" title="Fonds disponibles">
+                    <span class="stat-icon">💰</span> 
+                    <span id="money" class="stat-value" style="color: var(--green);">$0</span>
                 </div>
-                <div class="stat">
-                    <span class="stat-label">Produits (total)</span>
-                    <span id="total-transistors" class="stat-value">0</span>
+                <div class="stat main-stat" title="Transistors en stock">
+                    <span class="stat-icon">📦</span> 
+                    <span id="stock" class="stat-value" style="color: var(--text);">0</span>
                 </div>
-                <div class="stat">
-                    <span class="stat-label">Production / an</span>
-                    <span id="per-year" class="stat-value">0</span>
+                <div class="stat main-stat" title="Production par an">
+                    <span class="stat-icon">⚡</span> 
+                    <span id="per-year" class="stat-value" style="color: var(--accent);">0/an</span>
                 </div>
-                <div class="stat">
-                    <span class="stat-label">Prod. mondiale</span>
-                    <span id="world-prod" class="stat-value world-value">0</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Part mondiale</span>
-                    <span id="market-share" class="stat-value">0%</span>
+                <div class="stat main-stat" title="Prix unitaire de vente">
+                    <span class="stat-icon">🏷️</span> 
+                    <span id="unit-price" class="stat-value" style="color: var(--gold);">$0.00</span>
                 </div>
             </div>
-            <div class="stat-group">
-                <div class="stat">
-                    <span class="stat-label">Argent</span>
-                    <span id="money" class="stat-value">$0</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Prix unitaire</span>
-                    <span id="unit-price" class="stat-value">$0.00</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Temps de jeu</span>
-                    <span id="play-time" class="stat-value">0s</span>
-                </div>
+
+            <!-- Row 2: Advanced Stats (Hidden by default) -->
+            <div class="stats-expert-row advanced-stat hidden">
+                <div class="stat"><span class="stat-label">Total Produit:</span> <span id="total-transistors" class="stat-value">0</span></div>
+                <div class="stat"><span class="stat-label">Prod. Mondiale:</span> <span id="world-prod" class="stat-value world-value">0/an</span></div>
+                <div class="stat"><span class="stat-label">Part de marché:</span> <span id="market-share" class="stat-value">0%</span></div>
+                <div class="stat"><span class="stat-label">Temps de jeu:</span> <span id="play-time" class="stat-value">0s</span></div>
             </div>
-            <div class="stat-group year-display">
-                <div class="stat">
-                    <span class="stat-label">Année</span>
-                    <span id="current-year" class="stat-value year-value">1947</span>
+
+            <!-- Row 3: Progression & Year -->
+            <div class="stats-bottom-row">
+                <div class="year-badge">
+                    <span style="color:var(--text-dim);font-size:0.8rem;margin-right:4px;">ANNÉE</span> 
+                    <span id="current-year" class="year-value" style="font-size:1.3rem;">1947</span>
                 </div>
-                <div id="era-name" class="era-label">L'ère du Germanium</div>
-                <div id="year-progress-section">
-                    <div id="year-total-produced"></div>
+                <div id="year-progress-section" style="flex:1;">
+                    <div style="display:flex; justify-content:space-between; align-items:baseline;">
+                        <div id="year-total-produced"></div>
+                        <div id="year-next-label"></div>
+                    </div>
                     <div id="year-progress-bar">
                         <div id="year-progress-fill"></div>
                     </div>
-                    <div id="year-next-label"></div>
                 </div>
+                <div id="era-name" class="era-label">L'ère du Germanium</div>
                 <button id="settings-btn" title="Paramètres">&#9881;</button>
             </div>
         </header>
@@ -165,11 +160,16 @@
         <div id="settings-popup" class="hidden">
             <div class="settings-content">
                 <h2>Paramètres</h2>
+                
                 <div class="settings-buttons">
+                    <button id="expert-toggle-btn" class="settings-link" style="border-color:var(--accent);color:var(--accent);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
+                        Mode Avancé : DÉSACTIVÉ
+                    </button>
                     <button id="stats-btn" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer">Statistiques</button>
                     <a href="proliferation.html" class="settings-link">Loi de Moore vs. Loi de la Prolifération</a>
                     <button id="reset-save-btn" class="settings-danger">Réinitialiser la sauvegarde</button>
                 </div>
+                
                 <div class="settings-bot">
                     <button id="bot-toggle-btn" class="settings-link" style="border-color:var(--green);color:var(--green);cursor:pointer">Activer le Bot</button>
                     <span id="bot-status" class="bot-status-off">Inactif</span>

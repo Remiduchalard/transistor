@@ -47,7 +47,7 @@ const Game = {
     lastRecordedYear: 1946,
     lastSavedTime: Date.now(),            // real-time ms timestamp for offline calc
 
-    globals: { unlockedMusk: false },
+    globals: { unlockedMusk: false, expertMode: false },
 
     saveGlobals() {
         localStorage.setItem("transistor_clicker_globals", JSON.stringify(this.globals));
@@ -58,9 +58,10 @@ const Game = {
         if (raw) {
             try {
                 this.globals = JSON.parse(raw);
+                if (this.globals.expertMode === undefined) this.globals.expertMode = false;
             } catch (e) {}
         } else {
-            this.globals = { unlockedMusk: false };
+            this.globals = { unlockedMusk: false, expertMode: false };
         }
     },
 
