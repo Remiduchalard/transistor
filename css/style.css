@@ -329,39 +329,55 @@ html, body {
     .progress-labels { font-size: 0.7rem; }
     .era-label { font-size: 0.65rem; }
     
-    #main-area { grid-template-columns: 1fr; gap: 0; padding: 0 10px; }
+    #main-area { grid-template-columns: 1fr; gap: 0; padding: 0; margin: 0; }
     
-    /* Center the Action Tab */
-    #tab-action {
+    /* Center all tabs and make them full width */
+    .mobile-tab {
+        display: none !important;
         width: 100%;
         max-width: 100%;
-        display: flex;
+        margin: 0;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .mobile-tab.active-tab {
+        display: flex !important;
         flex-direction: column;
         align-items: center;
         text-align: center;
+        animation: fadeIn 0.2s ease;
     }
     
-    #click-zone h2 {
+    #click-zone h2, #tab-upgrades h3 {
         text-align: center;
+        width: 100%;
     }
     
     #floating-numbers {
         margin: 0 auto;
     }
 
-    /* Ensure Upgrades take full width */
-    #tab-upgrades {
-        width: 100%;
-        padding: 0;
-    }
-    #upgrades-section {
+    /* Ensure children don't overflow */
+    #tab-action > *, #tab-upgrades > *, #tab-machines > *, #tab-settings > * {
         max-width: 100%;
     }
 
     /* Fix Machines cutoff */
-    #tab-machines {
+    #shop-header {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
         width: 100%;
-        padding: 0;
+        align-items: center !important;
+    }
+    
+    #shop-header h2 {
+        text-align: center !important;
+    }
+
+    #machines-list {
+        width: 100%;
     }
     .machine-card { grid-template-columns: 40px 1fr auto; padding: 10px; gap: 10px; margin-bottom: 8px; }
     .machine-icon { width: 40px; height: 40px; font-size: 1.4rem; }
@@ -1065,7 +1081,125 @@ html, body {
     transition: all 0.1s ease !important;
 }
 
-/* === Milestone Popup === */
+/* === Mobile & Tabs === */
+#mobile-nav {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .mobile-tab {
+        display: block !important;
+        width: 100%;
+    }
+    #tab-upgrades {
+        margin-top: 30px;
+    }
+    #tab-machines {
+        position: sticky;
+        top: 140px; /* adjusted for the new taller header */
+        align-self: start;
+        max-height: calc(100vh - 150px);
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+    #tab-settings {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .desktop-only-btn {
+        display: none !important;
+    }
+
+    body {
+        padding-bottom: 70px;
+    }
+
+    #stats-bar { padding: 8px 6px; }
+    .main-stat { font-size: 0.9rem; padding: 6px 8px; flex: 1 1 calc(50% - 10px); }
+    .stats-center-group { min-width: 100%; margin-top: 5px; }
+    .year-value { font-size: 1.5rem; }
+    .progress-labels { font-size: 0.7rem; }
+    .era-label { font-size: 0.65rem; }
+    
+    #main-area { grid-template-columns: 1fr; gap: 0; padding: 0 10px; }
+    
+    #mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-panel);
+        border-top: 1px solid var(--border);
+        z-index: 5000;
+        padding-bottom: env(safe-area-inset-bottom);
+        box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+    }
+
+    .nav-btn {
+        flex: 1;
+        padding: 10px 0;
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s;
+    }
+
+    .nav-btn.active {
+        color: var(--accent);
+        background: rgba(56, 189, 248, 0.1);
+    }
+
+    .nav-icon {
+        display: block;
+        font-size: 1.4rem;
+        filter: grayscale(1);
+    }
+
+    .nav-btn.active .nav-icon {
+        filter: grayscale(0);
+    }
+
+    .mobile-tab {
+        display: none !important;
+        width: 100%;
+        animation: fadeIn 0.2s ease;
+    }
+
+    .mobile-tab.active-tab {
+        display: block !important;
+    }
+
+    #tab-action.active-tab {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #tab-machines.active-tab {
+        position: static;
+        max-height: none;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .settings-content, .stats-content, .milestone-content {
+        margin-bottom: 80px;
+    }
+}
 #milestone-popup {
     position: fixed;
     top: 0;
