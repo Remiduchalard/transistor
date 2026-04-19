@@ -287,6 +287,9 @@ html, body {
         align-items: center;
         width: 100%;
     }
+    #tab-settings {
+        display: none !important;
+    }
     #tab-upgrades {
         margin-top: 30px;
     }
