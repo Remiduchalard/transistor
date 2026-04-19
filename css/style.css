@@ -1168,20 +1168,36 @@ html, body {
     }
 
     #stats-bar { 
-        position: sticky;
+        position: fixed; 
         top: 0;
         left: 0;
         right: 0;
         width: 100%;
-        padding: 8px 4px; 
+        padding: 4px 6px; 
         z-index: 1000;
         box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        transition: background 0.3s ease, box-shadow 0.3s ease;
     }
     
     body.scrolled #stats-bar {
         padding: 4px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        background: transparent !important;
+        box-shadow: none;
+        border-bottom: none;
+        pointer-events: none; /* Let touches pass through the transparent part */
     }
+
+    body.scrolled .stats-main-row {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    body.scrolled .main-stat {
+        background: var(--bg-panel);
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        pointer-events: auto; /* Re-enable touches on the visible stats */
+    }
+
     .main-stat { font-size: 0.9rem; padding: 4px 8px; flex: 1 1 calc(50% - 10px); margin: 0; }
     .stats-center-group { min-width: 100%; margin: 0; }
     .year-value { font-size: 1.5rem; }
@@ -1192,8 +1208,8 @@ html, body {
         display: flex; 
         flex-direction: column; 
         gap: 0; 
-        padding: 10px 10px 0 10px; 
-        margin-top: 0;
+        padding: 0 10px; 
+        margin-top: 130px; /* Restored static space */
     }
     
     #left-panel, #shop-zone {
@@ -1283,10 +1299,6 @@ html, body {
         margin: 0;
         padding: 0;
         opacity: 0;
-    }
-    
-    body.scrolled .stats-main-row {
-        grid-template-columns: 1fr 1fr;
     }
     
     body.scrolled .left-stats {
