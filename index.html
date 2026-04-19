@@ -108,64 +108,88 @@
 
         <!-- Header: Stats and Year -->
         <header id="stats-bar">
-            <!-- Row 1: Essential Game Stats -->
-            <div class="stats-top-row">
-                <div class="stat main-stat" title="Fonds disponibles">
-                    <span class="stat-icon">💰</span> 
-                    <span id="money" class="stat-value" style="color: var(--green);">$0</span>
+            <!-- Row 1: Essential Game Stats (Centered Year & Progress) -->
+            <div class="stats-main-row">
+                
+                <!-- Left: Money & Stock -->
+                <div class="stats-side-group left-stats">
+                    <div class="stat main-stat tooltip-container">
+                        <span class="stat-icon">💰</span> 
+                        <span id="money" class="stat-value" style="color: var(--green);">$0</span>
+                        <div class="tooltip-text">
+                            <strong>Fonds disponibles</strong>
+                            L'argent généré par la vente de vos transistors. Utilisez-le pour construire de nouvelles usines et financer la R&D.
+                        </div>
+                    </div>
+                    <div class="stat main-stat tooltip-container">
+                        <span class="stat-icon">📦</span> 
+                        <span id="stock" class="stat-value" style="color: var(--text);">0</span>
+                        <div class="tooltip-text">
+                            <strong>Stock actuel</strong>
+                            Nombre de transistors prêts à être vendus. Si l'auto-vente est active, ce stock se vide automatiquement.
+                        </div>
+                    </div>
                 </div>
-                <div class="stat main-stat" title="Transistors en stock">
-                    <span class="stat-icon">📦</span> 
-                    <span id="stock" class="stat-value" style="color: var(--text);">0</span>
+
+                <!-- Center: Progression Block -->
+                <div class="stats-center-group tooltip-container">
+                    <div class="year-block">
+                        <div class="year-header">
+                            <span id="current-year" class="year-value">1947</span>
+                        </div>
+                        <div class="year-progress-container">
+                            <div id="year-progress-fill" class="progress-fill"></div>
+                            <div class="progress-labels">
+                                <span id="year-total-produced" style="color: var(--text);">0</span>
+                                <span id="era-name" class="era-label">L'ère du Germanium</span>
+                                <span id="year-next-label" style="color: var(--gold);">10</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tooltip-text tooltip-center">
+                        <strong>Progression Temporelle</strong>
+                        L'année de la partie avance en fonction du nombre TOTAL de transistors fabriqués depuis le début.<br><br>
+                        À gauche : <b>Transistors déjà produits</b><br>
+                        À droite : <b>Objectif pour passer à l'année suivante</b>
+                    </div>
                 </div>
-                <div class="stat main-stat" title="Production par an">
-                    <span class="stat-icon">⚡</span> 
-                    <span id="per-year" class="stat-value" style="color: var(--accent);">0/an</span>
+
+                <!-- Right: Production & Price -->
+                <div class="stats-side-group right-stats">
+                    <div class="stat main-stat tooltip-container">
+                        <span class="stat-icon">⚡</span> 
+                        <span id="per-year" class="stat-value" style="color: var(--accent);">0/an</span>
+                        <div class="tooltip-text tooltip-right">
+                            <strong>Production annuelle</strong>
+                            Le nombre de transistors que vos usines fabriquent chaque année en jeu.<br>Plus cette valeur est haute, plus les années défileront vite !
+                        </div>
+                    </div>
+                    <div class="stat main-stat tooltip-container">
+                        <span class="stat-icon">🏷️</span> 
+                        <span id="unit-price" class="stat-value" style="color: var(--gold);">$0.00</span>
+                        <div class="tooltip-text tooltip-right">
+                            <strong>Prix unitaire</strong>
+                            Le prix du marché pour un transistor l'année en cours.<br><br><i>Loi économique :</i> Ce prix est divisé par deux tous les 24 mois. La chute des prix vous oblige à produire des volumes exponentiels pour rester rentable !
+                        </div>
+                    </div>
+                    <button id="settings-btn" title="Paramètres">&#9881;</button>
                 </div>
-                <div class="stat main-stat" title="Prix unitaire de vente">
-                    <span class="stat-icon">🏷️</span> 
-                    <span id="unit-price" class="stat-value" style="color: var(--gold);">$0.00</span>
-                </div>
+
             </div>
 
             <!-- Row 2: Advanced Stats (Hidden by default) -->
             <div class="stats-expert-row advanced-stat hidden">
-                <div class="stat"><span class="stat-label">Total Produit:</span> <span id="total-transistors" class="stat-value">0</span></div>
-                <div class="stat"><span class="stat-label">Prod. Mondiale:</span> <span id="world-prod" class="stat-value world-value">0/an</span></div>
-                <div class="stat"><span class="stat-label">Part de marché:</span> <span id="market-share" class="stat-value">0%</span></div>
-                <div class="stat"><span class="stat-label">Temps de jeu:</span> <span id="play-time" class="stat-value">0s</span></div>
-            </div>
-
-            <!-- Row 3: Progression & Year -->
-            <div class="stats-bottom-row" style="position: relative; display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 10px; margin-bottom: 10px;">
-                <!-- Left: Produced total -->
-                <div style="flex: 1; text-align: right; padding-right: 20px;">
-                    <div id="year-total-produced" style="font-size: 0.9rem; color: var(--text); font-weight: bold;">0</div>
-                    <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Produit</div>
+                <div class="stat tooltip-container"><span class="stat-label">Total Produit:</span> <span id="total-transistors-advanced" class="stat-value">0</span>
+                    <div class="tooltip-text"><strong>Total Historique</strong>La quantité exacte de tous les transistors fabriqués depuis 1947 dans cette partie.</div>
                 </div>
-
-                <!-- Center: Year Badge -->
-                <div style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; z-index: 2;">
-                    <div class="year-badge" style="font-size: 2rem; padding: 10px 24px; border-width: 2px; box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);">
-                        <span id="current-year" class="year-value">1947</span>
-                    </div>
-                    <div id="era-name" class="era-label" style="margin-top: 6px; font-size: 0.85rem;">L'ère du Germanium</div>
+                <div class="stat tooltip-container"><span class="stat-label">Prod. Mondiale:</span> <span id="world-prod" class="stat-value world-value">0/an</span>
+                    <div class="tooltip-text"><strong>Production Mondiale Réelle</strong>Ce qui a été historiquement produit sur Terre à cette année précise.</div>
                 </div>
-
-                <!-- Right: Goal for next year -->
-                <div style="flex: 1; text-align: left; padding-left: 20px;">
-                    <div id="year-next-label" style="font-size: 0.9rem; color: var(--accent); font-weight: bold;">10</div>
-                    <div style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Objectif (<span id="next-year-display">1948</span>)</div>
+                <div class="stat tooltip-container"><span class="stat-label">Part de marché:</span> <span id="market-share" class="stat-value">0%</span>
+                    <div class="tooltip-text"><strong>Domination</strong>Votre production comparée à la production mondiale historique. Atteignez 100% pour dominer le monde réel !</div>
                 </div>
-
-                <!-- Background Progress Bar (spanning behind the year) -->
-                <div id="year-progress-bar" style="position: absolute; top: 22px; left: 10%; right: 10%; height: 4px; background: rgba(0,0,0,0.3); border-radius: 2px; z-index: 1; overflow: hidden;">
-                    <div id="year-progress-fill" style="height: 100%; width: 0%; background: linear-gradient(90deg, transparent, var(--accent)); transition: width 0.3s ease;"></div>
-                </div>
-
-                <!-- Settings button pinned to the absolute right -->
-                <div style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
-                    <button id="settings-btn" title="Paramètres" style="font-size: 1.5rem; background: transparent; border: none; color: var(--text-dim); cursor: pointer; transition: color 0.2s;">&#9881;</button>
+                <div class="stat tooltip-container"><span class="stat-label">Temps de jeu:</span> <span id="play-time" class="stat-value">0s</span>
+                    <div class="tooltip-text tooltip-right"><strong>Temps Virtuel</strong>Temps écoulé dans le jeu. L'accélérateur et les boosts augmentent ce compteur plus vite que le temps réel.</div>
                 </div>
             </div>
         </header>

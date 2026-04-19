@@ -199,12 +199,13 @@ const UI = {
         this.els.yearTotalProduced.textContent = this.formatNumber(Game.totalTransistors);
         this.els.yearProgressFill.style.width = (yp.progress * 100).toFixed(1) + "%";
         
+        const advancedTotalEl = document.getElementById("total-transistors-advanced");
+        if (advancedTotalEl) advancedTotalEl.textContent = this.formatNumber(Game.totalTransistors);
+        
         if (yp.needed > 0) {
             this.els.yearNextLabel.textContent = this.formatNumber(yp.needed);
-            this.els.nextYearDisplay.textContent = yp.nextYear;
         } else {
             this.els.yearNextLabel.textContent = "MAX";
-            this.els.nextYearDisplay.textContent = "MAX";
         }
     },
 
