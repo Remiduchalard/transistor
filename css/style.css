@@ -1168,22 +1168,22 @@ html, body {
     }
 
     #stats-bar { 
-        position: fixed;
+        position: sticky;
         top: 0;
         left: 0;
         right: 0;
         width: 100%;
-        padding: 4px 6px; 
+        padding: 8px 4px; 
         z-index: 1000;
         box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
     
     body.scrolled #stats-bar {
-        padding: 2px 10px;
+        padding: 4px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.6);
     }
-    .main-stat { font-size: 0.9rem; padding: 4px 8px; flex: 1 1 calc(50% - 10px); }
-    .stats-center-group { min-width: 100%; margin-top: 4px; }
+    .main-stat { font-size: 0.9rem; padding: 4px 8px; flex: 1 1 calc(50% - 10px); margin: 0; }
+    .stats-center-group { min-width: 100%; margin: 0; }
     .year-value { font-size: 1.5rem; }
     .progress-labels { font-size: 0.7rem; }
     .era-label { font-size: 0.65rem; }
@@ -1192,8 +1192,8 @@ html, body {
         display: flex; 
         flex-direction: column; 
         gap: 0; 
-        padding: 0 10px; 
-        margin-top: 130px; /* Adjusted margin */
+        padding: 10px 10px 0 10px; 
+        margin-top: 0;
     }
     
     #left-panel, #shop-zone {
@@ -1279,6 +1279,10 @@ html, body {
     /* Hide non-essential header items on scroll */
     body.scrolled .hide-on-scroll {
         display: none !important;
+        height: 0;
+        margin: 0;
+        padding: 0;
+        opacity: 0;
     }
     
     body.scrolled .stats-main-row {
