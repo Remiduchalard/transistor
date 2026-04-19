@@ -161,7 +161,6 @@ body {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 12px;
-    overflow: hidden;
     min-width: 280px;
 }
 
@@ -171,6 +170,7 @@ body {
     text-align: center;
     padding: 4px 0;
     border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px 12px 0 0;
 }
 
 .year-value {
@@ -186,6 +186,8 @@ body {
     position: relative;
     padding: 6px 12px;
     background: rgba(0,0,0,0.2);
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
 }
 
 .progress-fill {
