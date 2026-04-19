@@ -388,6 +388,14 @@ html, body {
     .machine-cost { font-size: 0.85rem; }
     .machine-cost-area { align-items: flex-end; }
     
+    .machine-desc {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
     .tooltip-text { width: 250px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; }
     .tooltip-right { left: 50%; right: auto; transform: translateX(-50%); }
 
