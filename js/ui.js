@@ -16,6 +16,7 @@ const UI = {
             unitPrice: document.getElementById("unit-price"),
             playTime: document.getElementById("play-time"),
             currentYear: document.getElementById("current-year"),
+            eraName: document.getElementById("era-name"),
             clickBtn: document.getElementById("click-btn"),
             clickPowerDisplay: document.getElementById("click-power-display"),
             floatingNumbers: document.getElementById("floating-numbers"),
