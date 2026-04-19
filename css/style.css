@@ -1253,6 +1253,28 @@ html, body {
     .settings-content, .stats-content, .milestone-content {
         margin-bottom: 80px;
     }
+
+    /* Hide non-essential header items on scroll */
+    body.scrolled .hide-on-scroll {
+        display: none !important;
+    }
+    
+    body.scrolled .stats-main-row {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    body.scrolled .left-stats {
+        justify-content: flex-start;
+    }
+    
+    body.scrolled .right-stats {
+        justify-content: flex-end;
+    }
+    
+    body.scrolled #stats-bar {
+        padding: 4px 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
 }
 #milestone-popup {
     position: fixed;

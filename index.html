@@ -108,9 +108,8 @@
 
         <!-- Header: Stats and Year -->
         <header id="stats-bar">
-            <!-- Row 1: Essential Game Stats (Centered Year & Progress) -->
-            <div class="stats-main-row">
-                
+            <!-- Row 1: Essential Game Stats (Always visible / Sticky) -->
+            <div id="sticky-stats-row" class="stats-main-row">
                 <!-- Left: Money & Stock -->
                 <div class="stats-side-group left-stats">
                     <div class="stat main-stat tooltip-container">
@@ -121,7 +120,7 @@
                             L'argent généré par la vente de vos transistors. Utilisez-le pour construire de nouvelles usines et financer la R&D.
                         </div>
                     </div>
-                    <div class="stat main-stat tooltip-container">
+                    <div class="stat main-stat tooltip-container hide-on-scroll">
                         <span class="stat-icon">📦</span> 
                         <span id="stock" class="stat-value" style="color: var(--text);">0</span>
                         <div class="tooltip-text">
@@ -132,7 +131,7 @@
                 </div>
 
                 <!-- Center: Progression Block -->
-                <div class="stats-center-group tooltip-container">
+                <div class="stats-center-group tooltip-container hide-on-scroll">
                     <div class="year-block">
                         <div class="year-header">
                             <span id="current-year" class="year-value">1947</span>
@@ -165,7 +164,7 @@
                             Le nombre de transistors que vos usines fabriquent chaque année en jeu.<br>Plus cette valeur est haute, plus les années défileront vite !
                         </div>
                     </div>
-                    <div class="stat main-stat tooltip-container">
+                    <div class="stat main-stat tooltip-container hide-on-scroll">
                         <span class="stat-icon">🏷️</span> 
                         <span id="unit-price" class="stat-value" style="color: var(--gold);">$0.00</span>
                         <div class="tooltip-text tooltip-right">
@@ -173,7 +172,7 @@
                             Le prix du marché pour un transistor l'année en cours.<br><br><i>Loi économique :</i> Ce prix est divisé par deux tous les 24 mois. La chute des prix vous oblige à produire des volumes exponentiels pour rester rentable !
                         </div>
                     </div>
-                    <button id="settings-btn" title="Paramètres" class="desktop-only-btn">&#9881;</button>
+                    <button id="settings-btn" title="Paramètres" class="desktop-only-btn hide-on-scroll">&#9881;</button>
                 </div>
 
             </div>
