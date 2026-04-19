@@ -257,15 +257,20 @@ const UI = {
 
             const isEarly = Game.currentYear < machine.unlockYear;
 
-            if (!rdDone && !rdAffordable && !isEarly) {
-                // Not even unlocked historically and too expensive
+            // Reset classes
+            card.className = "machine-card";
+            if (machine.id !== "hand") card.dataset.tier = machine.tier;
+            card.dataset.id = machine.id;
+
+            if (!rdDone && !rdAffordable && isEarly) {
                 card.classList.add("locked");
             } else if (!rdDone) {
                 card.classList.add("needs-rd");
                 if (rdAffordable) card.classList.add("affordable");
-                if (isEarly) card.classList.add("early-access"); // New CSS class for visual hint
-            } else if (affordable) {
-                card.classList.add("affordable");
+                if (isEarly) card.classList.add("early-access");
+            } else {
+                if (affordable) card.classList.add("affordable");
+                if (isEarly) card.classList.add("early-access");
             }
 
             let costAreaHtml;

@@ -827,18 +827,26 @@
             const bulkCost = getBulkMachineCost(machine, owned, qty, Game.currentYear);
             const unlocked = Game.currentYear >= machine.unlockYear;
             const rdDone = !!Game.unlockedRD[machine.id];
-            const affordable = Game.money >= bulkCost;
-            const rdAffordable = Game.money >= getDynamicRDCost(machine, Game.currentYear);
+            const affordable = Game.money.gte(bulkCost);
+            const rdAffordable = Game.money.gte(getDynamicRDCost(machine, Game.currentYear));
+            const isEarly = Game.currentYear < machine.unlockYear;
 
-            card.classList.toggle("locked", !unlocked);
-            card.classList.toggle("needs-rd", unlocked && !rdDone);
+            // Reset all state classes
+            card.classList.remove("locked", "needs-rd", "affordable", "early-access");
 
-            if (!unlocked) {
-                card.classList.remove("affordable");
+            // Apply new state classes mutually exclusively where it matters
+            if (!rdDone && !rdAffordable && isEarly) {
+                // Not historically unlocked and can't afford the R&D penalty: totally locked out
+                card.classList.add("locked");
             } else if (!rdDone) {
-                card.classList.toggle("affordable", rdAffordable);
+                // Needs R&D (either historical or early access)
+                card.classList.add("needs-rd");
+                if (rdAffordable) card.classList.add("affordable");
+                if (isEarly) card.classList.add("early-access");
             } else {
-                card.classList.toggle("affordable", affordable);
+                // R&D is done, just regular factory buying
+                if (affordable) card.classList.add("affordable");
+                if (isEarly) card.classList.add("early-access");
             }
 
             // Update R&D button state
@@ -862,7 +870,7 @@
             // Update total production display
             const totalProdEl = card.querySelector(".machine-production-total");
             if (totalProdEl && owned > 0) {
-                const totalProd = machine.baseProduction * owned;
+                const totalProd = new Decimal(machine.baseProduction).mul(owned);
                 totalProdEl.textContent = "Total: " + UI.formatNumber(totalProd) + "/an";
             }
         });
