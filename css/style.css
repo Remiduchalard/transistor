@@ -543,9 +543,27 @@ html, body {
 #main-area {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: 40px;
     padding: 24px 0;
     align-items: start;
+    justify-content: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+#left-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    justify-self: end;
+}
+
+#shop-zone {
+    width: 100%;
+    max-width: 600px;
+    justify-self: start;
 }
 
 /* === Click Zone === */
@@ -554,6 +572,7 @@ html, body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    width: 100%;
 }
 
 #click-zone h2,
@@ -1123,7 +1142,12 @@ html, body {
     .progress-labels { font-size: 0.7rem; }
     .era-label { font-size: 0.65rem; }
     
-    #main-area { grid-template-columns: 1fr; gap: 0; padding: 0 10px; }
+    #main-area { display: flex; flex-direction: column; gap: 0; padding: 0 10px; }
+    
+    #left-panel, #shop-zone {
+        justify-self: center;
+        max-width: 100%;
+    }
     
     #mobile-nav {
         display: flex;
