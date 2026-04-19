@@ -16,7 +16,6 @@ const UI = {
             unitPrice: document.getElementById("unit-price"),
             playTime: document.getElementById("play-time"),
             currentYear: document.getElementById("current-year"),
-            eraName: document.getElementById("era-name"),
             clickBtn: document.getElementById("click-btn"),
             clickPowerDisplay: document.getElementById("click-power-display"),
             floatingNumbers: document.getElementById("floating-numbers"),
@@ -138,7 +137,6 @@ const UI = {
         document.getElementById("sell-section").style.display = fullAutoSell ? "none" : "";
 
         this.els.stock.textContent = this.formatNumber(Game.transistors);
-        this.els.totalTransistors.textContent = this.formatNumber(Game.totalTransistors);
         this.els.perYear.textContent = this.formatNumber(Game.productionPerYear) + "/an";
         this.els.money.textContent = this.formatMoney(Game.money);
         this.els.unitPrice.textContent = this.formatPrice(Game.getEffectivePrice());
