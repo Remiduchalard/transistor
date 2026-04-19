@@ -275,76 +275,133 @@ html, body {
     }
 }
 
+/* Mobile Navigation */
+#mobile-nav {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .mobile-tab {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    #tab-upgrades {
+        margin-top: 30px;
+    }
+    #tab-machines {
+        position: sticky;
+        top: 60px;
+        align-self: start;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+        padding-right: 10px; /* space for scrollbar */
+    }
+    /* Add scrollbar styling for machines list on desktop */
+    #tab-machines::-webkit-scrollbar {
+        width: 6px;
+    }
+    #tab-machines::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 3px;
+    }
+}
+
 @media (max-width: 768px) {
-    #stats-bar {
-        padding: 8px 10px;
+    /* Mobile Layout Overrides */
+    body {
+        padding-bottom: 70px; /* Space for fixed bottom nav */
     }
 
-    .main-stat {
-        font-size: 1rem;
-        padding: 6px 10px;
-        flex: 1 1 calc(50% - 10px); /* 2 per row on mobile */
+    #mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-panel);
+        border-top: 1px solid var(--border);
+        z-index: 5000;
+        padding-bottom: env(safe-area-inset-bottom);
+        box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
     }
 
-    .stats-center-group {
-        min-width: 100%; /* Take full width on mobile */
+    .nav-btn {
+        flex: 1;
+        padding: 10px 0;
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s;
     }
 
-    .year-value {
-        font-size: 1.5rem;
+    .nav-btn.active {
+        color: var(--accent);
+        background: rgba(56, 189, 248, 0.1);
     }
 
-    .progress-labels {
-        font-size: 0.7rem;
+    .nav-icon {
+        display: block;
+        font-size: 1.4rem;
+        filter: grayscale(1);
     }
 
-    .era-label {
-        font-size: 0.65rem;
+    .nav-btn.active .nav-icon {
+        filter: grayscale(0);
     }
 
-    #main-area {
-        grid-template-columns: 1fr; /* Stack panels vertically */
-        gap: 15px;
+    /* Hide/Show logic for tabs */
+    .mobile-tab {
+        display: none !important;
     }
 
-    #shop-zone {
-        position: static; /* Remove sticky positioning so user can scroll naturally */
+    .mobile-tab.active-tab {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        animation: fadeIn 0.2s ease;
+    }
+
+    /* Reset sticky position for machines on mobile since it's a dedicated tab */
+    #tab-machines.active-tab {
+        position: static;
         max-height: none;
     }
 
-    .machine-card {
-        grid-template-columns: 40px 1fr auto;
-        padding: 10px;
-        gap: 10px;
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    .machine-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.4rem;
+    /* Fix popups overlapping mobile nav */
+    .settings-content, .stats-content, .milestone-content {
+        margin-bottom: 80px; /* ensure they don't hide behind nav */
     }
 
-    .machine-name {
-        font-size: 0.9rem;
-    }
-
-    .machine-cost {
-        font-size: 0.85rem;
-    }
-
-    /* Tooltips on mobile: tap to show instead of hover, position adjust */
-    .tooltip-text {
-        width: 250px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.8rem;
-    }
-
-    .tooltip-right {
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-    }
+    /* Small tweaks for mobile sizes */
+    #stats-bar { padding: 8px 10px; }
+    .main-stat { font-size: 1rem; padding: 6px 10px; flex: 1 1 calc(50% - 10px); }
+    .stats-center-group { min-width: 100%; }
+    .year-value { font-size: 1.5rem; }
+    .progress-labels { font-size: 0.7rem; }
+    .era-label { font-size: 0.65rem; }
+    #main-area { grid-template-columns: 1fr; gap: 0; }
+    .machine-card { grid-template-columns: 40px 1fr auto; padding: 10px; gap: 10px; }
+    .machine-icon { width: 40px; height: 40px; font-size: 1.4rem; }
+    .machine-name { font-size: 0.9rem; }
+    .machine-cost { font-size: 0.85rem; }
+    .tooltip-text { width: 250px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; }
+    .tooltip-right { left: 50%; right: auto; transform: translateX(-50%); }
 }
 
 .stat-label {

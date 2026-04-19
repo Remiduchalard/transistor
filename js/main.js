@@ -10,6 +10,31 @@
     const loadResult = Game.load();
     UI.init();
 
+    // Mobile Tab Navigation
+    document.querySelectorAll(".nav-btn[data-target]").forEach(btn => {
+        btn.addEventListener("click", () => {
+            // Remove active from all nav btns
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            
+            // Hide all tabs
+            document.querySelectorAll(".mobile-tab").forEach(tab => tab.classList.remove("active-tab"));
+            
+            // Show target
+            const targetId = btn.dataset.target;
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) targetEl.classList.add("active-tab");
+            
+            // Scroll to top to ensure the tab is visible from the beginning
+            window.scrollTo(0, 0);
+        });
+    });
+
+    document.getElementById("nav-settings-btn").addEventListener("click", () => {
+        // Option button in nav acts as settings trigger
+        document.getElementById("settings-popup").classList.remove("hidden");
+    });
+
     const introPopup = document.getElementById("intro-popup");
     document.getElementById("intro-start-btn").addEventListener("click", () => {
         introPopup.classList.add("hidden");
