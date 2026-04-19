@@ -203,14 +203,21 @@ body {
     font-size: 0.8rem;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
+    color: #ffffff !important;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 1);
+}
+
+.progress-labels span {
+    color: #ffffff !important;
 }
 
 .era-label {
-    font-size: 0.7rem;
-    color: var(--text-dim);
+    font-size: 0.75rem;
+    color: #ffffff !important;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
 }
 
 /* Expert row */
