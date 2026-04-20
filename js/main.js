@@ -46,10 +46,21 @@
     let devClickCount = 0;
     let devClickTimer = null;
     
-    function unlockDevMode() {
-        Game.globals.devModeUnlocked = true;
+    function toggleDevMode() {
+        Game.globals.devModeUnlocked = !Game.globals.devModeUnlocked;
         Game.saveGlobals();
-        document.querySelectorAll(".dev-option").forEach(el => el.classList.remove("hidden"));
+        
+        if (Game.globals.devModeUnlocked) {
+            document.querySelectorAll(".dev-option").forEach(el => el.classList.remove("hidden"));
+        } else {
+            document.querySelectorAll(".dev-option").forEach(el => el.classList.add("hidden"));
+        }
+        
+        const el = document.createElement("div");
+        el.className = "notification " + (Game.globals.devModeUnlocked ? "unlock" : "");
+        el.textContent = Game.globals.devModeUnlocked ? "Mode développeur activé !" : "Mode développeur désactivé !";
+        document.getElementById("notifications").appendChild(el);
+        setTimeout(() => el.remove(), 3000);
     }
 
     if (Game.globals.devModeUnlocked) {
@@ -57,8 +68,6 @@
     }
 
     function handleDevClick() {
-        if (Game.globals.devModeUnlocked) return;
-        
         devClickCount++;
         if (devClickCount === 1) {
             devClickTimer = setTimeout(() => {
@@ -68,13 +77,8 @@
         
         if (devClickCount >= 10) {
             clearTimeout(devClickTimer);
-            unlockDevMode();
-            // Show a tiny notification that it's unlocked
-            const el = document.createElement("div");
-            el.className = "notification unlock";
-            el.textContent = "Mode développeur débloqué !";
-            document.getElementById("notifications").appendChild(el);
-            setTimeout(() => el.remove(), 3000);
+            devClickCount = 0;
+            toggleDevMode();
         }
     }
 
