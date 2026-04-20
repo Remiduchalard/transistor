@@ -249,7 +249,7 @@
                     </div>
                 </div>
                 <button id="settings-close" style="margin-top: 20px;">Fermer</button>
-                <div class="made-by-tarah" style="margin-top: 24px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer; text-align: center; opacity: 0.7;">Made by Tarah</div>
+                <div class="made-by-tarah" style="margin-top: 24px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer; text-align: center; opacity: 0.7; user-select: none; touch-action: manipulation;">Made by Tarah</div>
             </div>
         </div>
 
@@ -339,10 +339,16 @@
             <!-- Settings Tab (Mobile Only) -->
             <section id="tab-settings" class="mobile-tab">
                 <div class="settings-content" style="box-shadow: none; border: none; padding: 20px 10px; max-width: 100%; margin-bottom: 0;">
+                    <div class="settings-exact-stats" style="margin-bottom: 24px; text-align: center;">
+                        <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;">Total Produit</div>
+                        <div class="exact-total-produced" style="font-size: 1.1rem; color: var(--text); font-family: 'Courier New', Courier, monospace; word-break: break-all; margin-bottom: 12px;">0</div>
+                        <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;">Production / an</div>
+                        <div class="exact-per-year" style="font-size: 1.1rem; color: var(--accent); font-family: 'Courier New', Courier, monospace; word-break: break-all;">0</div>
+                    </div>
                     <h2 style="color: var(--text); font-size: 1.3rem; margin-bottom: 24px;">Options</h2>
                     
                     <div class="settings-buttons">
-                        <button id="expert-toggle-btn-mobile" class="settings-link" style="border-color:var(--accent);color:var(--accent);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
+                        <button id="expert-toggle-btn-mobile" class="settings-link dev-option hidden" style="border-color:var(--accent);color:var(--accent);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
                             Mode Avancé : DÉSACTIVÉ
                         </button>
                         <button id="stats-btn-mobile" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer">Statistiques</button>
@@ -350,11 +356,11 @@
                         <button id="reset-save-btn-mobile" class="settings-danger">Réinitialiser la sauvegarde</button>
                     </div>
                     
-                    <div class="settings-bot">
+                    <div class="settings-bot dev-option hidden">
                         <button id="bot-toggle-btn-mobile" class="settings-link" style="border-color:var(--green);color:var(--green);cursor:pointer">Activer le Bot</button>
                         <span id="bot-status-mobile" class="bot-status-off">Inactif</span>
                     </div>
-                    <div class="settings-speed">
+                    <div class="settings-speed dev-option hidden">
                         <span class="speed-label">Vitesse du jeu</span>
                         <div class="speed-buttons">
                             <button class="speed-btn-mobile" data-speed="0.5">x0.5</button>
@@ -368,6 +374,7 @@
                             <button class="speed-btn-mobile" data-speed="1000">x1000</button>
                         </div>
                     </div>
+                    <div class="made-by-tarah" style="margin-top: 24px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer; text-align: center; opacity: 0.7; user-select: none; touch-action: manipulation;">Made by Tarah</div>
                 </div>
             </section>
         </main>
