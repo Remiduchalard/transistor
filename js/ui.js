@@ -77,6 +77,16 @@ const UI = {
         if (d.lt(0)) return "-" + this.formatNumber(d.abs());
 
         const suffixes = [
+            { value: new Decimal(1e63), suffix: " V" },
+            { value: new Decimal(1e60), suffix: " Nd" },
+            { value: new Decimal(1e57), suffix: " Od" },
+            { value: new Decimal(1e54), suffix: " Spd" },
+            { value: new Decimal(1e51), suffix: " Sxd" },
+            { value: new Decimal(1e48), suffix: " Qid" },
+            { value: new Decimal(1e45), suffix: " Qad" },
+            { value: new Decimal(1e42), suffix: " Td" },
+            { value: new Decimal(1e39), suffix: " Dd" },
+            { value: new Decimal(1e36), suffix: " Ud" },
             { value: new Decimal(1e33), suffix: " Dc" },
             { value: new Decimal(1e30), suffix: " Nn" },
             { value: new Decimal(1e27), suffix: " Oc" },
