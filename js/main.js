@@ -659,9 +659,6 @@
         }
     };
 
-    botToggleBtn.addEventListener("click", toggleBot);
-    if(botToggleBtnMobile) botToggleBtnMobile.addEventListener("click", toggleBot);
-
     function botTick(effectiveDeltaMs) {
         if (!botActive) return;
 
