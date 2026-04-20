@@ -2,7 +2,7 @@
 
 @media (min-width: 769px) {
     /* Hide Mobile Navigation on Desktop */
-    #mobile-nav, #mobile-sticky-stats {
+    #mobile-nav, #mobile-sticky-stats, .mobile-era-display {
         display: none !important;
     }
 

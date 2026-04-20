@@ -19,6 +19,7 @@ const UI = {
             playTime: document.getElementById("play-time"),
             currentYear: document.getElementById("current-year"),
             eraName: document.getElementById("era-name"),
+            mobileEraName: document.getElementById("mobile-era-name"),
             clickBtn: document.getElementById("click-btn"),
             clickPowerDisplay: document.getElementById("click-power-display"),
             floatingNumbers: document.getElementById("floating-numbers"),
@@ -164,11 +165,11 @@ const UI = {
 
     formatPrice(val) {
         const d = new Decimal(val);
+        if (d.eq(0)) return "$0.00";
         if (d.gte(1)) return "$" + d.toNumber().toFixed(2);
-        if (d.gte(0.01)) return "$" + d.toNumber().toFixed(4);
-        if (d.gte(0.0001)) return "$" + d.toNumber().toFixed(6);
-        if (d.gt(0)) return "$" + d.toExponential(2);
-        return "$0.00";
+        // Pour les valeurs < 1, on n'affiche que le premier chiffre significatif
+        if (d.lt(0.001)) return "$" + d.toExponential(0);
+        return "$" + d.toPrecision(1);
     },
 
     formatTime(ms) {
