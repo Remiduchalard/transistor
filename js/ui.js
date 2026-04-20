@@ -226,6 +226,14 @@ const UI = {
         const advancedTotalEl = document.getElementById("total-transistors-advanced");
         if (advancedTotalEl) advancedTotalEl.textContent = this.formatNumber(Game.totalTransistors);
         
+        // Exact numbers for Settings tab
+        document.querySelectorAll(".exact-total-produced").forEach(el => {
+            el.textContent = new Decimal(Game.totalTransistors).floor().toNumber().toLocaleString("fr-FR");
+        });
+        document.querySelectorAll(".exact-per-year").forEach(el => {
+            el.textContent = new Decimal(Game.productionPerYear).floor().toNumber().toLocaleString("fr-FR");
+        });
+        
         if (yp.needed > 0) {
             this.els.yearNextLabel.textContent = this.formatNumber(yp.needed);
         } else {

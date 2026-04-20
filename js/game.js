@@ -59,9 +59,10 @@ const Game = {
             try {
                 this.globals = JSON.parse(raw);
                 if (this.globals.expertMode === undefined) this.globals.expertMode = false;
+                if (this.globals.devModeUnlocked === undefined) this.globals.devModeUnlocked = false;
             } catch (e) {}
         } else {
-            this.globals = { unlockedMusk: false, expertMode: false };
+            this.globals = { unlockedMusk: false, expertMode: false, devModeUnlocked: false };
         }
     },
 

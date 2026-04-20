@@ -42,6 +42,46 @@
         }
     };
 
+    // Developer Mode logic
+    let devClickCount = 0;
+    let devClickTimer = null;
+    
+    function unlockDevMode() {
+        Game.globals.devModeUnlocked = true;
+        Game.saveGlobals();
+        document.querySelectorAll(".dev-option").forEach(el => el.classList.remove("hidden"));
+    }
+
+    if (Game.globals.devModeUnlocked) {
+        document.querySelectorAll(".dev-option").forEach(el => el.classList.remove("hidden"));
+    }
+
+    function handleDevClick() {
+        if (Game.globals.devModeUnlocked) return;
+        
+        devClickCount++;
+        if (devClickCount === 1) {
+            devClickTimer = setTimeout(() => {
+                devClickCount = 0;
+            }, 10000);
+        }
+        
+        if (devClickCount >= 10) {
+            clearTimeout(devClickTimer);
+            unlockDevMode();
+            // Show a tiny notification that it's unlocked
+            const el = document.createElement("div");
+            el.className = "notification unlock";
+            el.textContent = "Mode développeur débloqué !";
+            document.getElementById("notifications").appendChild(el);
+            setTimeout(() => el.remove(), 3000);
+        }
+    }
+
+    document.querySelectorAll(".made-by-tarah").forEach(el => {
+        el.addEventListener("click", handleDevClick);
+    });
+
     const introPopup = document.getElementById("intro-popup");
     document.getElementById("intro-start-btn").addEventListener("click", () => {
         introPopup.classList.add("hidden");
