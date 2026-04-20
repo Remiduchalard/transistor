@@ -23,8 +23,8 @@
 <body>
     <div id="game-container">
         <!-- Intro popup -->
-        <div id="intro-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.9); z-index: 2000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-            <div style="background: var(--bg-panel); border: 1px solid var(--accent); border-radius: 16px; padding: 40px; max-width: 650px; width: 90%; text-align: left; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(56, 189, 248, 0.15);">
+        <div id="intro-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.9); z-index: 2000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 15px; box-sizing: border-box;">
+            <div style="background: var(--bg-panel); border: 1px solid var(--accent); border-radius: 16px; padding: clamp(20px, 5vw, 40px); max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto; text-align: left; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(56, 189, 248, 0.15); box-sizing: border-box;">
                 <h2 style="color: var(--accent); font-size: 1.5rem; text-align: center; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Bienvenue dans Transistor Clicker</h2>
 
                 <div style="font-size: 1rem; line-height: 1.6; color: var(--text); display: flex; flex-direction: column; gap: 16px;">
@@ -54,8 +54,8 @@
         </div>
 
         <!-- Offline popup -->
-        <div id="offline-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.9); z-index: 2500; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-            <div style="background: var(--bg-panel); border: 1px solid var(--green); border-radius: 16px; padding: 40px; max-width: 500px; width: 90%; text-align: center; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(52, 211, 153, 0.15);">
+        <div id="offline-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.9); z-index: 2500; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 15px; box-sizing: border-box;">
+            <div style="background: var(--bg-panel); border: 1px solid var(--green); border-radius: 16px; padding: clamp(20px, 5vw, 40px); max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; text-align: center; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(52, 211, 153, 0.15); box-sizing: border-box;">
                 <h2 style="color: var(--green); font-size: 1.5rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Retour à l'usine</h2>
                 <p style="margin-bottom: 16px; color: var(--text); line-height: 1.5;">Pendant votre absence (<span id="offline-time" style="color: var(--accent); font-weight: bold;"></span>), vos usines ont continué de tourner à <span id="offline-rate" style="color: var(--accent); font-weight: bold;"></span>% de leur capacité normale.</p>
                 
@@ -75,8 +75,8 @@
         </div>
 
         <!-- Reset / Prestige popup -->
-        <div id="reset-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.95); z-index: 3000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-            <div style="background: var(--bg-panel); border: 1px solid var(--red); border-radius: 16px; padding: 40px; max-width: 500px; width: 90%; text-align: center; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(239, 68, 68, 0.15);">
+        <div id="reset-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.95); z-index: 3000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 15px; box-sizing: border-box;">
+            <div style="background: var(--bg-panel); border: 1px solid var(--red); border-radius: 16px; padding: clamp(20px, 5vw, 40px); max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; text-align: center; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(239, 68, 68, 0.15); box-sizing: border-box;">
                 <h2 style="color: var(--red); font-size: 1.5rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Réinitialiser la partie</h2>
                 <p style="margin-bottom: 24px; color: var(--text); line-height: 1.5;">Toute votre progression actuelle (usines, améliorations, stock) sera archivée dans vos statistiques puis effacée.</p>
                 
