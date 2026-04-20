@@ -71,6 +71,38 @@ const UI = {
 
     // === Number Formatting ===
 
+    formatExactNumber(val) {
+        const d = new Decimal(val).floor();
+        
+        let m = d.mantissa;
+        let e = d.exponent;
+        
+        if (e < 15) {
+            return d.toNumber().toLocaleString("fr-FR");
+        }
+        
+        let mStr = m.toString();
+        let decimalPos = mStr.indexOf(".");
+        
+        let fullStr = "";
+        if (decimalPos === -1) {
+            fullStr = mStr + "0".repeat(e);
+        } else {
+            let parts = mStr.split(".");
+            let intPart = parts[0];
+            let fracPart = parts[1];
+            
+            if (e >= fracPart.length) {
+                fullStr = intPart + fracPart + "0".repeat(e - fracPart.length);
+            } else {
+                fullStr = intPart + fracPart.substring(0, e);
+            }
+        }
+        
+        // Add spaces every 3 digits
+        return fullStr.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
+
     formatNumber(val) {
         const d = new Decimal(val);
         if (d.eq(0)) return "0";
@@ -425,7 +457,19 @@ const UI = {
             return Game.currentYear >= u.unlockYear - 5;
         });
 
-        for (const upgrade of available) {
+        // Sort: Unpurchased first, Purchased last (maintaining original relative order)
+        const unpurchased = [];
+        const purchasedList = [];
+        for (const u of available) {
+            if (Game.purchasedUpgrades.has(u.id)) {
+                purchasedList.push(u);
+            } else {
+                unpurchased.push(u);
+            }
+        }
+        const sortedAvailable = [...unpurchased, ...purchasedList];
+
+        for (const upgrade of sortedAvailable) {
             const purchased = Game.purchasedUpgrades.has(upgrade.id);
             const unlocked = Game.currentYear >= upgrade.unlockYear;
             const affordable = Game.money >= upgrade.cost;
