@@ -202,6 +202,11 @@
     }
 
     /* Popups responsive adjustments */
+    #intro-popup, #offline-popup, #reset-popup, #stats-popup, #settings-popup, #milestone-popup {
+        align-items: flex-start !important; /* Start from the top instead of centering vertically */
+        padding-top: 15px !important; /* Ensure top space matches left/right space */
+    }
+
     #intro-popup > div, #offline-popup > div, #reset-popup > div, #stats-popup > div, #settings-popup > div, #milestone-popup > div {
         max-height: calc(100vh - 100px) !important; /* Leave space for bottom nav */
     }
