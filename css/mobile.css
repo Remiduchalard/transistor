@@ -200,7 +200,9 @@
         background: transparent !important;
         padding: 10px 0 !important;
     }
-}ound: transparent !important;
-        padding: 10px 0 !important;
+
+    /* Popups responsive adjustments */
+    #intro-popup > div, #offline-popup > div, #reset-popup > div, #stats-popup > div, #settings-popup > div, #milestone-popup > div {
+        max-height: calc(100vh - 100px) !important; /* Leave space for bottom nav */
     }
 }
