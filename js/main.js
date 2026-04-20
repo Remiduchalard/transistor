@@ -10,18 +10,37 @@
     const loadResult = Game.load();
     UI.init();
 
-    // Mobile Tab Navigation
-    document.querySelectorAll(".nav-btn[data-target]").forEach(btn => {
-        btn.addEventListener("click", () => {
-            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            document.querySelectorAll(".mobile-tab").forEach(tab => tab.classList.remove("active-tab"));
-            const targetId = btn.dataset.target;
-            const targetEl = document.getElementById(targetId);
-            if (targetEl) targetEl.classList.add("active-tab");
-            window.scrollTo(0, 0);
-        });
-    });
+    // Global App object to expose functions to desktop.js and mobile.js
+    window.App = {
+        toggleExpert: () => {
+            Game.globals.expertMode = !Game.globals.expertMode;
+            Game.saveGlobals();
+            updateExpertMode();
+        },
+        triggerResetPopup: () => {
+            resetPopup.classList.remove("hidden");
+            settingsPopup.classList.add("hidden"); 
+            if (Game.globals.unlockedMusk) {
+                document.getElementById("reset-musk-btn").classList.remove("hidden");
+            } else {
+                document.getElementById("reset-musk-btn").classList.add("hidden");
+            }
+        },
+        openStats: () => {
+            settingsPopup.classList.add("hidden");
+            buildStatsTable();
+            statsPopup.classList.remove("hidden");
+        },
+        toggleBot: () => {
+            toggleBot();
+        },
+        updateSpeed: (speed) => {
+            Game.gameSpeed = speed;
+            if (Game.gameSpeed > 1) Game.usedAssistance = true;
+            updateSpeedBtns();
+            Game.save();
+        }
+    };
 
     const introPopup = document.getElementById("intro-popup");
     document.getElementById("intro-start-btn").addEventListener("click", () => {
@@ -104,18 +123,7 @@
     
     updateExpertMode();
 
-    const toggleExpert = () => {
-        Game.globals.expertMode = !Game.globals.expertMode;
-        Game.saveGlobals();
-        updateExpertMode();
-    };
-    expertToggleBtn.addEventListener("click", toggleExpert);
-    if (expertToggleBtnMobile) expertToggleBtnMobile.addEventListener("click", toggleExpert);
-
     const settingsPopup = document.getElementById("settings-popup");
-    document.getElementById("settings-btn").addEventListener("click", () => {
-        settingsPopup.classList.remove("hidden");
-    });
     document.getElementById("settings-close").addEventListener("click", () => {
         settingsPopup.classList.add("hidden");
     });
@@ -124,18 +132,6 @@
     });
     
     const resetPopup = document.getElementById("reset-popup");
-    const triggerResetPopup = () => {
-        resetPopup.classList.remove("hidden");
-        settingsPopup.classList.add("hidden"); // Only affects desktop
-        if (Game.globals.unlockedMusk) {
-            document.getElementById("reset-musk-btn").classList.remove("hidden");
-        } else {
-            document.getElementById("reset-musk-btn").classList.add("hidden");
-        }
-    };
-    document.getElementById("reset-save-btn").addEventListener("click", triggerResetPopup);
-    if (document.getElementById("reset-save-btn-mobile")) document.getElementById("reset-save-btn-mobile").addEventListener("click", triggerResetPopup);
-
     document.getElementById("reset-cancel-btn").addEventListener("click", () => {
         resetPopup.classList.add("hidden");
     });
@@ -183,33 +179,8 @@
     };
     updateSpeedBtns();
 
-    document.querySelectorAll(".speed-btn, .speed-btn-mobile").forEach(btn => {
-        btn.addEventListener("click", () => {
-            Game.gameSpeed = parseFloat(btn.dataset.speed);
-            if (Game.gameSpeed > 1) Game.usedAssistance = true;
-            updateSpeedBtns();
-            Game.save();
-        });
-    });
-
-    // === Scroll behavior for mobile header ===
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) {
-            document.body.classList.add("scrolled");
-        } else {
-            document.body.classList.remove("scrolled");
-        }
-    });
-
     // === Stats popup ===
     const statsPopup = document.getElementById("stats-popup");
-    const openStats = () => {
-        settingsPopup.classList.add("hidden");
-        buildStatsTable();
-        statsPopup.classList.remove("hidden");
-    };
-    document.getElementById("stats-btn").addEventListener("click", openStats);
-    if(document.getElementById("stats-btn-mobile")) document.getElementById("stats-btn-mobile").addEventListener("click", openStats);
     document.getElementById("stats-close").addEventListener("click", () => {
         statsPopup.classList.add("hidden");
     });

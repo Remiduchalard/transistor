@@ -13,6 +13,8 @@ const UI = {
             totalTransistors: document.getElementById("total-transistors"),
             perYear: document.getElementById("per-year"),
             money: document.getElementById("money"),
+            stickyMoney: document.getElementById("sticky-money"),
+            stickyPerYear: document.getElementById("sticky-per-year"),
             unitPrice: document.getElementById("unit-price"),
             playTime: document.getElementById("play-time"),
             currentYear: document.getElementById("current-year"),
@@ -141,6 +143,8 @@ const UI = {
         this.els.stock.textContent = this.formatNumber(Game.transistors);
         this.els.perYear.textContent = this.formatNumber(Game.productionPerYear) + "/an";
         this.els.money.textContent = this.formatMoney(Game.money);
+        if (this.els.stickyMoney) this.els.stickyMoney.textContent = this.els.money.textContent;
+        if (this.els.stickyPerYear) this.els.stickyPerYear.textContent = this.els.perYear.textContent;
         this.els.unitPrice.textContent = this.formatPrice(Game.getEffectivePrice());
         this.els.playTime.textContent = this.formatTime(Game.virtualElapsed);
         this.els.clickPowerDisplay.textContent = `+${this.formatNumber(Game.clickPower)} par clic`;

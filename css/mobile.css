@@ -1,0 +1,206 @@
+/* === Mobile Styles (< 768px) === */
+
+@media (max-width: 1100px) {
+    .stats-main-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+    .left-stats, .right-stats {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    .desktop-only-btn {
+        display: none !important;
+    }
+
+    body {
+        padding-bottom: 70px; /* Space for fixed bottom nav */
+    }
+
+    #stats-bar { 
+        position: static; /* Let it scroll naturally */
+        padding: 8px 6px; 
+        box-shadow: none;
+    }
+
+    .main-stat { font-size: 0.9rem; padding: 6px 8px; flex: 1 1 calc(50% - 10px); }
+    .stats-center-group { min-width: 100%; margin-top: 5px; }
+    .year-value { font-size: 1.5rem; }
+    .progress-labels { font-size: 0.7rem; }
+    .era-label { font-size: 0.65rem; }
+    
+    #main-area { 
+        display: flex; 
+        flex-direction: column; 
+        gap: 0; 
+        padding: 0 10px; 
+        margin-top: 10px; /* Restored natural space */
+    }
+
+    /* Mobile Nav "En dur" */
+    #mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-panel);
+        border-top: 1px solid var(--border);
+        padding-bottom: env(safe-area-inset-bottom);
+        margin: 0;
+        z-index: 5000;
+        box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+    }
+
+    .nav-btn {
+        flex: 1;
+        padding: 10px 0;
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s;
+    }
+
+    .nav-btn.active {
+        color: var(--accent);
+        background: rgba(56, 189, 248, 0.1);
+    }
+
+    .nav-icon {
+        display: block;
+        font-size: 1.4rem;
+        filter: grayscale(1);
+    }
+
+    .nav-btn.active .nav-icon {
+        filter: grayscale(0);
+    }
+
+    /* Sticky Scrolled Stats Bar */
+    #mobile-sticky-stats {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-panel);
+        border-bottom: 1px solid var(--border);
+        z-index: 5000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    
+    body.scrolled #mobile-sticky-stats {
+        transform: translateY(0);
+    }
+
+    .sticky-stat-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--bg-card);
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    /* Clean up tabs and layout */
+    .mobile-tab {
+        display: none !important;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 10px;
+        box-sizing: border-box;
+        animation: fadeIn 0.2s ease;
+    }
+
+    .mobile-tab.active-tab {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    #left-panel, #shop-zone, #click-zone, #tab-upgrades {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    #tab-action > *, #tab-upgrades > *, #tab-machines > *, #tab-settings > * {
+        max-width: 100%;
+    }
+
+    /* Fix Machines cutoff */
+    #shop-header {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+        align-items: center !important;
+    }
+    
+    #shop-header h2 {
+        text-align: center !important;
+    }
+
+    #machines-list {
+        width: 100%;
+    }
+    .machine-card { grid-template-columns: 40px 1fr auto; padding: 10px; gap: 10px; margin-bottom: 8px; }
+    .machine-icon { width: 40px; height: 40px; font-size: 1.4rem; }
+    .machine-name { font-size: 0.9rem; }
+    .machine-cost { font-size: 0.85rem; }
+    .machine-cost-area { align-items: flex-end; }
+    
+    .machine-desc {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .tooltip-text { width: 250px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; }
+    .tooltip-right { left: 50%; right: auto; transform: translateX(-50%); }
+
+    #tab-machines.active-tab {
+        position: static;
+        max-height: none;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .settings-content, .stats-content, .milestone-content {
+        margin-bottom: 40px;
+    }
+
+    #tab-settings .settings-content {
+        background: transparent !important;
+        padding: 10px 0 !important;
+    }
+}ound: transparent !important;
+        padding: 10px 0 !important;
+    }
+}
