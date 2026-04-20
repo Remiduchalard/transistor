@@ -17,19 +17,52 @@
         display: none !important;
     }
 
+    /* Make the game container full width to remove side gaps */
+    #game-container {
+        padding: 0;
+    }
+
     body {
         padding-bottom: 70px; /* Space for fixed bottom nav */
     }
 
     #stats-bar { 
         position: static; /* Let it scroll naturally */
-        padding: 8px 6px; 
+        padding: 12px 16px; /* Internal padding instead of container padding */
         box-shadow: none;
+        background: transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle separator */
     }
 
-    .main-stat { font-size: 0.9rem; padding: 6px 8px; flex: 1 1 calc(50% - 10px); }
-    .stats-center-group { min-width: 100%; margin-top: 5px; }
-    .year-value { font-size: 1.5rem; }
+    /* Minimalist (épuré) stat boxes on mobile */
+    .main-stat { 
+        font-size: 0.95rem; 
+        padding: 4px; 
+        flex: 1 1 calc(50% - 10px); 
+        background: transparent; /* Remove background */
+        border: none; /* Remove border */
+        justify-content: center; /* Center the minimalist stats */
+    }
+    
+    .stats-center-group { 
+        min-width: 100%; 
+        margin-top: 10px; 
+        background: transparent; /* Remove background */
+        border: none; /* Remove border */
+    }
+    
+    .year-header {
+        background: transparent;
+        border: none;
+        padding-bottom: 0;
+    }
+    
+    .year-progress-container {
+        background: rgba(0,0,0,0.3); /* Keep progress bar visible but subtle */
+        border-radius: 8px;
+    }
+
+    .year-value { font-size: 1.8rem; }
     .progress-labels { font-size: 0.7rem; }
     .era-label { font-size: 0.65rem; }
     
@@ -37,8 +70,8 @@
         display: flex; 
         flex-direction: column; 
         gap: 0; 
-        padding: 0 10px; 
-        margin-top: 10px; /* Restored natural space */
+        padding: 0 16px; /* Put padding back into main content so it doesn't touch edges */
+        margin-top: 10px; 
     }
 
     /* Mobile Nav "En dur" */
