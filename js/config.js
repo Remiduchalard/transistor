@@ -62,16 +62,16 @@ const CONFIG = {
 
     // Eras with names and descriptions
     ERAS: [
-        { startYear: 1947, name: "L'ère du Germanium", desc: "Les premiers transistors sont fabriqués à la main au Bell Labs." },
-        { startYear: 1955, name: "L'ère du Silicium", desc: "Le silicium remplace le germanium, ouvrant la voie à la production de masse." },
-        { startYear: 1961, name: "L'ère des Circuits Intégrés", desc: "Jack Kilby et Robert Noyce inventent le circuit intégré." },
-        { startYear: 1971, name: "L'ère du Microprocesseur", desc: "Intel lance le 4004, premier microprocesseur commercial." },
-        { startYear: 1980, name: "L'ère du PC", desc: "Les ordinateurs personnels envahissent les foyers." },
-        { startYear: 1993, name: "L'ère du Pentium", desc: "Le Pentium d'Intel révolutionne les performances grand public." },
-        { startYear: 2000, name: "L'ère du Multicore", desc: "La loi de Moore pousse vers les architectures multi-cœurs." },
-        { startYear: 2010, name: "L'ère du Mobile", desc: "Les smartphones contiennent des milliards de transistors." },
-        { startYear: 2018, name: "L'ère de l'IA", desc: "Les puces spécialisées pour l'intelligence artificielle dominent." },
-        { startYear: 2023, name: "L'ère Quantique", desc: "Les transistors à l'échelle nanométrique repoussent les limites de la physique." },
+        { startYear: 1947, name: I18n.t("era_0_name"), desc: I18n.t("era_0_desc") },
+        { startYear: 1955, name: I18n.t("era_1_name"), desc: I18n.t("era_1_desc") },
+        { startYear: 1961, name: I18n.t("era_2_name"), desc: I18n.t("era_2_desc") },
+        { startYear: 1971, name: I18n.t("era_3_name"), desc: I18n.t("era_3_desc") },
+        { startYear: 1980, name: I18n.t("era_4_name"), desc: I18n.t("era_4_desc") },
+        { startYear: 1993, name: I18n.t("era_5_name"), desc: I18n.t("era_5_desc") },
+        { startYear: 2000, name: I18n.t("era_6_name"), desc: I18n.t("era_6_desc") },
+        { startYear: 2010, name: I18n.t("era_7_name"), desc: I18n.t("era_7_desc") },
+        { startYear: 2018, name: I18n.t("era_8_name"), desc: I18n.t("era_8_desc") },
+        { startYear: 2023, name: I18n.t("era_9_name"), desc: I18n.t("era_9_desc") },
     ],
 
     // Price of a transistor varies by year (in dollars)

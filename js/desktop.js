@@ -24,6 +24,9 @@
         const botToggleBtn = document.getElementById("bot-toggle-btn");
         if (botToggleBtn) botToggleBtn.addEventListener("click", () => window.App.toggleBot());
 
+        const langToggleBtn = document.getElementById("lang-toggle-btn");
+        if (langToggleBtn) langToggleBtn.addEventListener("click", () => window.App.toggleLanguage());
+
         document.querySelectorAll(".speed-btn").forEach(btn => {
             btn.addEventListener("click", () => {
                 window.App.updateSpeed(parseFloat(btn.dataset.speed));

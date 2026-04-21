@@ -164,9 +164,10 @@
 
 .machine-stats {
     display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 2px;
+    width: 100%;
 }
 
 .machine-stat {
@@ -182,6 +183,13 @@
 
 .machine-stat.year-tag {
     color: var(--gold);
+}
+
+.machine-base-cost {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    opacity: 0.6;
+    margin-top: 2px;
 }
 
 /* Cost area */

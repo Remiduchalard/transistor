@@ -29,26 +29,26 @@
 
                 <div style="font-size: 1rem; line-height: 1.6; color: var(--text); display: flex; flex-direction: column; gap: 16px;">
                     <p>
-                        Ce jeu éducatif est ouvertement inspiré du célèbre 
+                        <span data-i18n="intro_p1">Ce jeu éducatif est ouvertement inspiré du célèbre</span> 
                         <a href="https://orteil.dashnet.org/cookieclicker/" target="_blank" style="color: var(--accent); text-decoration: underline; font-weight: bold;">Cookie Clicker</a>.
                     </p>
                     <p>
-                        Si le fait de produire des quantités absurdes de cookies n'a pas vraiment de sens, <strong>cette croissance exponentielle affolante n'est en revanche pas absurde pour la production de transistors !</strong>
+                        <span data-i18n="intro_p2">Si le fait de produire des quantités absurdes de cookies n'a pas vraiment de sens, <strong>cette croissance exponentielle affolante n'est en revanche pas absurde pour la production de transistors !</strong></span>
                     </p>
                     <p>
-                        Depuis 1970, la production mondiale de transistors double tous les 14 mois. Aucun autre domaine n'a connu une croissance pareille. Cette évolution est restée discrète car les coûts de fabrication sont divisés par deux tous les 24 mois.
-                        <br><span style="font-size: 0.85rem; color: var(--text-dim);"><em>Pour l'équilibrage du jeu, sachez que les usines les plus récentes sont d'ailleurs <strong>moins</strong> efficaces que dans la réalité !</em></span>
+                        <span data-i18n="intro_p3">Depuis 1970, la production mondiale de transistors double tous les 14 mois. Aucun autre domaine n'a connu une croissance pareille. Cette évolution est restée discrète car les coûts de fabrication sont divisés par deux tous les 24 mois.</span>
+                        <span data-i18n="intro_p4"><br><span style="font-size: 0.85rem; color: var(--text-dim);"><em>Pour l'équilibrage du jeu, sachez que les usines les plus récentes sont d'ailleurs <strong>moins</strong> efficaces que dans la réalité !</em></span></span>
                     </p>
                     <p>
-                        La valeur des transistors devient aujourd'hui la partie la plus importante d'un produit. La radio portative avec ses transistors fut une telle révolution que nos aînés parlent de "transistor" pour une radio. À l'époque, il y avait dedans un nombre de transistors qui se comptait sur les doigts d'une main et ne représentait qu'une petite fraction du prix du produit.
+                        <span data-i18n="intro_p5">La valeur des transistors devient aujourd'hui la partie la plus importante d'un produit. La radio portative avec ses transistors fut une telle révolution que nos aînés parlent de "transistor" pour une radio. À l'époque, il y avait dedans un nombre de transistors qui se comptait sur les doigts d'une main et ne représentait qu'une petite fraction du prix du produit.</span>
                     </p>
                     <p>
-                        Aujourd'hui, une carte Nvidia moderne peut contenir <strong>400 milliards de transistors</strong> (soit 400 fois la production mondiale de 1970 à elle seule) et ces composants représentent plus de 80% des coûts de fabrication de la carte !
+                        <span data-i18n="intro_p6">Aujourd'hui, une carte Nvidia moderne peut contenir <strong>400 milliards de transistors</strong> (soit 400 fois la production mondiale de 1970 à elle seule) et ces composants représentent plus de 80% des coûts de fabrication de la carte !</span>
                     </p>
                 </div>
 
                 <div style="text-align: center; margin-top: 32px;">
-                    <button id="intro-start-btn" style="padding: 12px 40px; font-size: 1.1rem; background: var(--accent); color: var(--bg-dark); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s;">Commencer la production</button>
+                    <button id="intro-start-btn" style="padding: 12px 40px; font-size: 1.1rem; background: var(--accent); color: var(--bg-dark); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s;" data-i18n="intro_btn">Commencer la production</button>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
         <div id="offline-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.9); z-index: 2500; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 15px; box-sizing: border-box;">
             <div style="background: var(--bg-panel); border: 1px solid var(--green); border-radius: 16px; padding: clamp(20px, 5vw, 40px); max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; text-align: center; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(52, 211, 153, 0.15); box-sizing: border-box;">
                 <h2 style="color: var(--green); font-size: 1.5rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Retour à l'usine</h2>
-                <p style="margin-bottom: 16px; color: var(--text); line-height: 1.5;">Pendant votre absence (<span id="offline-time" style="color: var(--accent); font-weight: bold;"></span>), vos usines ont continué de tourner à <span id="offline-rate" style="color: var(--accent); font-weight: bold;"></span>% de leur capacité normale.</p>
+                <p style="margin-bottom: 16px; color: var(--text); line-height: 1.5;"><span data-i18n="offline_p1">Pendant votre absence (<span id="offline-time" style="color: var(--accent); font-weight: bold;"></span>), vos usines ont continué de tourner à <span id="offline-rate" style="color: var(--accent); font-weight: bold;"></span>% de leur capacité normale.</span></p>
                 
                 <div style="display: flex; flex-direction: column; gap: 12px; background: var(--bg-dark); padding: 20px; border-radius: 8px; margin-bottom: 24px;">
                     <div style="display: flex; justify-content: space-between;">
@@ -70,7 +70,7 @@
                     </div>
                 </div>
 
-                <button id="offline-close-btn" style="padding: 10px 30px; font-size: 1rem; background: var(--bg-card); color: var(--text); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">Reprendre le travail</button>
+                <button id="offline-close-btn" style="padding: 10px 30px; font-size: 1rem; background: var(--bg-card); color: var(--text); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;" data-i18n="offline_btn">Reprendre le travail</button>
             </div>
         </div>
 
@@ -78,7 +78,7 @@
         <div id="reset-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.95); z-index: 3000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 15px; box-sizing: border-box;">
             <div style="background: var(--bg-panel); border: 1px solid var(--red); border-radius: 16px; padding: clamp(20px, 5vw, 40px); max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; text-align: center; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(239, 68, 68, 0.15); box-sizing: border-box;">
                 <h2 style="color: var(--red); font-size: 1.5rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Réinitialiser la partie</h2>
-                <p style="margin-bottom: 24px; color: var(--text); line-height: 1.5;">Toute votre progression actuelle (usines, améliorations, stock) sera archivée dans vos statistiques puis effacée.</p>
+                <p style="margin-bottom: 24px; color: var(--text); line-height: 1.5;"><span data-i18n="reset_p1">Toute votre progression actuelle (usines, améliorations, stock) sera archivée dans vos statistiques puis effacée.</span></p>
                 
                 <div id="reset-options" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
                     <button id="reset-bob-btn" style="padding: 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; text-align: left; transition: all 0.2s;">
@@ -93,7 +93,7 @@
                 </div>
 
                 <div style="display: flex; gap: 12px; justify-content: center;">
-                    <button id="reset-cancel-btn" style="padding: 10px 30px; font-size: 1rem; background: transparent; color: var(--text-dim); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">Annuler</button>
+                    <button id="reset-cancel-btn" style="padding: 10px 30px; font-size: 1rem; background: transparent; color: var(--text-dim); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;" data-i18n="reset_cancel">Annuler</button>
                 </div>
             </div>
         </div>
@@ -118,16 +118,16 @@
                         <span class="stat-icon">💰</span> 
                         <span id="money" class="stat-value" style="color: var(--green);">$0</span>
                         <div class="tooltip-text">
-                            <strong>Fonds disponibles</strong>
-                            L'argent généré par la vente de vos transistors. Utilisez-le pour construire de nouvelles usines et financer la R&D.
+                            <strong data-i18n="fonds_disponibles">Fonds disponibles</strong>
+                            <span data-i18n="fonds_desc">L'argent généré par la vente de vos transistors. Utilisez-le pour construire de nouvelles usines et financer la R&D.</span>
                         </div>
                     </div>
                     <div class="stat main-stat tooltip-container hide-on-scroll stock-stat">
                         <span class="stat-icon">📦</span> 
                         <span id="stock" class="stat-value" style="color: var(--text);">0</span>
                         <div class="tooltip-text">
-                            <strong>Stock actuel</strong>
-                            Nombre de transistors prêts à être vendus. Si l'auto-vente est active, ce stock se vide automatiquement.
+                            <strong data-i18n="stock_actuel">Stock actuel</strong>
+                            <span data-i18n="stock_desc">Nombre de transistors prêts à être vendus. Si l'auto-vente est active, ce stock se vide automatiquement.</span>
                         </div>
                     </div>
                 </div>
@@ -147,11 +147,11 @@
                             </div>
                         </div>
                         <div class="tooltip-text tooltip-center">
-                            <strong>Progression Temporelle</strong>
-                            L'année de la partie avance en fonction du nombre TOTAL de transistors fabriqués depuis le début.<br><br>
-                            À gauche : <b>Transistors déjà produits</b><br>
-                            À droite : <b>Objectif pour l'année suivante</b><br><br>
-                            <i>Indice :</i> La demande mondiale explose avec le temps. Pour passer les années 2000, vous devrez produire des milliards de milliards de composants !
+                            <strong data-i18n="progression_temporelle">Progression Temporelle</strong>
+                            <span data-i18n="progression_desc1">L'année de la partie avance en fonction du nombre TOTAL de transistors fabriqués depuis le début.</span><br><br>
+                            <span data-i18n="progression_desc2">À gauche :</span> <b><span data-i18n="progression_desc3">Transistors déjà produits</span></b><br>
+                            <span data-i18n="progression_desc4">À droite :</span> <b><span data-i18n="progression_desc5">Objectif pour l'année suivante</span></b><br><br>
+                            <i>Indice :</i> <span data-i18n="progression_desc6">La demande mondiale explose avec le temps. Pour passer les années 2000, vous devrez produire des milliards de milliards de composants !</span>
                         </div>
                     </div>
                 </div>
@@ -162,16 +162,16 @@
                         <span class="stat-icon">⚡</span> 
                         <span id="per-year" class="stat-value" style="color: var(--accent);">0/an</span>
                         <div class="tooltip-text tooltip-right">
-                            <strong>Production annuelle</strong>
-                            Le nombre de transistors que vos usines fabriquent chaque année en jeu.<br>Plus cette valeur est haute, plus les années défileront vite !
+                            <strong data-i18n="prod_annuelle">Production annuelle</strong>
+                            <span data-i18n="prod_desc">Le nombre de transistors que vos usines fabriquent chaque année en jeu.<br>Plus cette valeur est haute, plus les années défileront vite !</span>
                         </div>
                     </div>
                     <div class="stat main-stat tooltip-container hide-on-scroll price-stat">
                         <span class="stat-icon">🏷️</span> 
                         <span id="unit-price" class="stat-value" style="color: var(--gold);">$0.00</span>
                         <div class="tooltip-text tooltip-right">
-                            <strong>Prix unitaire</strong>
-                            Le prix du marché pour un transistor l'année en cours.<br><br><i>Loi économique :</i> Ce prix est divisé par deux tous les 24 mois. La chute des prix vous oblige à produire des volumes exponentiels pour rester rentable !
+                            <strong data-i18n="prix_unitaire">Prix unitaire</strong>
+                            <span data-i18n="prix_desc">Le prix du marché pour un transistor l'année en cours.<br><br><i>Loi économique :</i> Ce prix est divisé par deux tous les 24 mois. La chute des prix vous oblige à produire des volumes exponentiels pour rester rentable !</span>
                         </div>
                     </div>
                     <button id="settings-btn" title="Paramètres" class="desktop-only-btn hide-on-scroll">&#9881;</button>
@@ -181,17 +181,17 @@
 
             <!-- Row 2: Advanced Stats (Hidden by default) -->
             <div class="stats-expert-row advanced-stat hidden">
-                <div class="stat tooltip-container"><span class="stat-label">Total Produit:</span> <span id="total-transistors-advanced" class="stat-value">0</span>
-                    <div class="tooltip-text"><strong>Total Historique</strong>La quantité exacte de tous les transistors fabriqués depuis 1947 dans cette partie.</div>
+                <div class="stat tooltip-container"><span class="stat-label" data-i18n="total_produced_label">Total Produit:</span> <span id="total-transistors-advanced" class="stat-value">0</span>
+                    <div class="tooltip-text"><strong data-i18n="total_historique">Total Historique</strong><span data-i18n="total_historique_desc">La quantité exacte de tous les transistors fabriqués depuis 1947 dans cette partie.</span></div>
                 </div>
-                <div class="stat tooltip-container"><span class="stat-label">Prod. Mondiale:</span> <span id="world-prod" class="stat-value world-value">0/an</span>
-                    <div class="tooltip-text"><strong>Production Mondiale Réelle</strong>Ce qui a été historiquement produit sur Terre à cette année précise.</div>
+                <div class="stat tooltip-container"><span class="stat-label" data-i18n="prod_mondiale_label">Prod. Mondiale:</span> <span id="world-prod" class="stat-value world-value">0/an</span>
+                    <div class="tooltip-text"><strong data-i18n="prod_mondiale_reelle">Production Mondiale Réelle</strong><span data-i18n="prod_mondiale_desc">Ce qui a été historiquement produit sur Terre à cette année précise.</span></div>
                 </div>
-                <div class="stat tooltip-container"><span class="stat-label">Part de marché:</span> <span id="market-share" class="stat-value">0%</span>
-                    <div class="tooltip-text"><strong>Domination</strong>Votre production comparée à la production mondiale historique. Atteignez 100% pour dominer le monde réel !</div>
+                <div class="stat tooltip-container"><span class="stat-label" data-i18n="part_de_marche_label">Part de marché:</span> <span id="market-share" class="stat-value">0%</span>
+                    <div class="tooltip-text"><strong data-i18n="domination">Domination</strong><span data-i18n="domination_desc">Votre production comparée à la production mondiale historique. Atteignez 100% pour dominer le monde réel !</span></div>
                 </div>
-                <div class="stat tooltip-container"><span class="stat-label">Temps de jeu:</span> <span id="play-time" class="stat-value">0s</span>
-                    <div class="tooltip-text tooltip-right"><strong>Temps Virtuel</strong>Temps écoulé dans le jeu. L'accélérateur et les boosts augmentent ce compteur plus vite que le temps réel.</div>
+                <div class="stat tooltip-container"><span class="stat-label" data-i18n="temps_de_jeu_label">Temps de jeu:</span> <span id="play-time" class="stat-value">0s</span>
+                    <div class="tooltip-text tooltip-right"><strong data-i18n="temps_virtuel">Temps Virtuel</strong><span data-i18n="temps_virtuel_desc">Temps écoulé dans le jeu. L'accélérateur et les boosts augmentent ce compteur plus vite que le temps réel.</span></div>
                 </div>
             </div>
         </header>
@@ -204,28 +204,30 @@
 
         <!-- Mobile Navigation Bar -->
         <nav id="mobile-nav">
-            <button class="nav-btn active" data-target="tab-action"><span class="nav-icon">⚡</span>Action</button>
-            <button class="nav-btn" data-target="tab-upgrades"><span class="nav-icon">✨</span>Bonus</button>
-            <button class="nav-btn" data-target="tab-machines"><span class="nav-icon">🏭</span>Usines</button>
-            <button class="nav-btn" data-target="tab-settings"><span class="nav-icon">⚙️</span>Options</button>
+            <button class="nav-btn active" data-target="tab-action"><span class="nav-icon">⚡</span><span data-i18n="nav_action">Action</span></button>
+            <button class="nav-btn" data-target="tab-upgrades"><span class="nav-icon">✨</span><span data-i18n="nav_upgrades">Bonus</span></button>
+            <button class="nav-btn" data-target="tab-machines"><span class="nav-icon">🏭</span><span data-i18n="nav_machines">Usines</span></button>
+            <button class="nav-btn" data-target="tab-settings"><span class="nav-icon">⚙️</span><span data-i18n="nav_options">Options</span></button>
         </nav>
 
         <!-- Settings popup -->
         <div id="settings-popup" class="hidden">
             <div class="settings-content">
                 <div class="settings-exact-stats" style="margin-bottom: 24px; text-align: center;">
-                    <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;">Total Produit</div>
+                    <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;" data-i18n="total_produced_label">Total Produit</div>
                     <div class="exact-total-produced" style="font-size: 1.1rem; color: var(--text); font-family: 'Courier New', Courier, monospace; word-break: break-all; margin-bottom: 12px;">0</div>
-                    <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;">Production / an</div>
+                    <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;" data-i18n="prod_per_year_label">Production / an</div>
                     <div class="exact-per-year" style="font-size: 1.1rem; color: var(--accent); font-family: 'Courier New', Courier, monospace; word-break: break-all;">0</div>
                 </div>
-                <h2>Paramètres</h2>
+                <h2 data-i18n="settings_title">Paramètres</h2>
                 
                 <div class="settings-buttons">
+                    <button id="lang-toggle-btn" class="settings-link" style="border-color:var(--text);color:var(--text);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
+                        <span data-i18n="lang_toggle">Langue : English</span>
+                    </button>
                     <button id="expert-toggle-btn" class="settings-link dev-option hidden" style="border-color:var(--accent);color:var(--accent);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
                         Mode Avancé : DÉSACTIVÉ
-                    </button>
-                    <button id="stats-btn" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer">Statistiques</button>
+                    </button>                    <button id="stats-btn" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer">Statistiques</button>
                     <a href="proliferation.html" class="settings-link">Loi de Moore vs. Loi de la Prolifération</a>
                     <button id="reset-save-btn" class="settings-danger">Réinitialiser la sauvegarde</button>
                 </div>
@@ -235,7 +237,7 @@
                     <span id="bot-status" class="bot-status-off">Inactif</span>
                 </div>
                 <div class="settings-speed dev-option hidden">
-                    <span class="speed-label">Vitesse du jeu</span>
+                    <span class="speed-label" data-i18n="game_speed">Vitesse du jeu</span>
                     <div class="speed-buttons">
                         <button class="speed-btn" data-speed="0.5">x0.5</button>
                         <button class="speed-btn active" data-speed="1">x1</button>
@@ -256,17 +258,17 @@
         <!-- Stats popup -->
         <div id="stats-popup" class="hidden">
             <div class="stats-content">
-                <h2>Statistiques</h2>
+                <h2 data-i18n="stats_popup_title">Statistiques</h2>
                 <div id="stats-table-container"></div>
                 <div id="stats-chart-container" style="margin-top: 20px; width: 100%; height: 300px; display: none; position: relative;">
                     <div style="position: absolute; top: -15px; right: 0; z-index: 10;">
-                        <button id="chart-toggle-btn" style="margin: 0; padding: 4px 8px; font-size: 0.75rem; background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-dim); border-radius: 4px;">Axe : Année</button>
+                        <button id="chart-toggle-btn" style="margin: 0; padding: 4px 8px; font-size: 0.75rem; background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-dim); border-radius: 4px;" data-i18n="stats_chart_btn">Axe : Année</button>
                     </div>
                     <canvas id="stats-chart"></canvas>
                 </div>
                 <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
-                    <button id="stats-export-btn" class="settings-link" style="margin: 0; padding: 8px 20px; font-size: 0.9rem;">Exporter (JSON)</button>
-                    <button id="stats-close" style="margin: 0;">Fermer</button>
+                    <button id="stats-export-btn" class="settings-link" style="margin: 0; padding: 8px 20px; font-size: 0.9rem;" data-i18n="stats_export_btn">Exporter (JSON)</button>
+                    <button id="stats-close" style="margin: 0;" data-i18n="stats_close_btn">Fermer</button>
                 </div>
             </div>
         </div>
@@ -277,7 +279,7 @@
             <section id="left-panel">
                 <div id="tab-action" class="mobile-tab active-tab">
                     <div id="mobile-era-name" class="mobile-era-display">L'ère du Germanium</div>
-                    <h2>Fabrication manuelle</h2>
+                    <h2 data-i18n="manual_fabrication">Fabrication manuelle</h2>
                     <button id="click-btn">
                         <div class="transistor-icon">
                             <svg viewBox="0 0 100 120" width="120" height="140">
@@ -292,7 +294,7 @@
                                 <polygon points="68,78 75,100 60,88" fill="currentColor"/>
                             </svg>
                         </div>
-                        <span class="click-text">Fabriquer un transistor</span>
+                        <span class="click-text" data-i18n="make_transistor">Fabriquer un transistor</span>
                         <span class="click-bonus" id="click-power-display">+1 par clic</span>
                     </button>
                     <div id="floating-numbers"></div>
@@ -300,25 +302,25 @@
                     <!-- Boost Section -->
                     <div id="boost-container" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 20px 0; text-align: center; width: 100%; max-width: 400px;">
                         <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 8px;">
-                            Prochain boost : <span id="boost-progress-text" style="color: var(--text); font-weight: bold;">0 / 100</span> achats
+                            <span data-i18n="next_boost">Prochain boost :</span> <span id="boost-progress-text" style="color: var(--text); font-weight: bold;">0 / 100</span> <span data-i18n="purchases">achats</span>
                         </div>
                         <div style="background: var(--bg-dark); height: 6px; border-radius: 3px; margin-bottom: 12px; overflow: hidden;">
                             <div id="boost-progress-bar" style="background: var(--accent); height: 100%; width: 0%; transition: width 0.2s;"></div>
                         </div>
                         <button id="use-boost-btn" style="width: 100%; padding: 10px; background: linear-gradient(135deg, var(--gold), #d97706); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: none; transition: all 0.2s; margin-bottom: 8px;">
-                            Activer Boost x50 (Stock: <span id="boost-stock">0</span>)
+                            <span data-i18n="activate_boost">Activer Boost x50</span> (<span data-i18n="stock">Stock:</span> <span id="boost-stock">0</span>)
                         </button>
                         <div id="boost-active-display" style="display: none; color: var(--gold); font-weight: bold; font-size: 1.1rem; animation: pulse 1s infinite;">
-                            🔥 BOOST x50 ACTIF : <span id="boost-timer">60.0</span>s
+                            🔥 <span data-i18n="boost_active">BOOST x50 ACTIF :</span> <span id="boost-timer">60.0</span>s
                         </div>
                     </div>
 
-                    <button id="sell-btn-max" class="sell-btn" data-amount="max" style="width: 100%; max-width: 400px; font-size: 1.1rem; padding: 16px; background: linear-gradient(to bottom, var(--bg-card), var(--bg-dark)); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-weight: bold; cursor: pointer; transition: all 0.2s; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">💰 TOUT VENDRE</button>
+                    <button id="sell-btn-max" class="sell-btn" data-amount="max" style="width: 100%; max-width: 400px; font-size: 1.1rem; padding: 16px; background: linear-gradient(to bottom, var(--bg-card), var(--bg-dark)); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-weight: bold; cursor: pointer; transition: all 0.2s; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">💰 <span data-i18n="sell_all">TOUT VENDRE</span></button>
                 </div>
 
                 <div id="tab-upgrades" class="mobile-tab">
                     <div id="upgrades-section">
-                        <h3>Améliorations</h3>
+                        <h3 data-i18n="upgrades_title">Améliorations</h3>
                         <div id="upgrades-list"></div>
                     </div>
                 </div>
@@ -327,7 +329,7 @@
             <!-- Right: Machines shop -->
             <section id="tab-machines" class="mobile-tab">
                 <div id="shop-header" style="width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center;">
-                    <h2 style="margin: 0; text-align: left;">Machines & Procédés</h2>
+                    <h2 style="margin: 0; text-align: left;" data-i18n="machines_title">Machines & Procédés</h2>
                     <div id="buy-qty-selector">
                         <button class="qty-btn active" data-qty="1">x1</button>
                         <button class="qty-btn" data-qty="10">x10</button>
@@ -341,16 +343,18 @@
             <section id="tab-settings" class="mobile-tab">
                 <div class="settings-content" style="box-shadow: none; border: none; padding: 20px 10px; max-width: 100%; margin-bottom: 0;">
                     <div class="settings-exact-stats" style="margin-bottom: 24px; text-align: center;">
-                        <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;">Total Produit</div>
+                        <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;" data-i18n="total_produced_label">Total Produit</div>
                         <div class="exact-total-produced" style="font-size: 1.1rem; color: var(--text); font-family: 'Courier New', Courier, monospace; word-break: break-all; margin-bottom: 12px;">0</div>
-                        <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;">Production / an</div>
+                        <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;" data-i18n="prod_per_year_label">Production / an</div>
                         <div class="exact-per-year" style="font-size: 1.1rem; color: var(--accent); font-family: 'Courier New', Courier, monospace; word-break: break-all;">0</div>
                     </div>
-                    <h2 style="color: var(--text); font-size: 1.3rem; margin-bottom: 24px;">Options</h2>
-                    
+                    <h2 style="color: var(--text); font-size: 1.3rem; margin-bottom: 24px;" data-i18n="settings_title">Options</h2>
+
                     <div class="settings-buttons">
-                        <button id="expert-toggle-btn-mobile" class="settings-link dev-option hidden" style="border-color:var(--accent);color:var(--accent);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
-                            Mode Avancé : DÉSACTIVÉ
+                        <button id="lang-toggle-btn-mobile" class="settings-link" style="border-color:var(--text);color:var(--text);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
+                            <span data-i18n="lang_toggle">Language: English</span>
+                        </button>
+                        <button id="expert-toggle-btn-mobile" class="settings-link dev-option hidden" style="border-color:var(--accent);color:var(--accent);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">                            Mode Avancé : DÉSACTIVÉ
                         </button>
                         <button id="stats-btn-mobile" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer">Statistiques</button>
                         <a href="proliferation.html" class="settings-link">Loi de Moore vs. Loi de la Prolifération</a>
@@ -362,7 +366,7 @@
                         <span id="bot-status-mobile" class="bot-status-off">Inactif</span>
                     </div>
                     <div class="settings-speed dev-option hidden">
-                        <span class="speed-label">Vitesse du jeu</span>
+                        <span class="speed-label" data-i18n="game_speed">Vitesse du jeu</span>
                         <div class="speed-buttons">
                             <button class="speed-btn-mobile" data-speed="0.5">x0.5</button>
                             <button class="speed-btn-mobile active" data-speed="1">x1</button>
@@ -401,14 +405,17 @@
 
     <!-- Mobile Navigation Bar -->
     <nav id="mobile-nav">
-        <button class="nav-btn active" data-target="tab-action"><span class="nav-icon">⚡</span>Action</button>
-        <button class="nav-btn" data-target="tab-upgrades"><span class="nav-icon">✨</span>Bonus</button>
-        <button class="nav-btn" data-target="tab-machines"><span class="nav-icon">🏭</span>Usines</button>
-        <button class="nav-btn" data-target="tab-settings"><span class="nav-icon">⚙️</span>Options</button>
+        <button class="nav-btn active" data-target="tab-action"><span class="nav-icon">⚡</span><span data-i18n="nav_action">Action</span></button>
+        <button class="nav-btn" data-target="tab-upgrades"><span class="nav-icon">✨</span><span data-i18n="nav_upgrades">Bonus</span></button>
+        <button class="nav-btn" data-target="tab-machines"><span class="nav-icon">🏭</span><span data-i18n="nav_machines">Usines</span></button>
+        <button class="nav-btn" data-target="tab-settings"><span class="nav-icon">⚙️</span><span data-i18n="nav_options">Options</span></button>
     </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/break_eternity.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/lang/fr.js"></script>
+    <script src="js/lang/en.js"></script>
+    <script src="js/i18n.js"></script>
     <script src="js/config.js"></script>
     <script src="js/machines.js"></script>
     <script src="js/upgrades.js"></script>

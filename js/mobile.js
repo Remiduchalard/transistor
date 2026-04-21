@@ -40,6 +40,9 @@
         const botToggleBtnMobile = document.getElementById("bot-toggle-btn-mobile");
         if (botToggleBtnMobile) botToggleBtnMobile.addEventListener("click", () => window.App.toggleBot());
 
+        const langToggleBtnMobile = document.getElementById("lang-toggle-btn-mobile");
+        if (langToggleBtnMobile) langToggleBtnMobile.addEventListener("click", () => window.App.toggleLanguage());
+
         document.querySelectorAll(".speed-btn-mobile").forEach(btn => {
             btn.addEventListener("click", () => {
                 window.App.updateSpeed(parseFloat(btn.dataset.speed));

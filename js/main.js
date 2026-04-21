@@ -7,6 +7,7 @@
 
     // Initialize
     Game.init();
+    I18n.updateGameData();
     const loadResult = Game.load();
     UI.init();
 
@@ -33,6 +34,10 @@
         },
         toggleBot: () => {
             toggleBot();
+        },
+        toggleLanguage: () => {
+            const newLang = I18n.lang === 'fr' ? 'en' : 'fr';
+            I18n.setLanguage(newLang);
         },
         updateSpeed: (speed) => {
             Game.gameSpeed = speed;
@@ -148,7 +153,7 @@
     const expertStatsRow = document.querySelector(".advanced-stat");
 
     function updateExpertMode() {
-        const txt = Game.globals.expertMode ? "Mode Avancé : ACTIVÉ" : "Mode Avancé : DÉSACTIVÉ";
+        const txt = Game.globals.expertMode ? I18n.t("expert_mode") + "ACTIVÉ" : I18n.t("expert_mode") + "DÉSACTIVÉ";
         const col = Game.globals.expertMode ? "var(--green)" : "var(--accent)";
         
         [expertToggleBtn, expertToggleBtnMobile].forEach(btn => {

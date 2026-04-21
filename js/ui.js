@@ -351,6 +351,7 @@ const UI = {
                         ${earlyLabel}
                         <div class="machine-rd-cost">R&D: ${this.formatMoney(currentRDCost)}</div>
                         <button class="machine-rd-btn ${rdAffordable ? "" : "locked"}">Rechercher</button>
+                        <div class="machine-base-cost">${I18n.t("machine_price_label")}${this.formatMoney(machine.baseCost)}</div>
                     </div>
                 `;
             } else {
