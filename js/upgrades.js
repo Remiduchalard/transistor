@@ -1360,7 +1360,7 @@ const UPGRADES = [
     {
         id: "autosell_1",
         name: "Canal de distribution",
-        desc: "Vend 10% de la production automatiquement",
+        desc: "Vend 10% de la production automatiquement en fin d'année",
         cost: 500,
         unlockYear: 1950,
         type: "autosell",
@@ -1370,7 +1370,7 @@ const UPGRADES = [
     {
         id: "autosell_2",
         name: "Réseau logistique",
-        desc: "Vend 25% de la production automatiquement",
+        desc: "Vend 25% de la production automatiquement en fin d'année",
         cost: 50000,
         unlockYear: 1960,
         type: "autosell",
@@ -1380,7 +1380,7 @@ const UPGRADES = [
     {
         id: "autosell_3",
         name: "Supply chain intégrée",
-        desc: "Vend 50% de la production automatiquement",
+        desc: "Vend 50% de la production automatiquement en fin d'année",
         cost: 5000000,
         unlockYear: 1975,
         type: "autosell",
@@ -1390,7 +1390,7 @@ const UPGRADES = [
     {
         id: "autosell_4",
         name: "Pipeline just-in-time",
-        desc: "Vend 100% de la production automatiquement",
+        desc: "Vend 100% de la production automatiquement en fin d'année",
         cost: 500000000,
         unlockYear: 1990,
         type: "autosell",
