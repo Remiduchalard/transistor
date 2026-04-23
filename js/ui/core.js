@@ -49,6 +49,8 @@ const UI = {
         if (this.Stats) this.Stats.init();
         if (this.Shop) this.Shop.init();
         if (this.Notifications) this.Notifications.init();
+        if (this.Modals) this.Modals.init();
+        if (this.Controls) this.Controls.init();
 
         // Listen for language changes
         Events.on('languageChanged', () => {

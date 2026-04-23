@@ -165,8 +165,14 @@ const Bot = {
             inv.score = waitingTime + paybackTime;
         });
 
-        investments.sort((a, b) => a.score - b.score);
-        this.currentTarget = investments[0];
+        let bestInvestment = investments[0];
+        for (let i = 1; i < investments.length; i++) {
+            if (investments[i].score < bestInvestment.score) {
+                bestInvestment = investments[i];
+            }
+        }
+        
+        this.currentTarget = bestInvestment;
     },
 
     processInvestments() {
