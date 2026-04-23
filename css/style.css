@@ -1041,3 +1041,9 @@ html, body {
 .extracted-style-73 { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; margin-bottom: 4px; }
 .extracted-style-74 { font-size: 0.85rem; font-weight: 600; color: var(--text); }
 .extracted-style-75 { display: flex; flex-direction: column-reverse; gap: 8px; }
+
+.exact-tooltip-val { font-family: monospace; font-size: 0.85em; }
+.exact-tooltip-val.green { color: var(--green); }
+.exact-tooltip-val.dim { color: var(--text-dim); }
+.exact-tooltip-val.accent { color: var(--accent); }
+.exact-tooltip-val.gold { color: var(--gold); }
