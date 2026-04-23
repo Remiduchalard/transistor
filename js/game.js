@@ -338,9 +338,9 @@ const Game = {
                 this.saveGlobals();
                 Events.emit("achievementUnlocked", "kuiper_weyland");
             }
-            }
-            return amount;
-            },
+        }
+        return bought;
+    },
 
     /**
      * Buy an upgrade
