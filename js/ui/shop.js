@@ -158,7 +158,7 @@ UI.Shop = {
             // Update text content (Translations)
             els.name.textContent = I18n.t(`machine_${els.index}_name`);
             els.desc.textContent = I18n.t(`machine_${els.index}_desc`);
-            els.prod.textContent = I18n.t("per_year", { val: UI.formatNumber(new Decimal(machine.baseProduction).mul(25)) });
+            els.prod.textContent = I18n.t("per_year", { val: UI.formatNumber(new Decimal(machine.baseProduction).mul(CONFIG.DISPLAY_MULTIPLIER)) });
             els.earlyTag.classList.toggle("hidden", !isEarly);
 
             // Cost area & Classes

@@ -11,6 +11,10 @@
  */
 
 const CONFIG = {
+    // Aesthetics
+    DISPLAY_MULTIPLIER: 25, // Multiply displayed production numbers
+    WORLD_PROD_1970: 1014120480, // Base value used for time estimations
+
     // Game tick rate (ms)
     TICK_INTERVAL: 50,
 

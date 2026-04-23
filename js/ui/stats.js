@@ -19,9 +19,9 @@ UI.Stats = {
         const exactStock = document.getElementById("exact-stock");
         if (exactStock) exactStock.textContent = UI.formatExact(Game.transistors);
 
-        UI.els.perYear.textContent = I18n.t("per_year", { val: UI.formatNumber(Game.productionPerYear.mul(25)) });
+        UI.els.perYear.textContent = I18n.t("per_year", { val: UI.formatNumber(Game.productionPerYear.mul(CONFIG.DISPLAY_MULTIPLIER)) });
         const exactProd = document.getElementById("exact-prod");
-        if (exactProd) exactProd.textContent = I18n.t("per_year", { val: UI.formatExact(Game.productionPerYear.mul(25)) });
+        if (exactProd) exactProd.textContent = I18n.t("per_year", { val: UI.formatExact(Game.productionPerYear.mul(CONFIG.DISPLAY_MULTIPLIER)) });
 
         UI.els.money.textContent = UI.formatMoney(Game.money);
         const exactMoney = document.getElementById("exact-money");
@@ -42,7 +42,7 @@ UI.Stats = {
         UI.els.clickPowerDisplay.textContent = I18n.t("per_click", { val: UI.formatNumber(displayClickPower) });
         
         const worldProdValue = new Decimal(_worldProd(Game.currentYear));
-        UI.els.worldProd.textContent = I18n.t("per_year", { val: UI.formatNumber(worldProdValue.mul(25)) });
+        UI.els.worldProd.textContent = I18n.t("per_year", { val: UI.formatNumber(worldProdValue.mul(CONFIG.DISPLAY_MULTIPLIER)) });
 
         // Market share
         if (worldProdValue.gt(0) && Game.productionPerYear.gt(0)) {
@@ -104,7 +104,7 @@ UI.Stats = {
             el.textContent = new Decimal(Game.totalTransistors).floor().toNumber().toLocaleString(I18n.lang === 'fr' ? 'fr-FR' : 'en-US');
         });
         document.querySelectorAll(".exact-per-year").forEach(el => {
-            el.textContent = new Decimal(Game.productionPerYear).mul(25).floor().toNumber().toLocaleString(I18n.lang === 'fr' ? 'fr-FR' : 'en-US');
+            el.textContent = new Decimal(Game.productionPerYear).mul(CONFIG.DISPLAY_MULTIPLIER).floor().toNumber().toLocaleString(I18n.lang === 'fr' ? 'fr-FR' : 'en-US');
         });
         
         if (yp.needed > 0) {

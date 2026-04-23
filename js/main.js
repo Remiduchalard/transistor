@@ -284,8 +284,8 @@
         html += `<td class="current-run">${Game.usedAssistance ? I18n.t("stats_yes") + ' 🤖' : I18n.t("stats_no")}</td></tr>`;
 
         html += `<tr><td class="row-label">${I18n.t("stats_max_world_prod")}</td>`;
-        history.forEach(run => html += `<td>${UI.formatNumber(new Decimal(_worldProd(run.maxYear || 1947)).mul(25))}/an</td>`);
-        html += `<td class="current-run">${UI.formatNumber(new Decimal(_worldProd(Game.currentYear)).mul(25))}/an</td></tr>`;
+        history.forEach(run => html += `<td>${UI.formatNumber(new Decimal(_worldProd(run.maxYear || 1947)).mul(CONFIG.DISPLAY_MULTIPLIER))}/an</td>`);
+        html += `<td class="current-run">${UI.formatNumber(new Decimal(_worldProd(Game.currentYear)).mul(CONFIG.DISPLAY_MULTIPLIER))}/an</td></tr>`;
 
         html += `<tr><td class="row-label">${I18n.t("stats_max_year")}</td>`;
         history.forEach(run => html += `<td>${run.maxYear || "?"}</td>`);
@@ -354,7 +354,7 @@
         </div>`;
         
         // Time to produce 1970
-        const prod1970 = new Decimal(1014120480); // Exact value from _worldProd(1970)
+        const prod1970 = new Decimal(CONFIG.WORLD_PROD_1970); // Exact value from _worldProd(1970)
         let timeStr = I18n.t("time_infinity");
         if (Game.productionPerYear.gt(0)) {
             const prodPerSec = Game.productionPerYear.div(CONFIG.SECONDS_PER_YEAR); // Real seconds
@@ -429,8 +429,8 @@
         history.forEach((run, i) => {
             if (!run.yearlyProduction) return;
             const data = chartMode === 'year' 
-                ? labels.map(y => run.yearlyProduction[y]?.prod ? new Decimal(run.yearlyProduction[y].prod).mul(25).toNumber() : null)
-                : Object.values(run.yearlyProduction).map(v => ({ x: v.time, y: new Decimal(v.prod).mul(25).toNumber() }));
+                ? labels.map(y => run.yearlyProduction[y]?.prod ? new Decimal(run.yearlyProduction[y].prod).mul(CONFIG.DISPLAY_MULTIPLIER).toNumber() : null)
+                : Object.values(run.yearlyProduction).map(v => ({ x: v.time, y: new Decimal(v.prod).mul(CONFIG.DISPLAY_MULTIPLIER).toNumber() }));
             
             datasets.push({
                 label: `Run ${i + 1}`,
@@ -441,8 +441,8 @@
         });
 
         const currentData = chartMode === 'year'
-            ? labels.map(y => Game.yearlyProduction[y]?.prod ? new Decimal(Game.yearlyProduction[y].prod).mul(25).toNumber() : null)
-            : Object.values(Game.yearlyProduction).map(v => ({ x: v.time, y: new Decimal(v.prod).mul(25).toNumber() }));
+            ? labels.map(y => Game.yearlyProduction[y]?.prod ? new Decimal(Game.yearlyProduction[y].prod).mul(CONFIG.DISPLAY_MULTIPLIER).toNumber() : null)
+            : Object.values(Game.yearlyProduction).map(v => ({ x: v.time, y: new Decimal(v.prod).mul(CONFIG.DISPLAY_MULTIPLIER).toNumber() }));
         
         datasets.push({
             label: I18n.t('stats_current_run'),
@@ -518,8 +518,14 @@
 
     function gameLoop(now) {
         const tickStart = performance.now();
-        const delta = now - lastTick;
+        let delta = now - lastTick;
         lastTick = now;
+        
+        // Prevent huge lag spikes when switching tabs (cap at 1 second)
+        if (delta > 1000) {
+            delta = 1000;
+        }
+        
         const oldYear = Game.currentYear;
         
         Game.tick(delta);
