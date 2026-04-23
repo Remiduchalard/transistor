@@ -25,7 +25,7 @@ UI.Stats = {
 
         UI.els.money.textContent = UI.formatMoney(Game.money);
         const exactMoney = document.getElementById("exact-money");
-        if (exactMoney) exactMoney.textContent = UI.formatExactPrice(Game.money);
+        if (exactMoney) exactMoney.textContent = "$" + UI.formatExact(Game.money);
         
         if (UI.els.stickyMoney) UI.els.stickyMoney.textContent = UI.els.money.textContent;
         if (UI.els.stickyPerYear) UI.els.stickyPerYear.textContent = UI.els.perYear.textContent;
@@ -109,8 +109,12 @@ UI.Stats = {
         
         if (yp.needed > 0) {
             UI.els.yearNextLabel.textContent = UI.formatNumber(yp.needed);
+            const exactProg = document.getElementById("exact-progression");
+            if (exactProg) exactProg.textContent = UI.formatExact(yp.needed);
         } else {
             UI.els.yearNextLabel.textContent = "MAX";
+            const exactProg = document.getElementById("exact-progression");
+            if (exactProg) exactProg.textContent = "MAX";
         }
     }
 };
