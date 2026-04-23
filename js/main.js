@@ -515,6 +515,45 @@
     let lastFpsTime = performance.now();
     let currentFps = 0;
     let lastTickDuration = 0;
+    
+    // Handle tab visibility to process missed time properly
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+            const now = performance.now();
+            const missedMs = now - lastTick;
+            
+            // If we missed more than 1 second (tab was inactive)
+            if (missedMs > 1000) {
+                console.log(`Tab was inactive for ${missedMs}ms. Catching up...`);
+                // Process the missed time in chunks of 1 second to avoid browser freeze
+                // but still simulate the exact time passed.
+                let remainingMissed = missedMs;
+                const chunkMs = 1000;
+                
+                while (remainingMissed > 0) {
+                    const delta = Math.min(remainingMissed, chunkMs);
+                    const oldYear = Game.currentYear;
+                    
+                    Game.tick(delta);
+                    if (window.Bot && window.Bot.active) {
+                        Bot.tick(delta * Game.getEffectiveTimeMultiplier(), delta);
+                    }
+                    
+                    if (Game.currentYear !== oldYear) {
+                        Game.checkDecadeMilestone();
+                    }
+                    remainingMissed -= delta;
+                }
+                
+                Events.emit('shopUpdated');
+                Events.emit('statsUpdated');
+                if (UI.Shop) UI.Shop.update();
+            }
+            
+            // Reset lastTick to now so the main loop doesn't process the huge delta again
+            lastTick = performance.now();
+        }
+    });
 
     function gameLoop(now) {
         const tickStart = performance.now();
@@ -522,6 +561,7 @@
         lastTick = now;
         
         // Prevent huge lag spikes when switching tabs (cap at 1 second)
+        // This is a safety net; the visibilitychange event handles large gaps properly.
         if (delta > 1000) {
             delta = 1000;
         }
@@ -529,7 +569,7 @@
         const oldYear = Game.currentYear;
         
         Game.tick(delta);
-        Bot.tick(delta * Game.getEffectiveTimeMultiplier(), delta);
+        if (window.Bot) Bot.tick(delta * Game.getEffectiveTimeMultiplier(), delta);
 
         if (Game.currentYear !== oldYear) {
             Game.checkDecadeMilestone();
