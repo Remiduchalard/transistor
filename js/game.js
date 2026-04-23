@@ -333,9 +333,14 @@ const Game = {
                 this.saveGlobals();
                 Events.emit("achievementUnlocked", "terrafab_musk");
             }
-        }
-        return bought;
-    },
+            if (machineId === "kuiper_mining" && this.ownedMachines[machineId] === 1 && !this.globals.unlockedWeyland) {
+                this.globals.unlockedWeyland = true;
+                this.saveGlobals();
+                Events.emit("achievementUnlocked", "kuiper_weyland");
+            }
+            }
+            return amount;
+            },
 
     /**
      * Buy an upgrade

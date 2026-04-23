@@ -83,13 +83,18 @@
                 
                 <div id="reset-options" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
                     <button id="reset-bob-btn" style="padding: 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; text-align: left; transition: all 0.2s;">
-                        <strong style="color: var(--text); font-size: 1.1rem; display: block; margin-bottom: 4px;">Commencer en tant que Bob</strong>
-                        <span style="color: var(--text-dim); font-size: 0.9rem;">Fonds de départ : $0. La difficulté originale.</span>
+                        <strong data-i18n="reset_bob_title" style="color: var(--text); font-size: 1.1rem; display: block; margin-bottom: 4px;">Commencer en tant que Bob</strong>
+                        <span data-i18n="reset_bob_desc" style="color: var(--text-dim); font-size: 0.9rem;">Fonds de départ : $0. La difficulté originale.</span>
                     </button>
 
                     <button id="reset-musk-btn" class="hidden" style="padding: 16px; background: rgba(251, 191, 36, 0.1); border: 1px solid var(--gold); border-radius: 8px; cursor: pointer; text-align: left; transition: all 0.2s;">
-                        <strong style="color: var(--gold); font-size: 1.1rem; display: block; margin-bottom: 4px;">Commencer en tant qu'Elon Musk</strong>
-                        <span style="color: var(--text-dim); font-size: 0.9rem;">Fonds de départ : $300 Milliards. L'argent appelle l'argent.</span>
+                        <strong data-i18n="reset_musk_title" style="color: var(--gold); font-size: 1.1rem; display: block; margin-bottom: 4px;">Commencer en tant qu'Elon Musk</strong>
+                        <span data-i18n="reset_musk_desc" style="color: var(--text-dim); font-size: 0.9rem;">Fonds de départ : $300 Milliards. L'argent appelle l'argent.</span>
+                    </button>
+                    
+                    <button id="reset-weyland-btn" class="hidden" style="padding: 16px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent); border-radius: 8px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <strong data-i18n="reset_weyland_title" style="color: var(--accent); font-size: 1.1rem; display: block; margin-bottom: 4px;">Commencer en tant que Peter Weyland</strong>
+                        <span data-i18n="reset_weyland_desc" style="color: var(--text-dim); font-size: 0.9rem;">Fonds de départ : $1 Million de Milliards. Bâtissons des mondes meilleurs.</span>
                     </button>
                 </div>
 
@@ -103,8 +108,8 @@
         <div id="achievement-popup" class="hidden" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), var(--bg-panel)); border: 1px solid var(--gold); border-radius: 12px; padding: 20px 30px; z-index: 4000; display: flex; gap: 20px; align-items: center; box-shadow: 0 10px 40px rgba(251, 191, 36, 0.2); animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
             <div style="font-size: 3rem;">🏆</div>
             <div>
-                <div style="color: var(--gold); font-weight: 900; font-size: 1.2rem; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">Maître du Monde</div>
-                <div style="color: var(--text); font-size: 0.95rem; line-height: 1.4;">Vous avez construit une Terrafab !<br>Lors de votre prochaine réinitialisation, vous pourrez recommencer la partie avec l'héritage d'Elon Musk ($300 Milliards).</div>
+                <div id="achievement-title" style="color: var(--gold); font-weight: 900; font-size: 1.2rem; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">Succès</div>
+                <div id="achievement-desc" style="color: var(--text); font-size: 0.95rem; line-height: 1.4;">Vous avez accompli quelque chose d'exceptionnel.</div>
             </div>
             <button id="achievement-close-btn" style="background: transparent; border: none; color: var(--text-dim); font-size: 1.5rem; cursor: pointer; padding: 5px;">&times;</button>
         </div>
