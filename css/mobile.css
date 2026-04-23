@@ -300,6 +300,8 @@
     #tab-settings .settings-content {
         background: transparent !important;
         padding: 10px 0 !important;
+        max-height: none;
+        overflow-y: visible;
     }
 
     /* Popups responsive adjustments */
