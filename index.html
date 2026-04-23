@@ -24,21 +24,21 @@
 <body>
     <div id="game-container">
         <!-- Intro popup -->
-        <div id="intro-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.9); z-index: 2000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 15px; box-sizing: border-box;">
-            <div style="background: var(--bg-panel); border: 1px solid var(--accent); border-radius: 16px; padding: clamp(20px, 5vw, 40px); max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto; text-align: left; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(56, 189, 248, 0.15); box-sizing: border-box;">
-                <h2 style="color: var(--accent); font-size: 1.5rem; text-align: center; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Bienvenue dans Transistor Clicker</h2>
+        <div id="intro-popup" class="hidden extracted-style-1">
+            <div class="extracted-style-2">
+                <h2 class="extracted-style-3">Bienvenue dans Transistor Clicker</h2>
 
-                <div style="font-size: 1rem; line-height: 1.6; color: var(--text); display: flex; flex-direction: column; gap: 16px;">
+                <div class="extracted-style-4">
                     <p>
                         <span data-i18n="intro_p1">Ce jeu éducatif est ouvertement inspiré du célèbre</span> 
-                        <a href="https://orteil.dashnet.org/cookieclicker/" target="_blank" style="color: var(--accent); text-decoration: underline; font-weight: bold;">Cookie Clicker</a>.
+                        <a href="https://orteil.dashnet.org/cookieclicker/" target="_blank" class="extracted-style-5">Cookie Clicker</a>.
                     </p>
                     <p>
                         <span data-i18n="intro_p2">Si le fait de produire des quantités absurdes de cookies n'a pas vraiment de sens, <strong>cette croissance exponentielle affolante n'est en revanche pas absurde pour la production de transistors !</strong></span>
                     </p>
                     <p>
                         <span data-i18n="intro_p3">Depuis 1970, la production mondiale de transistors double tous les 14 mois. Aucun autre domaine n'a connu une croissance pareille. Cette évolution est restée discrète car les coûts de fabrication sont divisés par deux tous les 24 mois.</span>
-                        <span data-i18n="intro_p4"><br><span style="font-size: 0.85rem; color: var(--text-dim);"><em>Pour l'équilibrage du jeu, sachez que les usines les plus récentes sont d'ailleurs <strong>moins</strong> efficaces que dans la réalité !</em></span></span>
+                        <span data-i18n="intro_p4"><br><span class="extracted-style-6"><em>Pour l'équilibrage du jeu, sachez que les usines les plus récentes sont d'ailleurs <strong>moins</strong> efficaces que dans la réalité !</em></span></span>
                     </p>
                     <p>
                         <span data-i18n="intro_p5">La valeur des transistors devient aujourd'hui la partie la plus importante d'un produit. La radio portative avec ses transistors fut une telle révolution que nos aînés parlent de "transistor" pour une radio. À l'époque, il y avait dedans un nombre de transistors qui se comptait sur les doigts d'une main et ne représentait qu'une petite fraction du prix du produit.</span>
@@ -48,70 +48,70 @@
                     </p>
                 </div>
 
-                <div style="text-align: center; margin-top: 32px;">
-                    <button id="intro-start-btn" style="padding: 12px 40px; font-size: 1.1rem; background: var(--accent); color: var(--bg-dark); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s;" data-i18n="intro_btn">Commencer la production</button>
+                <div class="extracted-style-7">
+                    <button id="intro-start-btn" class="extracted-style-8" data-i18n="intro_btn">Commencer la production</button>
                 </div>
             </div>
         </div>
 
         <!-- Offline popup -->
-        <div id="offline-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.9); z-index: 2500; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 15px; box-sizing: border-box;">
-            <div style="background: var(--bg-panel); border: 1px solid var(--green); border-radius: 16px; padding: clamp(20px, 5vw, 40px); max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; text-align: center; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(52, 211, 153, 0.15); box-sizing: border-box;">
-                <h2 style="color: var(--green); font-size: 1.5rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Retour à l'usine</h2>
-                <p style="margin-bottom: 16px; color: var(--text); line-height: 1.5;"><span data-i18n="offline_p1">Pendant votre absence (<span id="offline-time" style="color: var(--accent); font-weight: bold;"></span>), vos usines ont continué de tourner à <span id="offline-rate" style="color: var(--accent); font-weight: bold;"></span>% de leur capacité normale.</span></p>
+        <div id="offline-popup" class="hidden extracted-style-9">
+            <div class="extracted-style-10">
+                <h2 class="extracted-style-11">Retour à l'usine</h2>
+                <p class="extracted-style-12"><span data-i18n="offline_p1">Pendant votre absence (<span id="offline-time" class="extracted-style-13"></span>), vos usines ont continué de tourner à <span id="offline-rate" class="extracted-style-13"></span>% de leur capacité normale.</span></p>
                 
-                <div style="display: flex; flex-direction: column; gap: 12px; background: var(--bg-dark); padding: 20px; border-radius: 8px; margin-bottom: 24px;">
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="color: var(--text-dim);">Transistors produits :</span>
-                        <strong id="offline-produced" style="color: var(--text);">0</strong>
+                <div class="extracted-style-14">
+                    <div class="extracted-style-15">
+                        <span class="extracted-style-16">Transistors produits :</span>
+                        <strong id="offline-produced" class="extracted-style-17">0</strong>
                     </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="color: var(--text-dim);">Ventes automatiques :</span>
-                        <strong id="offline-earned" style="color: var(--green);">+$0</strong>
+                    <div class="extracted-style-15">
+                        <span class="extracted-style-16">Ventes automatiques :</span>
+                        <strong id="offline-earned" class="extracted-style-18">+$0</strong>
                     </div>
                 </div>
 
-                <button id="offline-close-btn" style="padding: 10px 30px; font-size: 1rem; background: var(--bg-card); color: var(--text); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;" data-i18n="offline_btn">Reprendre le travail</button>
+                <button id="offline-close-btn" class="extracted-style-19" data-i18n="offline_btn">Reprendre le travail</button>
             </div>
         </div>
 
         <!-- Reset / Prestige popup -->
-        <div id="reset-popup" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 14, 23, 0.95); z-index: 3000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 15px; box-sizing: border-box;">
-            <div style="background: var(--bg-panel); border: 1px solid var(--red); border-radius: 16px; padding: clamp(20px, 5vw, 40px); max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; text-align: center; animation: popIn 0.4s ease; box-shadow: 0 0 50px rgba(239, 68, 68, 0.15); box-sizing: border-box;">
-                <h2 style="color: var(--red); font-size: 1.5rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Réinitialiser la partie</h2>
-                <p style="margin-bottom: 24px; color: var(--text); line-height: 1.5;"><span data-i18n="reset_p1">Toute votre progression actuelle (usines, améliorations, stock) sera archivée dans vos statistiques puis effacée.</span></p>
+        <div id="reset-popup" class="hidden extracted-style-20">
+            <div class="extracted-style-21">
+                <h2 class="extracted-style-22">Réinitialiser la partie</h2>
+                <p class="extracted-style-23"><span data-i18n="reset_p1">Toute votre progression actuelle (usines, améliorations, stock) sera archivée dans vos statistiques puis effacée.</span></p>
                 
-                <div id="reset-options" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
-                    <button id="reset-bob-btn" style="padding: 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; text-align: left; transition: all 0.2s;">
-                        <strong data-i18n="reset_bob_title" style="color: var(--text); font-size: 1.1rem; display: block; margin-bottom: 4px;">Commencer en tant que Bob</strong>
-                        <span data-i18n="reset_bob_desc" style="color: var(--text-dim); font-size: 0.9rem;">Fonds de départ : $0. La difficulté originale.</span>
+                <div id="reset-options" class="extracted-style-24">
+                    <button id="reset-bob-btn" class="extracted-style-25">
+                        <strong data-i18n="reset_bob_title" class="extracted-style-26">Commencer en tant que Bob</strong>
+                        <span data-i18n="reset_bob_desc" class="extracted-style-27">Fonds de départ : $0. La difficulté originale.</span>
                     </button>
 
-                    <button id="reset-musk-btn" class="hidden" style="padding: 16px; background: rgba(251, 191, 36, 0.1); border: 1px solid var(--gold); border-radius: 8px; cursor: pointer; text-align: left; transition: all 0.2s;">
-                        <strong data-i18n="reset_musk_title" style="color: var(--gold); font-size: 1.1rem; display: block; margin-bottom: 4px;">Commencer en tant qu'Elon Musk</strong>
-                        <span data-i18n="reset_musk_desc" style="color: var(--text-dim); font-size: 0.9rem;">Fonds de départ : $300 Milliards. L'argent appelle l'argent.</span>
+                    <button id="reset-musk-btn" class="hidden extracted-style-28">
+                        <strong data-i18n="reset_musk_title" class="extracted-style-29">Commencer en tant qu'Elon Musk</strong>
+                        <span data-i18n="reset_musk_desc" class="extracted-style-27">Fonds de départ : $300 Milliards. L'argent appelle l'argent.</span>
                     </button>
                     
-                    <button id="reset-weyland-btn" class="hidden" style="padding: 16px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent); border-radius: 8px; cursor: pointer; text-align: left; transition: all 0.2s;">
-                        <strong data-i18n="reset_weyland_title" style="color: var(--accent); font-size: 1.1rem; display: block; margin-bottom: 4px;">Commencer en tant que Peter Weyland</strong>
-                        <span data-i18n="reset_weyland_desc" style="color: var(--text-dim); font-size: 0.9rem;">Fonds de départ : $1 Million de Milliards. Bâtissons des mondes meilleurs.</span>
+                    <button id="reset-weyland-btn" class="hidden extracted-style-30">
+                        <strong data-i18n="reset_weyland_title" class="extracted-style-31">Commencer en tant que Peter Weyland</strong>
+                        <span data-i18n="reset_weyland_desc" class="extracted-style-27">Fonds de départ : $1 Million de Milliards. Bâtissons des mondes meilleurs.</span>
                     </button>
                 </div>
 
-                <div style="display: flex; gap: 12px; justify-content: center;">
-                    <button id="reset-cancel-btn" style="padding: 10px 30px; font-size: 1rem; background: transparent; color: var(--text-dim); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;" data-i18n="reset_cancel">Annuler</button>
+                <div class="extracted-style-32">
+                    <button id="reset-cancel-btn" class="extracted-style-33" data-i18n="reset_cancel">Annuler</button>
                 </div>
             </div>
         </div>
 
         <!-- Achievement popup -->
-        <div id="achievement-popup" class="hidden" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), var(--bg-panel)); border: 1px solid var(--gold); border-radius: 12px; padding: 20px 30px; z-index: 4000; display: flex; gap: 20px; align-items: center; box-shadow: 0 10px 40px rgba(251, 191, 36, 0.2); animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
-            <div style="font-size: 3rem;">🏆</div>
+        <div id="achievement-popup" class="hidden extracted-style-34">
+            <div class="extracted-style-35">🏆</div>
             <div>
-                <div id="achievement-title" style="color: var(--gold); font-weight: 900; font-size: 1.2rem; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">Succès</div>
-                <div id="achievement-desc" style="color: var(--text); font-size: 0.95rem; line-height: 1.4;">Vous avez accompli quelque chose d'exceptionnel.</div>
+                <div id="achievement-title" class="extracted-style-36">Succès</div>
+                <div id="achievement-desc" class="extracted-style-37">Vous avez accompli quelque chose d'exceptionnel.</div>
             </div>
-            <button id="achievement-close-btn" style="background: transparent; border: none; color: var(--text-dim); font-size: 1.5rem; cursor: pointer; padding: 5px;">&times;</button>
+            <button id="achievement-close-btn" class="extracted-style-38">&times;</button>
         </div>
 
         <!-- Header: Stats and Year -->
@@ -122,7 +122,7 @@
                 <div class="stats-side-group left-stats">
                     <div class="stat main-stat tooltip-container money-stat">
                         <span class="stat-icon">💰</span> 
-                        <span id="money" class="stat-value" style="color: var(--green);">$0</span>
+                        <span id="money" class="stat-value extracted-style-18">$0</span>
                         <div class="tooltip-text">
                             <strong data-i18n="fonds_disponibles">Fonds disponibles</strong>
                             <span data-i18n="fonds_desc">L'argent généré par la vente de vos transistors. Utilisez-le pour construire de nouvelles usines et financer la R&D.</span>
@@ -130,7 +130,7 @@
                     </div>
                     <div class="stat main-stat tooltip-container hide-on-scroll stock-stat">
                         <span class="stat-icon">📦</span> 
-                        <span id="stock" class="stat-value" style="color: var(--text);">0</span>
+                        <span id="stock" class="stat-value extracted-style-17">0</span>
                         <div class="tooltip-text">
                             <strong data-i18n="stock_actuel">Stock actuel</strong>
                             <span data-i18n="stock_desc">Nombre de transistors prêts à être vendus. Si l'auto-vente est active, ce stock se vide automatiquement.</span>
@@ -166,7 +166,7 @@
                 <div class="stats-side-group right-stats">
                     <div class="stat main-stat tooltip-container production-stat">
                         <span class="stat-icon">⚡</span> 
-                        <span id="per-year" class="stat-value" style="color: var(--accent);">0/an</span>
+                        <span id="per-year" class="stat-value extracted-style-39">0/an</span>
                         <div class="tooltip-text tooltip-right">
                             <strong data-i18n="prod_annuelle">Production annuelle</strong>
                             <span data-i18n="prod_desc">Le nombre de transistors que vos usines fabriquent chaque année en jeu.<br>Plus cette valeur est haute, plus les années défileront vite !</span>
@@ -174,7 +174,7 @@
                     </div>
                     <div class="stat main-stat tooltip-container hide-on-scroll price-stat">
                         <span class="stat-icon">🏷️</span> 
-                        <span id="unit-price" class="stat-value" style="color: var(--gold);">$0.00</span>
+                        <span id="unit-price" class="stat-value extracted-style-40">$0.00</span>
                         <div class="tooltip-text tooltip-right">
                             <strong data-i18n="prix_unitaire">Prix unitaire</strong>
                             <span data-i18n="prix_desc">Le prix du marché pour un transistor l'année en cours.<br><br><i>Loi économique :</i> Ce prix est divisé par deux tous les 24 mois. La chute des prix vous oblige à produire des volumes exponentiels pour rester rentable !</span>
@@ -199,7 +199,7 @@
                 <div class="stat tooltip-container"><span class="stat-label" data-i18n="temps_de_jeu_label">Temps de jeu:</span> <span id="play-time" class="stat-value">0s</span>
                     <div class="tooltip-text tooltip-right"><strong data-i18n="temps_virtuel">Temps Virtuel</strong><span data-i18n="temps_virtuel_desc">Temps écoulé dans le jeu. L'accélérateur et les boosts augmentent ce compteur plus vite que le temps réel.</span></div>
                 </div>
-                <div class="stat tooltip-container"><span class="stat-label" data-i18n="perf_metric">Performance:</span> <span id="perf-metrics" class="stat-value" style="color: var(--green); font-size: 0.85rem;">60 FPS</span>
+                <div class="stat tooltip-container"><span class="stat-label" data-i18n="perf_metric">Performance:</span> <span id="perf-metrics" class="stat-value extracted-style-41">60 FPS</span>
                     <div class="tooltip-text tooltip-right"><strong data-i18n="perf_metric">Performance</strong><br><span data-i18n="perf_desc">Images par seconde et durée du cycle de jeu en ms.</span></div>
                 </div>
             </div>
@@ -207,8 +207,8 @@
 
         <!-- New Mobile Sticky Stats (hidden initially) -->
         <div id="mobile-sticky-stats">
-            <div class="sticky-stat-box"><span class="stat-icon">💰</span> <span id="sticky-money" style="color: var(--green);">$0</span></div>
-            <div class="sticky-stat-box"><span class="stat-icon">⚡</span> <span id="sticky-per-year" style="color: var(--accent);">0/an</span></div>
+            <div class="sticky-stat-box"><span class="stat-icon">💰</span> <span id="sticky-money" class="extracted-style-18">$0</span></div>
+            <div class="sticky-stat-box"><span class="stat-icon">⚡</span> <span id="sticky-per-year" class="extracted-style-39">0/an</span></div>
         </div>
 
         <!-- Mobile Navigation Bar -->
@@ -222,28 +222,28 @@
         <!-- Settings popup -->
         <div id="settings-popup" class="hidden">
             <div class="settings-content">
-                <div class="settings-exact-stats" style="margin-bottom: 24px; text-align: center;">
-                    <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;" data-i18n="total_produced_label">Total Produit</div>
-                    <div class="exact-total-produced" style="font-size: 1.1rem; color: var(--text); font-family: 'Courier New', Courier, monospace; word-break: break-all; margin-bottom: 12px;">0</div>
-                    <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;" data-i18n="prod_per_year_label">Production / an</div>
-                    <div class="exact-per-year" style="font-size: 1.1rem; color: var(--accent); font-family: 'Courier New', Courier, monospace; word-break: break-all;">0</div>
+                <div class="settings-exact-stats extracted-style-42">
+                    <div class="extracted-style-43" data-i18n="total_produced_label">Total Produit</div>
+                    <div class="exact-total-produced extracted-style-44">0</div>
+                    <div class="extracted-style-43" data-i18n="prod_per_year_label">Production / an</div>
+                    <div class="exact-per-year extracted-style-45">0</div>
                 </div>
                 <h2 data-i18n="settings_title">Paramètres</h2>
                 
                 <div class="settings-buttons">
-                    <button id="lang-toggle-btn" class="settings-link" style="border-color:var(--text);color:var(--text);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
+                    <button id="lang-toggle-btn" class="settings-link extracted-style-46">
                         <span data-i18n="lang_toggle">Langue : English</span>
                     </button>
-                    <button id="expert-toggle-btn" class="settings-link dev-option hidden" style="border-color:var(--accent);color:var(--accent);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
+                    <button id="expert-toggle-btn" class="settings-link dev-option hidden extracted-style-47">
                         Mode Avancé : DÉSACTIVÉ
                     </button>
-                    <button id="stats-btn" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer" data-i18n="settings_stats">Statistiques</button>
+                    <button id="stats-btn" class="settings-link extracted-style-48" data-i18n="settings_stats">Statistiques</button>
                     <a href="proliferation.html" class="settings-link" data-i18n="settings_moore">Loi de Moore vs. Loi de la Prolifération</a>
                     <button id="reset-save-btn" class="settings-danger" data-i18n="settings_reset">Réinitialiser la sauvegarde</button>
                     </div>
 
                     <div class="settings-bot dev-option hidden">
-                    <button id="bot-toggle-btn" class="settings-link" style="border-color:var(--green);color:var(--green);cursor:pointer" data-i18n="settings_bot">Activer le Bot</button>
+                    <button id="bot-toggle-btn" class="settings-link extracted-style-49" data-i18n="settings_bot">Activer le Bot</button>
                     <span id="bot-status" class="bot-status-off" data-i18n="settings_bot_status_off">Inactif</span>
                     </div>
                     <div class="settings-speed dev-option hidden">
@@ -260,7 +260,7 @@
                         <button class="speed-btn" data-speed="1000">x1000</button>
                     </div>
                     </div>
-                    <button id="settings-close" style="margin-top: 20px;" data-i18n="settings_close">Fermer</button>                <div class="made-by-tarah" style="margin-top: 24px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer; text-align: center; opacity: 0.7; user-select: none; touch-action: manipulation;">Made by Tarah</div>
+                    <button id="settings-close" class="extracted-style-50" data-i18n="settings_close">Fermer</button>                <div class="made-by-tarah extracted-style-51">Made by Tarah</div>
             </div>
         </div>
 
@@ -269,15 +269,15 @@
             <div class="stats-content">
                 <h2 data-i18n="stats_popup_title">Statistiques</h2>
                 <div id="stats-table-container"></div>
-                <div id="stats-chart-container" style="margin-top: 20px; width: 100%; height: 300px; display: none; position: relative;">
-                    <div style="position: absolute; top: -15px; right: 0; z-index: 10;">
-                        <button id="chart-toggle-btn" style="margin: 0; padding: 4px 8px; font-size: 0.75rem; background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-dim); border-radius: 4px;" data-i18n="stats_chart_btn">Axe : Année</button>
+                <div id="stats-chart-container" class="extracted-style-52">
+                    <div class="extracted-style-53">
+                        <button id="chart-toggle-btn" class="extracted-style-54" data-i18n="stats_chart_btn">Axe : Année</button>
                     </div>
                     <canvas id="stats-chart"></canvas>
                 </div>
-                <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
-                    <button id="stats-export-btn" class="settings-link" style="margin: 0; padding: 8px 20px; font-size: 0.9rem;" data-i18n="stats_export_btn">Exporter (JSON)</button>
-                    <button id="stats-close" style="margin: 0;" data-i18n="stats_close_btn">Fermer</button>
+                <div class="extracted-style-55">
+                    <button id="stats-export-btn" class="settings-link extracted-style-56" data-i18n="stats_export_btn">Exporter (JSON)</button>
+                    <button id="stats-close" class="extracted-style-57" data-i18n="stats_close_btn">Fermer</button>
                 </div>
             </div>
         </div>
@@ -309,22 +309,22 @@
                     <div id="floating-numbers"></div>
 
                     <!-- Boost Section -->
-                    <div id="boost-container" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 20px 0; text-align: center; width: 100%; max-width: 400px;">
-                        <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 8px;">
-                            <span data-i18n="next_boost">Prochain boost :</span> <span id="boost-progress-text" style="color: var(--text); font-weight: bold;">0 / 100</span> <span data-i18n="purchases">achats</span>
+                    <div id="boost-container" class="extracted-style-58">
+                        <div class="extracted-style-59">
+                            <span data-i18n="next_boost">Prochain boost :</span> <span id="boost-progress-text" class="extracted-style-60">0 / 100</span> <span data-i18n="purchases">achats</span>
                         </div>
-                        <div style="background: var(--bg-dark); height: 6px; border-radius: 3px; margin-bottom: 12px; overflow: hidden;">
-                            <div id="boost-progress-bar" style="background: var(--accent); height: 100%; width: 0%; transition: width 0.2s;"></div>
+                        <div class="extracted-style-61">
+                            <div id="boost-progress-bar" class="extracted-style-62"></div>
                         </div>
-                        <button id="use-boost-btn" style="width: 100%; padding: 10px; background: linear-gradient(135deg, var(--gold), #d97706); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: none; transition: all 0.2s; margin-bottom: 8px;">
+                        <button id="use-boost-btn" class="extracted-style-63">
                             <span data-i18n="activate_boost">Activer Boost x50</span> (<span data-i18n="stock">Stock:</span> <span id="boost-stock">0</span>)
                         </button>
-                        <div id="boost-active-display" style="display: none; color: var(--gold); font-weight: bold; font-size: 1.1rem; animation: pulse 1s infinite;">
+                        <div id="boost-active-display" class="extracted-style-64">
                             🔥 <span data-i18n="boost_active">BOOST x50 ACTIF :</span> <span id="boost-timer">60.0</span>s
                         </div>
                     </div>
 
-                    <button id="sell-btn-max" class="sell-btn" data-amount="max" style="width: 100%; max-width: 400px; font-size: 1.1rem; padding: 16px; background: linear-gradient(to bottom, var(--bg-card), var(--bg-dark)); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-weight: bold; cursor: pointer; transition: all 0.2s; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">💰 <span data-i18n="sell_all">TOUT VENDRE</span></button>
+                    <button id="sell-btn-max" class="sell-btn" data-amount="max" class="extracted-style-65">💰 <span data-i18n="sell_all">TOUT VENDRE</span></button>
                 </div>
 
                 <div id="tab-upgrades" class="mobile-tab">
@@ -337,8 +337,8 @@
 
             <!-- Right: Machines shop -->
             <section id="tab-machines" class="mobile-tab">
-                <div id="shop-header" style="width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center;">
-                    <h2 style="margin: 0; text-align: left;" data-i18n="machines_title">Machines & Procédés</h2>
+                <div id="shop-header" class="extracted-style-66">
+                    <h2 class="extracted-style-67" data-i18n="machines_title">Machines & Procédés</h2>
                     <div id="buy-qty-selector">
                         <button class="qty-btn active" data-qty="1">x1</button>
                         <button class="qty-btn" data-qty="10">x10</button>
@@ -346,32 +346,32 @@
                         <button class="qty-btn" data-qty="1000">x1000</button>
                     </div>
                 </div>
-                <div id="machines-list" style="width: 100%; max-width: 800px;"></div>
+                <div id="machines-list" class="extracted-style-68"></div>
             </section>
             <!-- Settings Tab (Mobile Only) -->
             <section id="tab-settings" class="mobile-tab">
-                <div class="settings-content" style="box-shadow: none; border: none; padding: 20px 10px; max-width: 100%; margin-bottom: 0;">
-                    <div class="settings-exact-stats" style="margin-bottom: 24px; text-align: center;">
-                        <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;" data-i18n="total_produced_label">Total Produit</div>
-                        <div class="exact-total-produced" style="font-size: 1.1rem; color: var(--text); font-family: 'Courier New', Courier, monospace; word-break: break-all; margin-bottom: 12px;">0</div>
-                        <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px;" data-i18n="prod_per_year_label">Production / an</div>
-                        <div class="exact-per-year" style="font-size: 1.1rem; color: var(--accent); font-family: 'Courier New', Courier, monospace; word-break: break-all;">0</div>
+                <div class="settings-content extracted-style-69">
+                    <div class="settings-exact-stats extracted-style-42">
+                        <div class="extracted-style-43" data-i18n="total_produced_label">Total Produit</div>
+                        <div class="exact-total-produced extracted-style-44">0</div>
+                        <div class="extracted-style-43" data-i18n="prod_per_year_label">Production / an</div>
+                        <div class="exact-per-year extracted-style-45">0</div>
                     </div>
-                    <h2 style="color: var(--text); font-size: 1.3rem; margin-bottom: 24px;" data-i18n="settings_title">Options</h2>
+                    <h2 class="extracted-style-70" data-i18n="settings_title">Options</h2>
 
                     <div class="settings-buttons">
-                        <button id="lang-toggle-btn-mobile" class="settings-link" style="border-color:var(--text);color:var(--text);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
+                        <button id="lang-toggle-btn-mobile" class="settings-link extracted-style-46">
                             <span data-i18n="lang_toggle">Language: English</span>
                         </button>
-                        <button id="expert-toggle-btn-mobile" class="settings-link dev-option hidden" style="border-color:var(--accent);color:var(--accent);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">                            Mode Avancé : DÉSACTIVÉ
+                        <button id="expert-toggle-btn-mobile" class="settings-link dev-option hidden extracted-style-47">                            Mode Avancé : DÉSACTIVÉ
                         </button>
-                        <button id="stats-btn-mobile" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer" data-i18n="settings_stats">Statistiques</button>
+                        <button id="stats-btn-mobile" class="settings-link extracted-style-48" data-i18n="settings_stats">Statistiques</button>
                         <a href="proliferation.html" class="settings-link" data-i18n="settings_moore">Loi de Moore vs. Loi de la Prolifération</a>
                         <button id="reset-save-btn-mobile" class="settings-danger" data-i18n="settings_reset">Réinitialiser la sauvegarde</button>
                     </div>
                     
                     <div class="settings-bot dev-option hidden">
-                        <button id="bot-toggle-btn-mobile" class="settings-link" style="border-color:var(--green);color:var(--green);cursor:pointer" data-i18n="settings_bot">Activer le Bot</button>
+                        <button id="bot-toggle-btn-mobile" class="settings-link extracted-style-49" data-i18n="settings_bot">Activer le Bot</button>
                         <span id="bot-status-mobile" class="bot-status-off" data-i18n="settings_bot_status_off">Inactif</span>
                     </div>
                     <div class="settings-speed dev-option hidden">
@@ -388,18 +388,18 @@
                             <button class="speed-btn-mobile" data-speed="1000">x1000</button>
                         </div>
                     </div>
-                    <div class="made-by-tarah" style="margin-top: 24px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer; text-align: center; opacity: 0.7; user-select: none; touch-action: manipulation;">Made by Tarah</div>
+                    <div class="made-by-tarah extracted-style-51">Made by Tarah</div>
                 </div>
             </section>
         </main>
 
         <!-- Notifications -->
-        <div id="notifications-container" style="position: fixed; bottom: 80px; right: 20px; z-index: 200; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; pointer-events: none;">
-            <div id="bot-planner" class="hidden" style="background: var(--bg-panel); border: 1px solid var(--accent); border-radius: 8px; padding: 12px; pointer-events: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.5); width: 300px;">
-                <div style="font-size: 0.7rem; color: var(--accent); text-transform: uppercase; margin-bottom: 4px;">Prochaine action du bot</div>
-                <div id="bot-next-action" style="font-size: 0.85rem; font-weight: 600; color: var(--text);">Analyse en cours...</div>
+        <div id="notifications-container" class="extracted-style-71">
+            <div id="bot-planner" class="hidden extracted-style-72">
+                <div class="extracted-style-73">Prochaine action du bot</div>
+                <div id="bot-next-action" class="extracted-style-74">Analyse en cours...</div>
             </div>
-            <div id="notifications" style="display: flex; flex-direction: column-reverse; gap: 8px;"></div>
+            <div id="notifications" class="extracted-style-75"></div>
         </div>
 
         <!-- Year milestone popup -->
