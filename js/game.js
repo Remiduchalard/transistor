@@ -207,6 +207,13 @@ const Game = {
                     Events.emit("achievementUnlocked", eq.id);
                 }
             }
+            for (const w of WEIGHTS) {
+                if (this.totalTransistors.gte(w.trans) && !this.globals.achievements["weight_" + w.id]) {
+                    this.globals.achievements["weight_" + w.id] = true;
+                    this.saveGlobals();
+                    Events.emit("achievementUnlocked", "weight_" + w.id);
+                }
+            }
         }
     },
 
@@ -534,7 +541,7 @@ const Game = {
      */
     archiveAndReset(startingMoney = 0) {
         const run = {
-            date: new Date().toLocaleDateString("fr-FR"),
+            date: new Date().toLocaleDateString(I18n.lang === 'fr' ? 'fr-FR' : 'en-US'),
             totalElapsed: this.virtualElapsed,
             maxYear: this.currentYear,
             milestones: { ...this.decadeMilestones },
