@@ -125,8 +125,28 @@ const UI = {
         const d = new Decimal(val);
         if (d.eq(0)) return "$0.00";
         if (d.gte(1)) return "$" + d.toNumber().toFixed(2);
-        if (d.lt(0.001)) return "$" + d.toExponential(0);
-        return "$" + d.toPrecision(1);
+        
+        const microSuffixes = [
+            { value: new Decimal(1e-3),  suffix: " m" },
+            { value: new Decimal(1e-6),  suffix: " µ" },
+            { value: new Decimal(1e-9),  suffix: " n" },
+            { value: new Decimal(1e-12), suffix: " p" },
+            { value: new Decimal(1e-15), suffix: " f" },
+            { value: new Decimal(1e-18), suffix: " a" },
+            { value: new Decimal(1e-21), suffix: " z" },
+            { value: new Decimal(1e-24), suffix: " y" },
+            { value: new Decimal(1e-27), suffix: " r" },
+            { value: new Decimal(1e-30), suffix: " q" }
+        ];
+
+        for (const { value, suffix } of microSuffixes) {
+            if (d.gte(value)) {
+                const display = d.div(value).toNumber();
+                return "$" + display.toFixed(display < 10 ? 2 : display < 100 ? 1 : 0) + suffix;
+            }
+        }
+        
+        return "$" + d.toExponential(2);
     },
 
     formatTime(ms) {
