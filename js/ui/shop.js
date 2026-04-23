@@ -102,7 +102,7 @@ UI.Shop = {
 
             // Card click for buying
             card.addEventListener("click", () => {
-                if (!Game.state.unlockedRD[machine.id]) return;
+                if (!Game.unlockedRD[machine.id]) return;
                 const bought = Game.buyMachine(machine.id, UI.buyQty);
                 if (bought > 0) {
                     this.update();
@@ -137,10 +137,10 @@ UI.Shop = {
             const els = this.machineEls[machine.id];
             if (!els) return;
 
-            const owned = Game.state.ownedMachines[machine.id] || 0;
+            const owned = Game.ownedMachines[machine.id] || 0;
             const visible = Game.currentYear >= machine.unlockYear - 10;
             const isEarly = Game.currentYear < machine.unlockYear;
-            const rdDone = !!Game.state.unlockedRD[machine.id];
+            const rdDone = !!Game.unlockedRD[machine.id];
             
             if (!visible) {
                 els.card.classList.add("hidden");
@@ -150,9 +150,9 @@ UI.Shop = {
             
             // Affordability for bulk buttons
             if (rdDone) {
-                if (Game.state.money.gte(getBulkMachineCost(machine, owned, 10, Game.currentYear))) canAfford10 = true;
-                if (Game.state.money.gte(getBulkMachineCost(machine, owned, 100, Game.currentYear))) canAfford100 = true;
-                if (Game.state.money.gte(getBulkMachineCost(machine, owned, 1000, Game.currentYear))) canAfford1000 = true;
+                if (Game.money.gte(getBulkMachineCost(machine, owned, 10, Game.currentYear))) canAfford10 = true;
+                if (Game.money.gte(getBulkMachineCost(machine, owned, 100, Game.currentYear))) canAfford100 = true;
+                if (Game.money.gte(getBulkMachineCost(machine, owned, 1000, Game.currentYear))) canAfford1000 = true;
             }
 
             // Update text content (Translations)
@@ -163,9 +163,9 @@ UI.Shop = {
 
             // Cost area & Classes
             const currentRDCost = getDynamicRDCost(machine, Game.currentYear);
-            const rdAffordable = Game.state.money.gte(currentRDCost);
+            const rdAffordable = Game.money.gte(currentRDCost);
             const singleCost = getMachineCost(machine, owned, Game.currentYear);
-            const canAffordAtLeastOne = Game.state.money.gte(singleCost);
+            const canAffordAtLeastOne = Game.money.gte(singleCost);
 
             els.card.classList.remove("locked", "needs-rd", "affordable", "early-access");
             if (isEarly) els.card.classList.add("early-access");
@@ -255,12 +255,12 @@ UI.Shop = {
             `;
 
             item.addEventListener("click", () => {
-                if (Game.state.purchasedUpgrades.has(upgrade.id)) return;
+                if (Game.purchasedUpgrades.has(upgrade.id)) return;
                 if (Game.currentYear < upgrade.unlockYear) {
                     Events.emit("notify", { message: I18n.t("req_year", { val: upgrade.unlockYear }), type: "error" });
                     return;
                 }
-                if (Game.state.money.lt(upgrade.cost)) {
+                if (Game.money.lt(upgrade.cost)) {
                     Events.emit("notify", { message: I18n.t("insufficient_funds"), type: "error" });
                     return;
                 }
@@ -289,7 +289,7 @@ UI.Shop = {
         const autosellUpgrades = UPGRADES.filter(u => u.type === "autosell");
         let currentAutoTier = 0;
         for (const u of autosellUpgrades) {
-            if (Game.state.purchasedUpgrades.has(u.id)) {
+            if (Game.purchasedUpgrades.has(u.id)) {
                 currentAutoTier = Math.max(currentAutoTier, u.tier);
             }
         }
@@ -299,9 +299,9 @@ UI.Shop = {
             const els = this.upgradeEls[upgrade.id];
             if (!els) return;
 
-            const purchased = Game.state.purchasedUpgrades.has(upgrade.id);
+            const purchased = Game.purchasedUpgrades.has(upgrade.id);
             const unlocked = Game.currentYear >= upgrade.unlockYear;
-            const affordable = Game.state.money.gte(upgrade.cost);
+            const affordable = Game.money.gte(upgrade.cost);
 
             // Visibility logic
             let visible = false;

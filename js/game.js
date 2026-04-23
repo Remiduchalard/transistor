@@ -4,42 +4,39 @@
 
 const Game = {
     // State
-    state: {
-        totalTransistors: new Decimal(0),      // Total ever produced (for year calculation)
-        transistors: new Decimal(0),            // Current stock (can be sold)
-        money: new Decimal(0),
-        
-        // Owned machines: { machineId: count }
-        ownedMachines: {},
+    totalTransistors: new Decimal(0),      // Total ever produced (for year calculation)
+    transistors: new Decimal(0),            // Current stock (can be sold)
+    money: new Decimal(0),
 
-        // Purchased upgrades: Set of upgrade ids
-        purchasedUpgrades: new Set(),
+    // Owned machines: { machineId: count }
+    ownedMachines: {},
 
-        // R&D unlocked machines: { machineId: true }
-        unlockedRD: {},
+    // Purchased upgrades: Set of upgrade ids
+    purchasedUpgrades: new Set(),
 
-        // Speed multiplier (affects production tick + stat time accounting)
-        gameSpeed: 1,
-        usedAssistance: false,        // tracked if bot or gameSpeed > 1 was ever used in this run
+    // R&D unlocked machines: { machineId: true }
+    unlockedRD: {},
 
-        // Boost variables
-        consumables: 0,
-        purchaseCounter: 0,
-        boostMs: 0,                   // Remaining real-time ms for the x50 boost
+    // Speed multiplier (affects production tick + stat time accounting)
+    gameSpeed: 1,
+    usedAssistance: false,        // tracked if bot or gameSpeed > 1 was ever used in this run
 
-        // Stats tracking (virtualElapsed = real time weighted by speed)
-        startTime: Date.now(),
-        virtualElapsed: 0,                    // accumulated game-time in ms
-        decadeMilestones: {},                 // { "1950": {time, share, production}, ... }
-        yearlyProduction: {},                 // { "1947": 1, "1948": 5, ... }
-        lastRecordedDecade: 1940,
-        lastRecordedYear: 1946,
-        lastSavedTime: Date.now(),            // real-time ms timestamp for offline calc
-    },
+    // Boost variables
+    consumables: 0,
+    purchaseCounter: 0,
+    boostMs: 0,                   // Remaining real-time ms for the x50 boost
+
+    // Stats tracking (virtualElapsed = real time weighted by speed)
+    startTime: Date.now(),
+    virtualElapsed: 0,                    // accumulated game-time in ms
+    decadeMilestones: {},                 // { "1950": {time, share, production}, ... }
+    yearlyProduction: {},                 // { "1947": 1, "1948": 5, ... }
+    lastRecordedDecade: 1940,
+    lastRecordedYear: 1946,
+    lastSavedTime: Date.now(),            // real-time ms timestamp for offline calc
 
     currentYear: 1947,
     previousYear: 1947,
-
     // Computed values
     clickPower: new Decimal(1),
     productionPerYear: new Decimal(0),
