@@ -659,7 +659,6 @@ window.Locales.en = {
     "achiev_weight_earth_desc": "Your production has reached the mass of planet Earth.",
     "achiev_weight_sun_title": "Solar Mass",
     "achiev_weight_sun_desc": "Your production weighs as much as the Sun.",
-,
     "equiv_led_info": "About 5,000 transistors used in a simple regulation circuit (AC/DC driver).",
     "equiv_thermo_info": "About 100,000 transistors. A basic microcontroller for the LCD display and the sensor.",
     "equiv_usbc_info": "About 10 million transistors. E-marker chip for voltage and data management.",

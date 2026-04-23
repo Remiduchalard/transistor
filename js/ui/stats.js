@@ -253,6 +253,48 @@ UI.Stats = {
             <p><strong>${I18n.t("equiv_can_produce")} :</strong> ${I18n.t("equiv_qty_help")}</p>
             <p style="margin-top:4px;"><strong>${I18n.t("equiv_world_pct")} :</strong> ${I18n.t("equiv_pct_help")}</p>
         </div>`;
+
+        // Weights section
+        html += `<h3 style="margin-top: 30px; color: var(--gold); text-align: left;">${I18n.t("weight_intro")}</h3>`;
+        html += `<div style="display: flex; flex-direction: column; gap: 10px;">`;
+        
+        let highestWeight = null;
+        WEIGHTS.forEach(w => {
+            if (Game.totalTransistors.gte(w.trans)) {
+                highestWeight = w;
+            }
+        });
+        
+        if (highestWeight) {
+            const count = Game.totalTransistors.div(highestWeight.trans).floor();
+            html += `
+            <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 10px; border-radius: 8px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center;">
+                    <span style="font-size: 1.5rem; margin-right: 10px;">${highestWeight.icon}</span>
+                    <strong style="color: var(--text);">${I18n.t("weight_" + highestWeight.id)}</strong>
+                </div>
+                <div style="text-align: right; font-size: 1.1rem; color: var(--accent); font-weight: bold;">
+                    ${UI.formatNumber(count)}
+                </div>
+            </div>`;
+        } else {
+            // If less than a car (1.5e5 transistors * 10g = 1500kg = 1.5t)
+            // Let's show raw kg. 1 trans = 10g = 0.01kg.
+            const kg = Game.totalTransistors.mul(0.01).toNumber();
+            html += `
+            <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 10px; border-radius: 8px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center;">
+                    <span style="font-size: 1.5rem; margin-right: 10px;">⚖️</span>
+                    <strong style="color: var(--text);">Masse brute</strong>
+                </div>
+                <div style="text-align: right; font-size: 1.1rem; color: var(--text-dim); font-weight: bold;">
+                    ${kg < 1 ? (kg * 1000).toFixed(0) + " g" : kg.toFixed(2) + " kg"}
+                </div>
+            </div>`;
+        }
+        
+        html += `</div>`;
+
         
         // Time to produce 1970
         const prod1970 = new Decimal(CONFIG.WORLD_PROD_1970); // Exact value from _worldProd(1970)
