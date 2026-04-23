@@ -76,14 +76,27 @@ const UI = {
         const d = new Decimal(val);
         if (d.eq(0)) return "$0.00";
         if (d.gte(1)) return "$" + d.toNumber().toFixed(2);
-        
-        let str = d.toFixed(30);
-        // Remove trailing zeros
+
+        // Find the first non-zero digit after the decimal point
+        const numStr = d.toExponential(2); // e.g. "3.33e-4"
+        const numParts = numStr.split('e');
+        const coefficient = parseFloat(numParts[0]); // e.g. 3.33
+        const exponent = parseInt(numParts[1]); // e.g. -4
+
+        // Construct the string with exactly 2 digits after the first non-zero
+        // Using Decimal to avoid float precision issues when converting back to string
+        const truncated = new Decimal(coefficient).mul(new Decimal(10).pow(exponent));
+
+        // We need to format it to a fixed number of decimal places to avoid scientific notation
+        // The number of decimal places is absolute(exponent) + 2 (for the two digits after the first non-zero)
+        let str = truncated.toFixed(Math.abs(exponent) + 2);
+
+        // Remove trailing zeros to keep it clean if it was shorter than 2 digits
         str = str.replace(/0+$/, "");
-        if (str.endsWith('.')) str += "00";
+        if (str.endsWith('.')) str = str.slice(0, -1);
+
         return "$" + str;
     },
-
     formatNumber(val) {
         const d = new Decimal(val);
         if (d.eq(0)) return "0";
