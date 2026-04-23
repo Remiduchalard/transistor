@@ -219,16 +219,17 @@ const Bot = {
                 madePurchases = true;
 
                 this.needsRecalculation = true;
-                
+
                 // If it's a machine, we break out to avoid instantly buying thousands of them in one frame
                 if (best.type === "machine") break;
             } else {
+                // If it's supposedly affordable but purchase failed, force recalc to prevent infinite loop
+                this.needsRecalculation = true;
                 break;
             }
 
             iterations++;
-            }
-        // BATCH DOM UPDATES: ONLY trigger interface refresh once after all high-speed purchases are done
+            }        // BATCH DOM UPDATES: ONLY trigger interface refresh once after all high-speed purchases are done
         if (madePurchases) {
             Events.emit('shopUpdated');
             Events.emit('statsUpdated');
