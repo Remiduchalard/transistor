@@ -275,8 +275,8 @@
         html += `<td class="current-run">${Game.usedAssistance ? 'Oui 🤖' : 'Non'}</td></tr>`;
 
         html += '<tr><td class="row-label">Prod. mondiale max</td>';
-        history.forEach(run => html += `<td>${UI.formatNumber(_worldProd(run.maxYear || 1947))}/an</td>`);
-        html += `<td class="current-run">${UI.formatNumber(_worldProd(Game.currentYear))}/an</td></tr>`;
+        history.forEach(run => html += `<td>${UI.formatNumber(new Decimal(_worldProd(run.maxYear || 1947)).mul(25))}/an</td>`);
+        html += `<td class="current-run">${UI.formatNumber(new Decimal(_worldProd(Game.currentYear)).mul(25))}/an</td></tr>`;
 
         html += '<tr><td class="row-label">Année max</td>';
         history.forEach(run => html += `<td>${run.maxYear || "?"}</td>`);
@@ -371,7 +371,7 @@
         if (minutes > 0) parts.push(`${minutes} ${I18n.t("time_mins")}`);
         if (secs > 0 || parts.length === 0) parts.push(`${secs} ${I18n.t("time_secs")}`);
         
-        return parts.slice(0, 2).join(" et "); // Keep only the two largest units
+        return parts.slice(0, 2).join(I18n.lang === 'fr' ? " et " : " and "); // Keep only the two largest units
     }
 
     let chartMode = 'year';
@@ -405,8 +405,8 @@
         history.forEach((run, i) => {
             if (!run.yearlyProduction) return;
             const data = chartMode === 'year' 
-                ? labels.map(y => run.yearlyProduction[y]?.prod || null)
-                : Object.values(run.yearlyProduction).map(v => ({ x: v.time, y: v.prod }));
+                ? labels.map(y => run.yearlyProduction[y]?.prod ? new Decimal(run.yearlyProduction[y].prod).mul(25).toNumber() : null)
+                : Object.values(run.yearlyProduction).map(v => ({ x: v.time, y: new Decimal(v.prod).mul(25).toNumber() }));
             
             datasets.push({
                 label: `Run ${i + 1}`,
@@ -417,8 +417,8 @@
         });
 
         const currentData = chartMode === 'year'
-            ? labels.map(y => Game.yearlyProduction[y]?.prod || null)
-            : Object.values(Game.yearlyProduction).map(v => ({ x: v.time, y: v.prod }));
+            ? labels.map(y => Game.yearlyProduction[y]?.prod ? new Decimal(Game.yearlyProduction[y].prod).mul(25).toNumber() : null)
+            : Object.values(Game.yearlyProduction).map(v => ({ x: v.time, y: new Decimal(v.prod).mul(25).toNumber() }));
         
         datasets.push({
             label: 'En cours',

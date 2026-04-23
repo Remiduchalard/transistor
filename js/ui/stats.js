@@ -16,7 +16,7 @@ UI.Stats = {
         if (sellBtnMax) sellBtnMax.style.display = "";
 
         UI.els.stock.textContent = UI.formatNumber(Game.transistors);
-        UI.els.perYear.textContent = I18n.t("per_year", { val: UI.formatNumber(Game.productionPerYear) });
+        UI.els.perYear.textContent = I18n.t("per_year", { val: UI.formatNumber(Game.productionPerYear.mul(25)) });
         UI.els.money.textContent = UI.formatMoney(Game.money);
         
         if (UI.els.stickyMoney) UI.els.stickyMoney.textContent = UI.els.money.textContent;
@@ -32,7 +32,7 @@ UI.Stats = {
         UI.els.clickPowerDisplay.textContent = I18n.t("per_click", { val: UI.formatNumber(displayClickPower) });
         
         const worldProdValue = new Decimal(_worldProd(Game.currentYear));
-        UI.els.worldProd.textContent = I18n.t("per_year", { val: UI.formatNumber(worldProdValue) });
+        UI.els.worldProd.textContent = I18n.t("per_year", { val: UI.formatNumber(worldProdValue.mul(25)) });
 
         // Market share
         if (worldProdValue.gt(0) && Game.productionPerYear.gt(0)) {
@@ -94,7 +94,7 @@ UI.Stats = {
             el.textContent = new Decimal(Game.totalTransistors).floor().toNumber().toLocaleString(I18n.lang === 'fr' ? 'fr-FR' : 'en-US');
         });
         document.querySelectorAll(".exact-per-year").forEach(el => {
-            el.textContent = new Decimal(Game.productionPerYear).floor().toNumber().toLocaleString(I18n.lang === 'fr' ? 'fr-FR' : 'en-US');
+            el.textContent = new Decimal(Game.productionPerYear).mul(25).floor().toNumber().toLocaleString(I18n.lang === 'fr' ? 'fr-FR' : 'en-US');
         });
         
         if (yp.needed > 0) {
