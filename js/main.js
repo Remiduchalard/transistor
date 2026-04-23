@@ -206,6 +206,10 @@
         performReset(300_000_000_000); // 300B
     });
 
+    document.getElementById("reset-weyland-btn").addEventListener("click", () => {
+        performReset(1_000_000_000_000_000); // 1 Quadrillion
+    });
+
     const achCloseBtn = document.getElementById("achievement-close-btn");
     if (achCloseBtn) {
         achCloseBtn.addEventListener("click", () => {
