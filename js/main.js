@@ -430,7 +430,7 @@
         const oldYear = Game.currentYear;
         
         Game.tick(delta);
-        Bot.tick(delta * Game.getEffectiveTimeMultiplier());
+        Bot.tick(delta * Game.getEffectiveTimeMultiplier(), delta);
 
         if (Game.currentYear !== oldYear) {
             Game.checkDecadeMilestone();
