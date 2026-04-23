@@ -681,6 +681,6 @@ window.Locales.en = {
     "stats_max_year": "Max year",
     "stats_no_data": "No statistics available.",
     "stats_axis_year": "Axis: Year",
-    "stats_axis_time": "Axis: Playtime",
+    "stats_axis_time": "Axis: Playtime"
 
 };

@@ -684,6 +684,6 @@ window.Locales.fr = {
     "stats_max_year": "Année max",
     "stats_no_data": "Aucune statistique.",
     "stats_axis_year": "Axe : Année",
-    "stats_axis_time": "Axe : Temps de jeu",
+    "stats_axis_time": "Axe : Temps de jeu"
 
 };
