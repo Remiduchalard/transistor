@@ -11,12 +11,7 @@ const Bot = {
     CLICK_STOP: 10_000,
 
     init() {
-        const toggleBtn = document.getElementById("bot-toggle-btn");
-        const toggleBtnMobile = document.getElementById("bot-toggle-btn-mobile");
-        
-        const handler = () => this.toggle();
-        if (toggleBtn) toggleBtn.addEventListener("click", handler);
-        if (toggleBtnMobile) toggleBtnMobile.addEventListener("click", handler);
+        // Initialization if needed, event listeners are handled by desktop.js/mobile.js via window.App.toggleBot
     },
 
     toggle() {

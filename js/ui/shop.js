@@ -328,11 +328,18 @@ UI.Shop = {
             els.name.textContent = (purchased ? "✅ " : "") + name;
             
             let extraInfo = "";
-            if (!purchased && !unlocked) {
-                extraInfo = ` <span style="font-size:0.75rem; color: var(--text-dim);">(${upgrade.unlockYear})</span>`;
+            if (!purchased) {
+                if (!unlocked) {
+                    extraInfo = ` <br><span style="font-size:0.75rem; color: var(--red); font-weight: bold;">${I18n.t("req_year", { val: upgrade.unlockYear })}</span>`;
+                } else if (!affordable) {
+                    // Optional: could add explicit "Fonds insuffisants" but usually the cost being red is enough.
+                    // We'll leave it empty to just rely on the .locked class grey-out.
+                }
             }
             els.desc.innerHTML = I18n.t(`upg_${els.index}_desc`) + extraInfo;
             els.cost.textContent = purchased ? "" : UI.formatMoney(upgrade.cost);
+            if (!purchased && !affordable && unlocked) els.cost.style.color = "var(--red)";
+            else els.cost.style.color = "";
         });
     }
 };
