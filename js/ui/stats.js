@@ -212,7 +212,7 @@ UI.Stats = {
         }
         html += "</tbody></table>";
         container.innerHTML = (history.length === 0 && relevantDecades.length === 0) ? `<p>${I18n.t("stats_no_data")}</p>` : html;
-        renderStatsChart(history, currentMilestones, relevantDecades);
+        this.renderStatsChart(history, currentMilestones, relevantDecades);
         this.buildEquivalences();
     },
 
