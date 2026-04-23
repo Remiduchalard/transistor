@@ -62,6 +62,28 @@ const UI = {
     },
 
     // Global helpers inherited by submodules or used externally
+    formatExact(val) {
+        const d = new Decimal(val);
+        if (d.eq(0)) return "0";
+        if (d.lt(0)) return "-" + this.formatExact(d.abs());
+        
+        let str = d.floor().toFixed(0);
+        // Add spaces every 3 digits
+        return str.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
+
+    formatExactPrice(val) {
+        const d = new Decimal(val);
+        if (d.eq(0)) return "$0.00";
+        if (d.gte(1)) return "$" + d.toNumber().toFixed(2);
+        
+        let str = d.toFixed(30);
+        // Remove trailing zeros
+        str = str.replace(/0+$/, "");
+        if (str.endsWith('.')) str += "00";
+        return "$" + str;
+    },
+
     formatNumber(val) {
         const d = new Decimal(val);
         if (d.eq(0)) return "0";

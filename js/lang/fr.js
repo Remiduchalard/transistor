@@ -43,7 +43,7 @@ window.Locales.fr = {
     "stock_actuel": "Stock actuel",
     "stock_desc": "Nombre de transistors prêts à être vendus. Si l'auto-vente est active, ce stock se vide automatiquement.",
     "progression_temporelle": "Progression Temporelle",
-    "progression_desc1": "L'année de la partie avance en fonction du nombre TOTAL de transistors fabriqués depuis le début.",
+    "progression_desc1": "L'année de la partie avance en fonction du nombre TOTAL de transistors fabriqués depuis le début. Cela suit les limites historiques de la production mondiale.",
     "progression_desc2": "À gauche :",
     "progression_desc3": "Transistors déjà produits",
     "progression_desc4": "À droite :",

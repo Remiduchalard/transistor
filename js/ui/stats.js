@@ -16,13 +16,23 @@ UI.Stats = {
         if (sellBtnMax) sellBtnMax.style.display = "";
 
         UI.els.stock.textContent = UI.formatNumber(Game.transistors);
+        const exactStock = document.getElementById("exact-stock");
+        if (exactStock) exactStock.textContent = UI.formatExact(Game.transistors);
+
         UI.els.perYear.textContent = I18n.t("per_year", { val: UI.formatNumber(Game.productionPerYear.mul(25)) });
+        const exactProd = document.getElementById("exact-prod");
+        if (exactProd) exactProd.textContent = I18n.t("per_year", { val: UI.formatExact(Game.productionPerYear.mul(25)) });
+
         UI.els.money.textContent = UI.formatMoney(Game.money);
+        const exactMoney = document.getElementById("exact-money");
+        if (exactMoney) exactMoney.textContent = UI.formatExactPrice(Game.money);
         
         if (UI.els.stickyMoney) UI.els.stickyMoney.textContent = UI.els.money.textContent;
         if (UI.els.stickyPerYear) UI.els.stickyPerYear.textContent = UI.els.perYear.textContent;
         
         UI.els.unitPrice.textContent = UI.formatPrice(Game.getEffectivePrice());
+        const exactPrice = document.getElementById("exact-price");
+        if (exactPrice) exactPrice.textContent = UI.formatExactPrice(Game.getEffectivePrice());
         UI.els.playTime.textContent = UI.formatTime(Game.virtualElapsed);
         
         let displayClickPower = Game.clickPower;
