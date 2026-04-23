@@ -270,8 +270,18 @@
         text-overflow: ellipsis;
     }
     
-    .tooltip-text { width: 250px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; }
-    .tooltip-right { left: 50%; right: auto; transform: translateX(-50%); }
+    .tooltip-text {
+        position: fixed !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 90vw !important;
+        max-width: 320px !important;
+        font-size: 0.85rem !important;
+        z-index: 9999 !important;
+        box-shadow: 0 0 0 100vmax rgba(0,0,0,0.5) !important;
+    }
+    .tooltip-right { left: 50% !important; right: auto !important; transform: translate(-50%, -50%) !important; }
 
     #tab-machines.active-tab {
         position: static;

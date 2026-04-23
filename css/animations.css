@@ -114,3 +114,8 @@
     border-left: 4px solid var(--gold);
     font-weight: 600;
 }
+
+.notification.error {
+    border-color: var(--red);
+    border-left: 4px solid var(--red);
+}

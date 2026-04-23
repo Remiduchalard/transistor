@@ -7,8 +7,7 @@
  */
 
 const UPGRADES = [
-    // === Click upgrades (50 tiers) ===
-    {
+{
         id: "click_upg_0",
         name: "Pinces de précision",
         desc: "x2 transistors par clic",
@@ -17,7 +16,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_1",
         name: "Loupe de bijoutier",
         desc: "x2 transistors par clic",
@@ -26,7 +25,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_2",
         name: "Éclairage halogène",
         desc: "x2 transistors par clic",
@@ -35,7 +34,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_3",
         name: "Poste de travail ergonomique",
         desc: "x2 transistors par clic",
@@ -44,7 +43,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_4",
         name: "Café robusta",
         desc: "x2 transistors par clic",
@@ -53,7 +52,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_5",
         name: "Micro-soudures",
         desc: "x2 transistors par clic",
@@ -62,7 +61,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_6",
         name: "Gants antistatiques",
         desc: "x2 transistors par clic",
@@ -71,7 +70,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_7",
         name: "Formation accélérée",
         desc: "x2 transistors par clic",
@@ -80,7 +79,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_8",
         name: "Pédale de commande",
         desc: "x2 transistors par clic",
@@ -89,7 +88,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_9",
         name: "Lentilles stéréo",
         desc: "x2 transistors par clic",
@@ -98,7 +97,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_10",
         name: "Flux de travail optimisé",
         desc: "x2 transistors par clic",
@@ -107,7 +106,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_11",
         name: "Siège à suspension",
         desc: "x2 transistors par clic",
@@ -116,7 +115,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_12",
         name: "Ventilation purifiée",
         desc: "x2 transistors par clic",
@@ -125,7 +124,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_13",
         name: "Musique entraînante",
         desc: "x2 transistors par clic",
@@ -134,7 +133,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_14",
         name: "Outils en titane",
         desc: "x2 transistors par clic",
@@ -143,7 +142,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_15",
         name: "Motivation d équipe",
         desc: "x2 transistors par clic",
@@ -152,7 +151,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_16",
         name: "Processus standardisé",
         desc: "x2 transistors par clic",
@@ -161,7 +160,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_17",
         name: "Boissons énergisantes",
         desc: "x2 transistors par clic",
@@ -170,7 +169,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_18",
         name: "Écran anti-reflets",
         desc: "x2 transistors par clic",
@@ -179,7 +178,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_19",
         name: "Guides de soudure",
         desc: "x2 transistors par clic",
@@ -188,7 +187,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_20",
         name: "Aide robotisée",
         desc: "x2 transistors par clic",
@@ -197,7 +196,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_21",
         name: "Lunettes à réalité augmentée",
         desc: "x2 transistors par clic",
@@ -206,7 +205,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_22",
         name: "Micro-actionneurs",
         desc: "x2 transistors par clic",
@@ -215,7 +214,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_23",
         name: "Protocole Six Sigma",
         desc: "x2 transistors par clic",
@@ -224,7 +223,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_24",
         name: "Contrôle qualité instantané",
         desc: "x2 transistors par clic",
@@ -233,7 +232,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_25",
         name: "Stimulants nootropiques",
         desc: "x2 transistors par clic",
@@ -242,7 +241,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_26",
         name: "Implant neural mineur",
         desc: "x2 transistors par clic",
@@ -251,7 +250,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_27",
         name: "Banc de travail à lévitation",
         desc: "x2 transistors par clic",
@@ -260,7 +259,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_28",
         name: "Prothèses cybernétiques",
         desc: "x2 transistors par clic",
@@ -269,7 +268,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_29",
         name: "Manipulation haptique",
         desc: "x2 transistors par clic",
@@ -278,7 +277,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_30",
         name: "Scanner de précision",
         desc: "x2 transistors par clic",
@@ -287,7 +286,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_31",
         name: "Pinces nanométriques",
         desc: "x2 transistors par clic",
@@ -296,7 +295,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_32",
         name: "Aiguilles atomiques",
         desc: "x2 transistors par clic",
@@ -305,7 +304,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_33",
         name: "Vision infrarouge",
         desc: "x2 transistors par clic",
@@ -314,7 +313,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_34",
         name: "Exosquelette léger",
         desc: "x2 transistors par clic",
@@ -323,7 +322,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_35",
         name: "Interface cerveau-machine",
         desc: "x2 transistors par clic",
@@ -332,7 +331,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_36",
         name: "Réflexes surhumains",
         desc: "x2 transistors par clic",
@@ -341,7 +340,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_37",
         name: "Synapses artificielles",
         desc: "x2 transistors par clic",
@@ -350,7 +349,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_38",
         name: "Surcharge cognitive",
         desc: "x2 transistors par clic",
@@ -359,7 +358,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_39",
         name: "Manipulation de champ de force",
         desc: "x2 transistors par clic",
@@ -368,7 +367,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_40",
         name: "Clic quantique",
         desc: "x2 transistors par clic",
@@ -377,7 +376,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_41",
         name: "Accélérateur de particules de poche",
         desc: "x2 transistors par clic",
@@ -386,7 +385,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_42",
         name: "Manipulation temporelle locale",
         desc: "x2 transistors par clic",
@@ -395,7 +394,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_43",
         name: "Lien télépathique",
         desc: "x2 transistors par clic",
@@ -404,7 +403,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_44",
         name: "Contrôle moléculaire",
         desc: "x2 transistors par clic",
@@ -413,7 +412,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_45",
         name: "Assemblage par nanobots",
         desc: "x2 transistors par clic",
@@ -422,7 +421,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_46",
         name: "Fusion de conscience",
         desc: "x2 transistors par clic",
@@ -431,7 +430,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_47",
         name: "Distorsion de probabilité",
         desc: "x2 transistors par clic",
@@ -440,7 +439,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_48",
         name: "Singularité locale",
         desc: "x2 transistors par clic",
@@ -449,7 +448,7 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-    {
+{
         id: "click_upg_49",
         name: "Volonté démiurgique",
         desc: "x2 transistors par clic",
@@ -458,9 +457,907 @@ const UPGRADES = [
         type: "click_multiplier",
         value: 2,
     },
-
-    // Auto-sell — single progressive chain, each tier replaces the previous
-    {
+{
+        id: "click_upg_50",
+        name: "Click Bonus 50",
+        desc: "x5 transistors par clic",
+        cost: 100000,
+        unlockYear: 1980,
+        type: "click_multiplier",
+        value: 5,
+    },
+{
+        id: "click_upg_51",
+        name: "Click Bonus 51",
+        desc: "x5 transistors par clic",
+        cost: 450000,
+        unlockYear: 1982,
+        type: "click_multiplier",
+        value: 5,
+    },
+{
+        id: "click_upg_52",
+        name: "Click Bonus 52",
+        desc: "x5 transistors par clic",
+        cost: 2025000,
+        unlockYear: 1984,
+        type: "click_multiplier",
+        value: 5,
+    },
+{
+        id: "click_upg_53",
+        name: "Click Bonus 53",
+        desc: "x5 transistors par clic",
+        cost: 9112500,
+        unlockYear: 1986,
+        type: "click_multiplier",
+        value: 5,
+    },
+{
+        id: "click_upg_54",
+        name: "Click Bonus 54",
+        desc: "x5 transistors par clic",
+        cost: 41006250,
+        unlockYear: 1988,
+        type: "click_multiplier",
+        value: 5,
+    },
+{
+        id: "click_upg_55",
+        name: "Click Bonus 55",
+        desc: "x5 transistors par clic",
+        cost: 184528125,
+        unlockYear: 1990,
+        type: "click_multiplier",
+        value: 5,
+    },
+{
+        id: "click_upg_56",
+        name: "Click Bonus 56",
+        desc: "x5 transistors par clic",
+        cost: 830376562,
+        unlockYear: 1992,
+        type: "click_multiplier",
+        value: 5,
+    },
+{
+        id: "click_upg_57",
+        name: "Click Bonus 57",
+        desc: "x5 transistors par clic",
+        cost: 3736694529,
+        unlockYear: 1994,
+        type: "click_multiplier",
+        value: 5,
+    },
+{
+        id: "click_upg_58",
+        name: "Click Bonus 58",
+        desc: "x5 transistors par clic",
+        cost: 16815125380,
+        unlockYear: 1996,
+        type: "click_multiplier",
+        value: 5,
+    },
+{
+        id: "click_upg_59",
+        name: "Click Bonus 59",
+        desc: "x5 transistors par clic",
+        cost: 75668064210,
+        unlockYear: 1998,
+        type: "click_multiplier",
+        value: 5,
+    },
+{
+        id: "click_upg_60",
+        name: "Click Bonus 60",
+        desc: "x10 transistors par clic",
+        cost: 340506288945,
+        unlockYear: 2000,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_61",
+        name: "Click Bonus 61",
+        desc: "x10 transistors par clic",
+        cost: 1532278300252,
+        unlockYear: 2002,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_62",
+        name: "Click Bonus 62",
+        desc: "x10 transistors par clic",
+        cost: 6895252351134,
+        unlockYear: 2004,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_63",
+        name: "Click Bonus 63",
+        desc: "x10 transistors par clic",
+        cost: 31028635580103,
+        unlockYear: 2006,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_64",
+        name: "Click Bonus 64",
+        desc: "x10 transistors par clic",
+        cost: 139628860110463,
+        unlockYear: 2008,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_65",
+        name: "Click Bonus 65",
+        desc: "x10 transistors par clic",
+        cost: 628329870497083,
+        unlockYear: 2010,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_66",
+        name: "Click Bonus 66",
+        desc: "x10 transistors par clic",
+        cost: 2827484417236873,
+        unlockYear: 2012,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_67",
+        name: "Click Bonus 67",
+        desc: "x10 transistors par clic",
+        cost: 12723679877565928,
+        unlockYear: 2014,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_68",
+        name: "Click Bonus 68",
+        desc: "x10 transistors par clic",
+        cost: 57256559449046670,
+        unlockYear: 2016,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_69",
+        name: "Click Bonus 69",
+        desc: "x10 transistors par clic",
+        cost: 257654517520710000,
+        unlockYear: 2018,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_70",
+        name: "Click Bonus 70",
+        desc: "x10 transistors par clic",
+        cost: 1159445328843195100,
+        unlockYear: 2020,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_71",
+        name: "Click Bonus 71",
+        desc: "x10 transistors par clic",
+        cost: 5217503979794378000,
+        unlockYear: 2022,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_72",
+        name: "Click Bonus 72",
+        desc: "x10 transistors par clic",
+        cost: 23478767909074700000,
+        unlockYear: 2024,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_73",
+        name: "Click Bonus 73",
+        desc: "x10 transistors par clic",
+        cost: 105654455590836140000,
+        unlockYear: 2026,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_74",
+        name: "Click Bonus 74",
+        desc: "x10 transistors par clic",
+        cost: 475445050158762600000,
+        unlockYear: 2028,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_75",
+        name: "Click Bonus 75",
+        desc: "x10 transistors par clic",
+        cost: 2.1395027257144317e+21,
+        unlockYear: 2030,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_76",
+        name: "Click Bonus 76",
+        desc: "x10 transistors par clic",
+        cost: 9.627762265714942e+21,
+        unlockYear: 2032,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_77",
+        name: "Click Bonus 77",
+        desc: "x10 transistors par clic",
+        cost: 4.332493019571724e+22,
+        unlockYear: 2034,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_78",
+        name: "Click Bonus 78",
+        desc: "x10 transistors par clic",
+        cost: 1.9496218588072756e+23,
+        unlockYear: 2036,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_79",
+        name: "Click Bonus 79",
+        desc: "x10 transistors par clic",
+        cost: 8.77329836463274e+23,
+        unlockYear: 2038,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_80",
+        name: "Click Bonus 80",
+        desc: "x10 transistors par clic",
+        cost: 3.947984264084733e+24,
+        unlockYear: 2040,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_81",
+        name: "Click Bonus 81",
+        desc: "x10 transistors par clic",
+        cost: 1.77659291883813e+25,
+        unlockYear: 2042,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_82",
+        name: "Click Bonus 82",
+        desc: "x10 transistors par clic",
+        cost: 7.994668134771584e+25,
+        unlockYear: 2044,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_83",
+        name: "Click Bonus 83",
+        desc: "x10 transistors par clic",
+        cost: 3.5976006606472126e+26,
+        unlockYear: 2046,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_84",
+        name: "Click Bonus 84",
+        desc: "x10 transistors par clic",
+        cost: 1.6189202972912456e+27,
+        unlockYear: 2048,
+        type: "click_multiplier",
+        value: 10,
+    },
+{
+        id: "click_upg_85",
+        name: "Click Bonus 85",
+        desc: "x50 transistors par clic",
+        cost: 7.285141337810605e+27,
+        unlockYear: 2050,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_86",
+        name: "Click Bonus 86",
+        desc: "x50 transistors par clic",
+        cost: 3.2783136020147724e+28,
+        unlockYear: 2052,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_87",
+        name: "Click Bonus 87",
+        desc: "x50 transistors par clic",
+        cost: 1.4752411209066476e+29,
+        unlockYear: 2054,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_88",
+        name: "Click Bonus 88",
+        desc: "x50 transistors par clic",
+        cost: 6.638585044079915e+29,
+        unlockYear: 2056,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_89",
+        name: "Click Bonus 89",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2058,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_90",
+        name: "Click Bonus 90",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2060,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_91",
+        name: "Click Bonus 91",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2062,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_92",
+        name: "Click Bonus 92",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2064,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_93",
+        name: "Click Bonus 93",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2066,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_94",
+        name: "Click Bonus 94",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2068,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_95",
+        name: "Click Bonus 95",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2070,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_96",
+        name: "Click Bonus 96",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2072,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_97",
+        name: "Click Bonus 97",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2074,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_98",
+        name: "Click Bonus 98",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2076,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_99",
+        name: "Click Bonus 99",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2078,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_100",
+        name: "Click Bonus 100",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2080,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_101",
+        name: "Click Bonus 101",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2082,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_102",
+        name: "Click Bonus 102",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2084,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_103",
+        name: "Click Bonus 103",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2086,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_104",
+        name: "Click Bonus 104",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2088,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_105",
+        name: "Click Bonus 105",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2090,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_106",
+        name: "Click Bonus 106",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2092,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_107",
+        name: "Click Bonus 107",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2094,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_108",
+        name: "Click Bonus 108",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2096,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_109",
+        name: "Click Bonus 109",
+        desc: "x50 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2098,
+        type: "click_multiplier",
+        value: 50,
+    },
+{
+        id: "click_upg_110",
+        name: "Click Bonus 110",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2100,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_111",
+        name: "Click Bonus 111",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2102,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_112",
+        name: "Click Bonus 112",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2104,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_113",
+        name: "Click Bonus 113",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2106,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_114",
+        name: "Click Bonus 114",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2108,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_115",
+        name: "Click Bonus 115",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2110,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_116",
+        name: "Click Bonus 116",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2112,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_117",
+        name: "Click Bonus 117",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2114,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_118",
+        name: "Click Bonus 118",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2116,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_119",
+        name: "Click Bonus 119",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2118,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_120",
+        name: "Click Bonus 120",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2120,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_121",
+        name: "Click Bonus 121",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2122,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_122",
+        name: "Click Bonus 122",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2124,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_123",
+        name: "Click Bonus 123",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2126,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_124",
+        name: "Click Bonus 124",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2128,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_125",
+        name: "Click Bonus 125",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2130,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_126",
+        name: "Click Bonus 126",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2132,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_127",
+        name: "Click Bonus 127",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2134,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_128",
+        name: "Click Bonus 128",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2136,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_129",
+        name: "Click Bonus 129",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2138,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_130",
+        name: "Click Bonus 130",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2140,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_131",
+        name: "Click Bonus 131",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2142,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_132",
+        name: "Click Bonus 132",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2144,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_133",
+        name: "Click Bonus 133",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2146,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_134",
+        name: "Click Bonus 134",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2148,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_135",
+        name: "Click Bonus 135",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2150,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_136",
+        name: "Click Bonus 136",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2152,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_137",
+        name: "Click Bonus 137",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2154,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_138",
+        name: "Click Bonus 138",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2156,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_139",
+        name: "Click Bonus 139",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2158,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_140",
+        name: "Click Bonus 140",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2160,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_141",
+        name: "Click Bonus 141",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2162,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_142",
+        name: "Click Bonus 142",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2164,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_143",
+        name: "Click Bonus 143",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2166,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_144",
+        name: "Click Bonus 144",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2168,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_145",
+        name: "Click Bonus 145",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2170,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_146",
+        name: "Click Bonus 146",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2172,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_147",
+        name: "Click Bonus 147",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2174,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_148",
+        name: "Click Bonus 148",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2176,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
+        id: "click_upg_149",
+        name: "Click Bonus 149",
+        desc: "x100 transistors par clic",
+        cost: 1e+30,
+        unlockYear: 2178,
+        type: "click_multiplier",
+        value: 100,
+    },
+{
         id: "autosell_1",
         name: "Canal de distribution",
         desc: "Vend 10% de la production automatiquement",
@@ -470,7 +1367,7 @@ const UPGRADES = [
         value: 0.10,
         tier: 1,
     },
-    {
+{
         id: "autosell_2",
         name: "Réseau logistique",
         desc: "Vend 25% de la production automatiquement",
@@ -480,7 +1377,7 @@ const UPGRADES = [
         value: 0.25,
         tier: 2,
     },
-    {
+{
         id: "autosell_3",
         name: "Supply chain intégrée",
         desc: "Vend 50% de la production automatiquement",
@@ -490,7 +1387,7 @@ const UPGRADES = [
         value: 0.50,
         tier: 3,
     },
-    {
+{
         id: "autosell_4",
         name: "Pipeline just-in-time",
         desc: "Vend 100% de la production automatiquement",
@@ -500,9 +1397,7 @@ const UPGRADES = [
         value: 1.00,
         tier: 4,
     },
-    
-    // Offline production
-    {
+{
         id: "offline_1950",
         name: "Veille passive",
         desc: "+20% de production hors-ligne",
@@ -511,7 +1406,7 @@ const UPGRADES = [
         type: "offline_prod",
         value: 0.20,
     },
-    {
+{
         id: "offline_1960",
         name: "Équipes de nuit",
         desc: "+20% de production hors-ligne",
@@ -520,7 +1415,7 @@ const UPGRADES = [
         type: "offline_prod",
         value: 0.20,
     },
-    {
+{
         id: "offline_1970",
         name: "Automatisation de base",
         desc: "+20% de production hors-ligne",
@@ -529,7 +1424,7 @@ const UPGRADES = [
         type: "offline_prod",
         value: 0.20,
     },
-    {
+{
         id: "offline_1980",
         name: "Supervision informatisée",
         desc: "+20% de production hors-ligne",
@@ -538,7 +1433,7 @@ const UPGRADES = [
         type: "offline_prod",
         value: 0.20,
     },
-    {
+{
         id: "offline_1990",
         name: "Robotique avancée",
         desc: "+20% de production hors-ligne",
@@ -547,7 +1442,7 @@ const UPGRADES = [
         type: "offline_prod",
         value: 0.20,
     },
-    {
+{
         id: "offline_2000",
         name: "Gestion centralisée par IA",
         desc: "+20% de production hors-ligne",
@@ -556,7 +1451,7 @@ const UPGRADES = [
         type: "offline_prod",
         value: 0.20,
     },
-    {
+{
         id: "offline_2010",
         name: "Robots de maintenance autonomes",
         desc: "+20% de production hors-ligne",
@@ -565,7 +1460,7 @@ const UPGRADES = [
         type: "offline_prod",
         value: 0.20,
     },
-    {
+{
         id: "offline_2020",
         name: "Usines Lights-out",
         desc: "+20% de production hors-ligne",
@@ -573,5 +1468,5 @@ const UPGRADES = [
         unlockYear: 2020,
         type: "offline_prod",
         value: 0.20,
-    },
+    }
 ];

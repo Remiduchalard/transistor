@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transistor Clicker</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/mobile.css">
     <link rel="stylesheet" href="css/desktop.css">
@@ -185,10 +186,10 @@
                     <div class="tooltip-text"><strong data-i18n="total_historique">Total Historique</strong><span data-i18n="total_historique_desc">La quantité exacte de tous les transistors fabriqués depuis 1947 dans cette partie.</span></div>
                 </div>
                 <div class="stat tooltip-container"><span class="stat-label" data-i18n="prod_mondiale_label">Prod. Mondiale:</span> <span id="world-prod" class="stat-value world-value">0/an</span>
-                    <div class="tooltip-text"><strong data-i18n="prod_mondiale_reelle">Production Mondiale Réelle</strong><span data-i18n="prod_mondiale_desc">Ce qui a été historiquement produit sur Terre à cette année précise.</span></div>
+                    <div class="tooltip-text"><strong data-i18n="prod_mondiale_reelle">Production Mondiale Réelle</strong> <span data-i18n="historical_figures">(Chiffres historiques)</span><br><span data-i18n="prod_mondiale_desc">Ce qui a été historiquement produit sur Terre à cette année précise.</span></div>
                 </div>
                 <div class="stat tooltip-container"><span class="stat-label" data-i18n="part_de_marche_label">Part de marché:</span> <span id="market-share" class="stat-value">0%</span>
-                    <div class="tooltip-text"><strong data-i18n="domination">Domination</strong><span data-i18n="domination_desc">Votre production comparée à la production mondiale historique. Atteignez 100% pour dominer le monde réel !</span></div>
+                    <div class="tooltip-text"><strong data-i18n="domination">Domination</strong> <span data-i18n="historical_figures">(Chiffres historiques)</span><br><span data-i18n="domination_desc">Votre production comparée à la production mondiale historique. Atteignez 100% pour dominer le monde réel !</span></div>
                 </div>
                 <div class="stat tooltip-container"><span class="stat-label" data-i18n="temps_de_jeu_label">Temps de jeu:</span> <span id="play-time" class="stat-value">0s</span>
                     <div class="tooltip-text tooltip-right"><strong data-i18n="temps_virtuel">Temps Virtuel</strong><span data-i18n="temps_virtuel_desc">Temps écoulé dans le jeu. L'accélérateur et les boosts augmentent ce compteur plus vite que le temps réel.</span></div>
@@ -227,16 +228,17 @@
                     </button>
                     <button id="expert-toggle-btn" class="settings-link dev-option hidden" style="border-color:var(--accent);color:var(--accent);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">
                         Mode Avancé : DÉSACTIVÉ
-                    </button>                    <button id="stats-btn" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer">Statistiques</button>
-                    <a href="proliferation.html" class="settings-link">Loi de Moore vs. Loi de la Prolifération</a>
-                    <button id="reset-save-btn" class="settings-danger">Réinitialiser la sauvegarde</button>
-                </div>
-                
-                <div class="settings-bot dev-option hidden">
-                    <button id="bot-toggle-btn" class="settings-link" style="border-color:var(--green);color:var(--green);cursor:pointer">Activer le Bot</button>
-                    <span id="bot-status" class="bot-status-off">Inactif</span>
-                </div>
-                <div class="settings-speed dev-option hidden">
+                    </button>
+                    <button id="stats-btn" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer" data-i18n="settings_stats">Statistiques</button>
+                    <a href="proliferation.html" class="settings-link" data-i18n="settings_moore">Loi de Moore vs. Loi de la Prolifération</a>
+                    <button id="reset-save-btn" class="settings-danger" data-i18n="settings_reset">Réinitialiser la sauvegarde</button>
+                    </div>
+
+                    <div class="settings-bot dev-option hidden">
+                    <button id="bot-toggle-btn" class="settings-link" style="border-color:var(--green);color:var(--green);cursor:pointer" data-i18n="settings_bot">Activer le Bot</button>
+                    <span id="bot-status" class="bot-status-off" data-i18n="settings_bot_status_off">Inactif</span>
+                    </div>
+                    <div class="settings-speed dev-option hidden">
                     <span class="speed-label" data-i18n="game_speed">Vitesse du jeu</span>
                     <div class="speed-buttons">
                         <button class="speed-btn" data-speed="0.5">x0.5</button>
@@ -249,9 +251,8 @@
                         <button class="speed-btn" data-speed="500">x500</button>
                         <button class="speed-btn" data-speed="1000">x1000</button>
                     </div>
-                </div>
-                <button id="settings-close" style="margin-top: 20px;">Fermer</button>
-                <div class="made-by-tarah" style="margin-top: 24px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer; text-align: center; opacity: 0.7; user-select: none; touch-action: manipulation;">Made by Tarah</div>
+                    </div>
+                    <button id="settings-close" style="margin-top: 20px;" data-i18n="settings_close">Fermer</button>                <div class="made-by-tarah" style="margin-top: 24px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer; text-align: center; opacity: 0.7; user-select: none; touch-action: manipulation;">Made by Tarah</div>
             </div>
         </div>
 
@@ -356,14 +357,14 @@
                         </button>
                         <button id="expert-toggle-btn-mobile" class="settings-link dev-option hidden" style="border-color:var(--accent);color:var(--accent);cursor:pointer;margin-bottom:15px;width:100%;font-weight:bold;">                            Mode Avancé : DÉSACTIVÉ
                         </button>
-                        <button id="stats-btn-mobile" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer">Statistiques</button>
-                        <a href="proliferation.html" class="settings-link">Loi de Moore vs. Loi de la Prolifération</a>
-                        <button id="reset-save-btn-mobile" class="settings-danger">Réinitialiser la sauvegarde</button>
+                        <button id="stats-btn-mobile" class="settings-link" style="border-color:var(--gold);color:var(--gold);cursor:pointer" data-i18n="settings_stats">Statistiques</button>
+                        <a href="proliferation.html" class="settings-link" data-i18n="settings_moore">Loi de Moore vs. Loi de la Prolifération</a>
+                        <button id="reset-save-btn-mobile" class="settings-danger" data-i18n="settings_reset">Réinitialiser la sauvegarde</button>
                     </div>
                     
                     <div class="settings-bot dev-option hidden">
-                        <button id="bot-toggle-btn-mobile" class="settings-link" style="border-color:var(--green);color:var(--green);cursor:pointer">Activer le Bot</button>
-                        <span id="bot-status-mobile" class="bot-status-off">Inactif</span>
+                        <button id="bot-toggle-btn-mobile" class="settings-link" style="border-color:var(--green);color:var(--green);cursor:pointer" data-i18n="settings_bot">Activer le Bot</button>
+                        <span id="bot-status-mobile" class="bot-status-off" data-i18n="settings_bot_status_off">Inactif</span>
                     </div>
                     <div class="settings-speed dev-option hidden">
                         <span class="speed-label" data-i18n="game_speed">Vitesse du jeu</span>

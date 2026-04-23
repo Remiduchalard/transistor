@@ -188,21 +188,27 @@ const UI = {
     updateStats() {
         const fullAutoSell = Game.autoSellRate >= 1;
 
-        // Stock + sell section: hide only when 100% auto-sell
-        this.els.stock.parentElement.style.display = fullAutoSell ? "none" : "";
+        // Stock + sell section is always visible
+        this.els.stock.parentElement.style.display = "";
         const sellBtnMax = document.getElementById("sell-btn-max");
-        if (sellBtnMax) sellBtnMax.style.display = fullAutoSell ? "none" : "";
+        if (sellBtnMax) sellBtnMax.style.display = "";
 
         this.els.stock.textContent = this.formatNumber(Game.transistors);
-        this.els.perYear.textContent = this.formatNumber(Game.productionPerYear) + "/an";
+        this.els.perYear.textContent = I18n.t("per_year").replace("{val}", this.formatNumber(Game.productionPerYear));
         this.els.money.textContent = this.formatMoney(Game.money);
         if (this.els.stickyMoney) this.els.stickyMoney.textContent = this.els.money.textContent;
         if (this.els.stickyPerYear) this.els.stickyPerYear.textContent = this.els.perYear.textContent;
         this.els.unitPrice.textContent = this.formatPrice(Game.getEffectivePrice());
         this.els.playTime.textContent = this.formatTime(Game.virtualElapsed);
-        this.els.clickPowerDisplay.textContent = `+${this.formatNumber(Game.clickPower)} par clic`;
+        
+        let displayClickPower = Game.clickPower;
+        if (Game.boostMs > 0) {
+            displayClickPower = displayClickPower.mul(50);
+        }
+        this.els.clickPowerDisplay.textContent = I18n.t("per_click").replace("{val}", this.formatNumber(displayClickPower));
+        
         const worldProdValue = new Decimal(_worldProd(Game.currentYear));
-        this.els.worldProd.textContent = this.formatNumber(worldProdValue) + "/an";
+        this.els.worldProd.textContent = I18n.t("per_year").replace("{val}", this.formatNumber(worldProdValue));
 
         // Market share
         if (worldProdValue.gt(0) && Game.productionPerYear.gt(0)) {
@@ -299,6 +305,46 @@ const UI = {
     renderMachines() {
         const container = this.els.machinesList;
         container.innerHTML = "";
+        
+        let canAfford10 = false;
+        let canAfford100 = false;
+        let canAfford1000 = false;
+        
+        for (const machine of MACHINES) {
+            const visible = Game.currentYear >= machine.unlockYear - 10;
+            if (!visible) continue;
+            const rdDone = !!Game.unlockedRD[machine.id];
+            if (!rdDone) continue;
+            const owned = Game.ownedMachines[machine.id] || 0;
+            if (Game.money.gte(getBulkMachineCost(machine, owned, 10, Game.currentYear))) canAfford10 = true;
+            if (Game.money.gte(getBulkMachineCost(machine, owned, 100, Game.currentYear))) canAfford100 = true;
+            if (Game.money.gte(getBulkMachineCost(machine, owned, 1000, Game.currentYear))) canAfford1000 = true;
+        }
+        
+        const selector = document.getElementById("buy-qty-selector");
+        if (selector) {
+            if (!canAfford10) {
+                selector.style.display = "none";
+                this.buyQty = 1;
+            } else {
+                selector.style.display = "flex";
+                const btn10 = selector.querySelector('[data-qty="10"]');
+                const btn100 = selector.querySelector('[data-qty="100"]');
+                const btn1000 = selector.querySelector('[data-qty="1000"]');
+                if (btn10) btn10.style.display = canAfford10 ? "" : "none";
+                if (btn100) btn100.style.display = canAfford100 ? "" : "none";
+                if (btn1000) btn1000.style.display = canAfford1000 ? "" : "none";
+                
+                if (this.buyQty === 1000 && !canAfford1000) this.buyQty = 100;
+                if (this.buyQty === 100 && !canAfford100) this.buyQty = 10;
+                if (this.buyQty === 10 && !canAfford10) this.buyQty = 1;
+            }
+            document.querySelectorAll(".qty-btn").forEach(btn => {
+                btn.classList.remove("active");
+                if (parseInt(btn.dataset.qty) === this.buyQty) btn.classList.add("active");
+            });
+        }
+        
         const qty = this.buyQty;
 
         for (const machine of MACHINES) {
@@ -311,10 +357,9 @@ const UI = {
 
             const unlocked = Game.currentYear >= machine.unlockYear;
             const rdDone = !!Game.unlockedRD[machine.id];
-            const affordable = Game.money >= bulkCost;
             
             const currentRDCost = getDynamicRDCost(machine, Game.currentYear);
-            const rdAffordable = Game.money >= currentRDCost;
+            const rdAffordable = Game.money.gte(currentRDCost);
             
             const totalProd = machine.baseProduction * owned;
 
@@ -325,11 +370,6 @@ const UI = {
 
             const isEarly = Game.currentYear < machine.unlockYear;
 
-            // Reset classes
-            card.className = "machine-card";
-            if (machine.id !== "hand") card.dataset.tier = machine.tier;
-            card.dataset.id = machine.id;
-
             if (!rdDone && !rdAffordable && isEarly) {
                 card.classList.add("locked");
             } else if (!rdDone) {
@@ -337,7 +377,8 @@ const UI = {
                 if (rdAffordable) card.classList.add("affordable");
                 if (isEarly) card.classList.add("early-access");
             } else {
-                if (affordable) card.classList.add("affordable");
+                const singleCost = getMachineCost(machine, owned, Game.currentYear);
+                if (Game.money.gte(singleCost)) card.classList.add("affordable");
                 if (isEarly) card.classList.add("early-access");
             }
 
@@ -345,7 +386,6 @@ const UI = {
             const earlyLabel = isEarly ? `<div class="early-warning">Avance : +${Math.round((Math.pow(2, machine.unlockYear - Game.currentYear) - 1)*100)}%</div>` : "";
             
             if (!rdDone) {
-                // Show R&D cost (potentially dynamic)
                 costAreaHtml = `
                     <div class="machine-cost-area">
                         ${earlyLabel}
@@ -361,7 +401,7 @@ const UI = {
                         ${earlyLabel}
                         <div class="machine-cost">${costLabel}</div>
                         ${owned > 0 ? `<div class="machine-count">x${owned}</div>` : ""}
-                        ${owned > 0 ? `<div class="machine-production-total">Total: ${this.formatNumber(totalProd)}/an</div>` : ""}
+                        ${owned > 0 ? `<div class="machine-production-total">Total: ${I18n.t("per_year").replace("{val}", this.formatNumber(totalProd))}</div>` : ""}
                     </div>
                 `;
             }
@@ -375,7 +415,7 @@ const UI = {
                     <div class="machine-name">${machine.name} ${isEarly ? '<span class="early-tag">Future</span>' : ''}</div>
                     <div class="machine-desc">${machine.desc}</div>
                     <div class="machine-stats">
-                        <span class="machine-stat production">${this.formatNumber(machine.baseProduction)}/an</span>
+                        <span class="machine-stat production">${I18n.t("per_year").replace("{val}", this.formatNumber(machine.baseProduction))}</span>
                         <span class="machine-stat year-tag">${machine.unlockYear}</span>
                     </div>
                 </div>
@@ -408,10 +448,15 @@ const UI = {
             if (rdBtn) {
                 rdBtn.addEventListener("click", (e) => {
                     e.stopPropagation();
+                    const currentCost = getDynamicRDCost(machine, Game.currentYear);
+                    if (Game.money.lt(currentCost)) {
+                        this.notify(I18n.t("insufficient_funds"), "error");
+                        return;
+                    }
                     if (Game.unlockRD(machine.id)) {
                         this.renderMachines();
                         this.updateStats();
-                        this.notify(`R&D terminée : ${machine.name}`, "unlock");
+                        this.notify(I18n.t("rd_done").replace("{val}", machine.name), "unlock");
                     }
                 });
             }
@@ -424,6 +469,8 @@ const UI = {
                         this.renderMachines();
                         this.renderUpgrades();
                         this.updateStats();
+                    } else {
+                        this.notify(I18n.t("insufficient_funds"), "error");
                     }
                 });
             }
@@ -474,7 +521,7 @@ const UI = {
         for (const upgrade of sortedAvailable) {
             const purchased = Game.purchasedUpgrades.has(upgrade.id);
             const unlocked = Game.currentYear >= upgrade.unlockYear;
-            const affordable = Game.money >= upgrade.cost;
+            const affordable = Game.money.gte(upgrade.cost);
 
             const item = document.createElement("div");
             item.className = "upgrade-item";
@@ -482,21 +529,35 @@ const UI = {
             if (purchased) item.classList.add("purchased");
             else if (!unlocked || !affordable) item.classList.add("locked");
 
+            let extraInfo = "";
+            if (!purchased && !unlocked) {
+                extraInfo = ` <span style="font-size:0.75rem; color: var(--text-dim);">(${upgrade.unlockYear})</span>`;
+            }
+
             item.innerHTML = `
                 <div class="upgrade-info">
                     <div class="upgrade-name">${purchased ? "✅ " : ""}${upgrade.name}</div>
-                    <div class="upgrade-desc">${upgrade.desc}${!unlocked ? ` (${upgrade.unlockYear})` : ""}</div>
+                    <div class="upgrade-desc">${upgrade.desc}${extraInfo}</div>
                 </div>
                 ${!purchased ? `<div class="upgrade-cost">${this.formatMoney(upgrade.cost)}</div>` : ""}
             `;
 
-            if (!purchased && unlocked) {
+            if (!purchased) {
                 item.addEventListener("click", () => {
+                    const currentUnlocked = Game.currentYear >= upgrade.unlockYear;
+                    if (!currentUnlocked) {
+                        this.notify(I18n.t("req_year").replace("{val}", upgrade.unlockYear), "error");
+                        return;
+                    }
+                    if (Game.money.lt(upgrade.cost)) {
+                        this.notify(I18n.t("insufficient_funds"), "error");
+                        return;
+                    }
                     if (Game.buyUpgrade(upgrade.id)) {
                         this.renderUpgrades();
                         this.renderMachines();
                         this.updateStats();
-                        this.notify(`Amélioration achetée : ${upgrade.name}`, "unlock");
+                        this.notify(I18n.t("upgrade_bought").replace("{val}", upgrade.name), "unlock");
                     }
                 });
             }
@@ -516,7 +577,7 @@ const UI = {
                 const revenue = Game.sell(qty);
                 if (revenue > 0) {
                     this.updateStats();
-                    this.notify(`Vendu ! +${this.formatMoney(revenue)}`, "sell");
+                    this.notify(I18n.t("sold_for").replace("{val}", this.formatMoney(revenue)), "sell");
                 }
             });
         });
@@ -564,7 +625,7 @@ const UI = {
 
         for (const machine of MACHINES) {
             if (machine.unlockYear > oldYear && machine.unlockYear <= newYear) {
-                this.notify(`🔓 Nouveau : ${machine.name} (${machine.unlockYear})`, "unlock");
+                this.notify(I18n.t("new_machine").replace("{name}", machine.name).replace("{year}", machine.unlockYear), "unlock");
             }
         }
 
@@ -573,7 +634,7 @@ const UI = {
         const newEra = getCurrentEra(newYear);
         if (newEra.startYear !== oldEra.startYear) {
             this.showMilestone(newEra.name, newEra.desc);
-            this.notify(`Nouvelle ère : ${newEra.name}`, "era");
+            this.notify(I18n.t("new_era").replace("{val}", newEra.name), "era");
         }
     },
 };

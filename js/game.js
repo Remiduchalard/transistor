@@ -181,7 +181,26 @@ const Game = {
 
         // Year
         this.previousYear = this.currentYear;
-        this.currentYear = computeYear(this.totalTransistors.toNumber());
+        const newYear = computeYear(this.totalTransistors.toNumber());
+        
+        if (newYear > this.previousYear && this.autoSellRate > 0) {
+            // Sell at end of year using the price of the year that just ended
+            for (let y = this.previousYear; y < newYear; y++) {
+                if (this.transistors.lte(0)) break;
+                // Rough approximation of stock to sell per year elapsed
+                // If skipping multiple years, sell a fraction per year, but simple is just selling all at once at previous year price?
+                // Wait, if we want to be exact, we should do it correctly. 
+                // But normally we only advance 1 year at a time.
+                let toSell = this.transistors.mul(this.autoSellRate).floor();
+                if (toSell.gt(0)) {
+                    let unitPrice = getTransistorPrice(y);
+                    this.transistors = this.transistors.sub(toSell);
+                    this.money = this.money.add(toSell.mul(unitPrice));
+                }
+            }
+        }
+        
+        this.currentYear = newYear;
     },
 
     /**
@@ -214,7 +233,10 @@ const Game = {
      * Handle a click on the transistor button
      */
     click() {
-        const produced = this.clickPower;
+        let produced = this.clickPower;
+        if (this.boostMs > 0) {
+            produced = produced.mul(50);
+        }
         this.transistors = this.transistors.add(produced);
         this.totalTransistors = this.totalTransistors.add(produced);
         this.recalculate();
@@ -263,21 +285,7 @@ const Game = {
             }
         }
 
-        // Auto-sell: sells autoSellRate % of production per tick (with accumulator)
-        if (this.autoSellRate > 0 && this.productionPerYear.gt(0) && this.transistors.gt(0)) {
-            const productionPerMs = this.productionPerYear.div(msPerYear);
-            const producedThisTick = productionPerMs.mul(effectiveDelta);
-            this.autoSellAccumulator = this.autoSellAccumulator.add(producedThisTick.mul(this.autoSellRate));
-
-            let toSell = this.autoSellAccumulator.floor();
-            if (toSell.gt(0)) {
-                this.autoSellAccumulator = this.autoSellAccumulator.sub(toSell);
-                const actual = Decimal.min(toSell, this.transistors);
-                const unitPrice = this.getEffectivePrice();
-                this.transistors = this.transistors.sub(actual);
-                this.money = this.money.add(actual.mul(unitPrice));
-            }
-        }
+        // Auto-sell tick logic removed
 
         return 0;
     },
@@ -466,25 +474,35 @@ const Game = {
                 const totalProduced = productionPerMs.mul(effectiveOfflineMs).mul(this.offlineRate).floor();
 
                 if (totalProduced.gt(0)) {
-                    let sold = new Decimal(0);
-                    let earned = new Decimal(0);
+                    let remaining = new Decimal(totalProduced);
+                    let startMoney = new Decimal(this.money);
 
-                    if (this.autoSellRate > 0) {
-                        sold = totalProduced.mul(this.autoSellRate).floor();
-                        const unitPrice = getTransistorPrice(this.currentYear);
-                        earned = sold.mul(unitPrice);
+                    while (remaining.gt(0)) {
+                        const nextThreshold = CONFIG.YEAR_THRESHOLDS.find(t => t.year === this.currentYear + 1);
+                        let step = remaining;
+                        if (nextThreshold && this.totalTransistors.add(step).gt(nextThreshold.transistors)) {
+                            step = new Decimal(nextThreshold.transistors).sub(this.totalTransistors);
+                            if (step.lte(0)) step = new Decimal(1);
+                        }
+                        step = Decimal.min(step, remaining);
+
+                        // If beyond all thresholds, take a larger step (e.g., 10%)
+                        if (!nextThreshold && remaining.gt(100)) {
+                            step = remaining.div(10).floor();
+                            if (step.lte(0)) step = remaining;
+                        }
+
+                        this.transistors = this.transistors.add(step);
+                        this.totalTransistors = this.totalTransistors.add(step);
+                        remaining = remaining.sub(step);
+                        
+                        this.recalculate();
                     }
 
-                    const kept = totalProduced.sub(sold);
-
-                    this.transistors = this.transistors.add(kept);
-                    this.totalTransistors = this.totalTransistors.add(totalProduced);
-                    this.money = this.money.add(earned);
+                    let earned = this.money.sub(startMoney);
 
                     // Add elapsed time so it counts in stats correctly
                     this.virtualElapsed += effectiveOfflineMs;
-
-                    this.recalculate(); // Recalculate year after gaining transistors
 
                     offlineData = {
                         offlineMs,

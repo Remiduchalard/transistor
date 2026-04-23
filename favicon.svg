@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120">
+    <!-- Transistor symbol -->
+    <line x1="20" y1="60" x2="45" y2="60" stroke="#38bdf8" stroke-width="8"/>
+    <line x1="45" y1="30" x2="45" y2="90" stroke="#38bdf8" stroke-width="8"/>
+    <line x1="45" y1="40" x2="75" y2="20" stroke="#38bdf8" stroke-width="8"/>
+    <line x1="45" y1="80" x2="75" y2="100" stroke="#38bdf8" stroke-width="8"/>
+    <line x1="75" y1="20" x2="75" y2="5" stroke="#38bdf8" stroke-width="8"/>
+    <line x1="75" y1="100" x2="75" y2="115" stroke="#38bdf8" stroke-width="8"/>
+    <!-- Arrow -->
+    <polygon points="68,78 75,100 60,88" fill="#38bdf8"/>
+</svg>
