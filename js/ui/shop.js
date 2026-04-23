@@ -340,6 +340,14 @@ UI.Shop = {
             els.cost.textContent = purchased ? "" : UI.formatMoney(upgrade.cost);
             if (!purchased && !affordable && unlocked) els.cost.style.color = "var(--red)";
             else els.cost.style.color = "";
+            
+            // Sorting via flex order
+            let baseOrder = purchased ? 10000 : 0;
+            if (upgrade.type === "offline_prod") baseOrder += 1000;
+            else if (upgrade.type === "autosell") baseOrder += 2000;
+            else if (upgrade.type === "click_multiplier") baseOrder += 3000;
+            
+            els.element.style.order = baseOrder + els.index;
         });
     }
 };
