@@ -271,7 +271,7 @@ UI.Stats = {
         
         html += `</div>`;
         container.innerHTML = html;
-    }
+    },
 
     formatDuration(seconds) {
         if (!isFinite(seconds) || seconds < 0) return I18n.t("time_infinity");
