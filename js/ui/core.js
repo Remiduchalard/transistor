@@ -67,7 +67,10 @@ const UI = {
         if (d.eq(0)) return "0";
         if (d.lt(0)) return "-" + this.formatExact(d.abs());
         
-        let str = d.floor().toFixed(0);
+        Decimal.set({ toExpPos: 9e15 }); // Prevent scientific notation for large numbers
+        let str = d.floor().toFixed();
+        Decimal.set({ toExpPos: 20 }); // Reset to default
+        
         // Add spaces every 3 digits
         return str.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
