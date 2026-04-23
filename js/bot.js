@@ -217,16 +217,18 @@ const Bot = {
             if (success) {
                 this.highlightAction(best.type, best.id);
                 madePurchases = true;
-                
+
                 // Target has been bought, force a recalculation on the next while iteration
-                this.needsRecalculation = true; 
+                // But specifically for machines, if we want to buy only one per tick, we break out here
+                // to avoid the bot instantly spamming 100 purchases in the same UI tick if it has infinite money.
+                this.needsRecalculation = true;
+                break;
             } else {
                 break;
             }
 
             iterations++;
-        }
-
+            }
         // BATCH DOM UPDATES: ONLY trigger interface refresh once after all high-speed purchases are done
         if (madePurchases) {
             Events.emit('shopUpdated');
