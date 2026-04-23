@@ -434,7 +434,7 @@
         if (renderAccumulator >= RENDER_INTERVAL) {
             renderAccumulator = 0;
             Events.emit('statsUpdated');
-            if (UI.Shop) UI.Shop.updateMachines(); 
+            if (UI.Shop) UI.Shop.update(); 
         }
         requestAnimationFrame(gameLoop);
     }
