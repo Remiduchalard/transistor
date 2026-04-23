@@ -67,9 +67,41 @@ const UI = {
         if (d.eq(0)) return "0";
         if (d.lt(0)) return "-" + this.formatExact(d.abs());
         
-        Decimal.set({ toExpPos: 9e15 }); // Prevent scientific notation for large numbers
-        let str = d.floor().toFixed();
-        Decimal.set({ toExpPos: 20 }); // Reset to default
+        let str;
+        // Check if Decimal has an object structure that allows us to bypass scientific notation
+        if (typeof d.toFixed === 'function') {
+            // For Decimal.js or BreakEternity.js, toFixed usually returns string representation without e
+            // If it still returns 'e', we can manually construct the string from mantissa/exponent
+            if (d.mantissa !== undefined && d.exponent !== undefined) {
+                let mStr = Math.abs(d.mantissa).toString();
+                let e = d.exponent;
+                
+                let decimalPos = mStr.indexOf(".");
+                if (decimalPos !== -1) {
+                    mStr = mStr.replace(".", "");
+                    e -= (mStr.length - decimalPos);
+                }
+                
+                if (e >= 0) {
+                    str = mStr + "0".repeat(e);
+                } else {
+                    // Fallback for very weird edge cases or small numbers
+                    str = d.floor().toString();
+                }
+            } else {
+                str = d.floor().toString();
+                // If it still contains 'e', manual parse
+                if (str.includes('e')) {
+                    const [base, exp] = str.split('e');
+                    let zeros = parseInt(exp);
+                    str = base.replace('.', '');
+                    zeros -= (str.length - 1);
+                    if (zeros > 0) str += '0'.repeat(zeros);
+                }
+            }
+        } else {
+            str = Math.floor(val).toString();
+        }
         
         // Add spaces every 3 digits
         return str.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
