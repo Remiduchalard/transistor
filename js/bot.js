@@ -189,9 +189,14 @@ const Bot = {
             // Dynamically update UI on the first frame only to avoid overhead
             if (iterations === 0) {
                 let name = "Objet";
-                if (best.type === "upgrade") name = I18n.t(`upg_${best.index}_name`);
-                else name = MACHINES.find(m => m.id === best.id)?.name || "Usine";
-                const verb = isAffordable ? "Achat de" : "Économie pour";
+                if (best.type === "upgrade") {
+                    name = I18n.t(`upg_${best.index}_name`);
+                } else {
+                    // For machines and RD, we need to find the machine's index in MACHINES array to get its translation
+                    const machineIndex = MACHINES.findIndex(m => m.id === best.id);
+                    name = I18n.t(`machine_${machineIndex}_name`) || "Usine";
+                }
+                const verb = isAffordable ? (I18n.lang === 'fr' ? "Achat de" : "Buying") : (I18n.lang === 'fr' ? "Économie pour" : "Saving for");
                 this.setNextActionLabel(`${verb} : ${name}`);
             }
 
