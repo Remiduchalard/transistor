@@ -273,21 +273,21 @@
         history.forEach((run, i) => {
             html += `<th>Run ${i + 1}<br><span style="font-weight:400;font-size:0.65rem">${run.date}</span></th>`;
         });
-        html += '<th class="current-run">En cours</th></tr></thead><tbody>';
+        html += `<th class="current-run">${I18n.t("stats_current_run")}</th></tr></thead><tbody>`;
 
-        html += '<tr><td class="row-label">Temps total</td>';
+        html += `<tr><td class="row-label">${I18n.t("stats_total_time")}</td>`;
         history.forEach(run => html += `<td>${UI.formatTime(run.totalElapsed)}</td>`);
         html += `<td class="current-run">${UI.formatTime(currentElapsed)}</td></tr>`;
 
-        html += '<tr><td class="row-label">Assistée</td>';
-        history.forEach(run => html += `<td>${run.usedAssistance ? 'Oui 🤖' : 'Non'}</td>`);
-        html += `<td class="current-run">${Game.usedAssistance ? 'Oui 🤖' : 'Non'}</td></tr>`;
+        html += `<tr><td class="row-label">${I18n.t("stats_assisted")}</td>`;
+        history.forEach(run => html += `<td>${run.usedAssistance ? I18n.t("stats_yes") + ' 🤖' : I18n.t("stats_no")}</td>`);
+        html += `<td class="current-run">${Game.usedAssistance ? I18n.t("stats_yes") + ' 🤖' : I18n.t("stats_no")}</td></tr>`;
 
-        html += '<tr><td class="row-label">Prod. mondiale max</td>';
+        html += `<tr><td class="row-label">${I18n.t("stats_max_world_prod")}</td>`;
         history.forEach(run => html += `<td>${UI.formatNumber(new Decimal(_worldProd(run.maxYear || 1947)).mul(25))}/an</td>`);
         html += `<td class="current-run">${UI.formatNumber(new Decimal(_worldProd(Game.currentYear)).mul(25))}/an</td></tr>`;
 
-        html += '<tr><td class="row-label">Année max</td>';
+        html += `<tr><td class="row-label">${I18n.t("stats_max_year")}</td>`;
         history.forEach(run => html += `<td>${run.maxYear || "?"}</td>`);
         html += `<td class="current-run">${Game.currentYear}</td></tr>`;
 
@@ -310,7 +310,7 @@
             html += `<td class="current-run ${isBest ? "best-time" : ""}">${UI.formatTime(ct)}</td></tr>`;
         }
         html += "</tbody></table>";
-        container.innerHTML = (history.length === 0 && relevantDecades.length === 0) ? '<p>Aucune statistique.</p>' : html;
+        container.innerHTML = (history.length === 0 && relevantDecades.length === 0) ? `<p>${I18n.t("stats_no_data")}</p>` : html;
         renderStatsChart(history, currentMilestones, relevantDecades);
         buildEquivalences();
     }
@@ -328,14 +328,18 @@
             
             let pctStr = "";
             if (percentage.gte(100)) pctStr = UI.formatNumber(percentage) + "%";
-            else if (percentage.gte(0.01)) pctStr = percentage.toNumber().toFixed(2) + "%";
-            else pctStr = percentage.toExponential(2).replace("e-", "e-") + "%";
+            else if (percentage.gte(1)) pctStr = percentage.toNumber().toFixed(1) + "%";
+            else pctStr = percentage.toNumber().toFixed(3) + "%";
             
             html += `
             <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 10px; border-radius: 8px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
-                <div>
+                <div style="display: flex; align-items: center;">
                     <span style="font-size: 1.5rem; margin-right: 10px;">${eq.icon}</span>
                     <strong style="color: var(--text);">${I18n.t("equiv_" + eq.id)}</strong>
+                    <div class="tooltip-container" style="margin-left: 8px; cursor: help; color: var(--text-dim); border-bottom: 1px dotted var(--text-dim); display: inline-block;">
+                        ?
+                        <div class="tooltip-text" style="width: 250px; white-space: normal; text-transform: none;">${I18n.t("equiv_" + eq.id + "_info")}</div>
+                    </div>
                 </div>
                 <div style="text-align: right; font-size: 0.9rem;">
                     <div style="color: var(--accent);">${I18n.t("equiv_can_produce")}: <b>${UI.formatNumber(canProduce)}</b></div>
@@ -343,6 +347,11 @@
                 </div>
             </div>`;
         });
+        
+        html += `<div style="margin-top: 15px; font-size: 0.85rem; color: var(--text-dim); text-align: left;">
+            <p><strong>${I18n.t("equiv_can_produce")} :</strong> ${I18n.t("equiv_qty_help")}</p>
+            <p style="margin-top:4px;"><strong>${I18n.t("equiv_world_pct")} :</strong> ${I18n.t("equiv_pct_help")}</p>
+        </div>`;
         
         // Time to produce 1970
         const prod1970 = new Decimal(1014120480); // Exact value from _worldProd(1970)
@@ -365,7 +374,13 @@
 
     function formatDuration(seconds) {
         if (!isFinite(seconds) || seconds < 0) return I18n.t("time_infinity");
-        if (seconds < 1) return I18n.t("time_instant");
+        if (seconds === 0) return I18n.t("time_instant");
+        
+        if (seconds < 1) {
+            if (seconds >= 1e-3) return (seconds * 1000).toFixed(2) + " " + I18n.t("time_ms");
+            if (seconds >= 1e-6) return (seconds * 1e6).toFixed(2) + " " + I18n.t("time_us");
+            return (seconds * 1e9).toFixed(2) + " " + I18n.t("time_ns");
+        }
         
         const days = Math.floor(seconds / 86400);
         seconds -= days * 86400;
@@ -388,7 +403,7 @@
     if (chartToggle) {
         chartToggle.addEventListener("click", (e) => {
             chartMode = chartMode === 'year' ? 'time' : 'year';
-            e.target.textContent = `Axe : ${chartMode === 'year' ? 'Année' : 'Temps de jeu'}`;
+            e.target.textContent = chartMode === 'year' ? I18n.t('stats_axis_year') : I18n.t('stats_axis_time');
             buildStatsTable();
         });
     }
@@ -430,7 +445,7 @@
             : Object.values(Game.yearlyProduction).map(v => ({ x: v.time, y: new Decimal(v.prod).mul(25).toNumber() }));
         
         datasets.push({
-            label: 'En cours',
+            label: I18n.t('stats_current_run'),
             data: currentData,
             borderColor: '#ffffff',
             borderWidth: 2, pointRadius: 0, borderDash: [5, 5], fill: false, tension: 0.1
