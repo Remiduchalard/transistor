@@ -211,9 +211,7 @@ const Game = {
         while (this.purchaseCounter >= 100) {
             this.consumables++;
             this.purchaseCounter -= 100;
-            if (typeof UI !== 'undefined' && UI.notify) {
-                UI.notify("🎁 Boost x50 gagné !", "bonus");
-            }
+            Events.emit("notify", { message: I18n.t("boost_earned") || "🎁 Boost x50 gagné !", type: "bonus" });
         }
     },
 
@@ -333,9 +331,7 @@ const Game = {
             if (machineId === "terrafab" && this.ownedMachines[machineId] === 1 && !this.globals.unlockedMusk) {
                 this.globals.unlockedMusk = true;
                 this.saveGlobals();
-                if (typeof UI !== 'undefined' && UI.showAchievement) {
-                    UI.showAchievement("terrafab_musk");
-                }
+                Events.emit("achievementUnlocked", "terrafab_musk");
             }
         }
         return bought;

@@ -1,4 +1,3 @@
-
 window.Locales = window.Locales || {};
 
 const I18n = {
@@ -20,39 +19,15 @@ const I18n = {
             this.lang = newLang;
             localStorage.setItem('transistor_clicker_lang', newLang);
             document.documentElement.lang = this.lang;
+            
+            // UI elements update themselves by listening to this event
+            Events.emit('languageChanged', newLang);
+            
             this.updateDOM();
-            this.updateGameData();
-            if (typeof UI !== 'undefined') {
-                UI.renderMachines();
-                UI.renderUpgrades();
-                UI.updateStats();
-            }
+            
             if (typeof window.App !== 'undefined' && window.App.updateExpertMode) {
                 window.App.updateExpertMode();
             }
-        }
-    },
-
-    updateGameData() {
-        if (typeof CONFIG !== 'undefined' && CONFIG.ERAS) {
-            CONFIG.ERAS.forEach((e, i) => {
-                e.name = this.t("era_" + i + "_name");
-                e.desc = this.t("era_" + i + "_desc");
-            });
-        }
-        if (typeof MACHINES !== 'undefined') {
-            MACHINES.forEach((m, i) => {
-                m.name = this.t("machine_" + i + "_name");
-                m.desc = this.t("machine_" + i + "_desc");
-                m.realInfo = this.t("machine_" + i + "_real");
-                m.rdInfo = this.t("machine_" + i + "_rd");
-            });
-        }
-        if (typeof UPGRADES !== 'undefined') {
-            UPGRADES.forEach((u, i) => {
-                u.name = this.t("upg_" + i + "_name");
-                u.desc = this.t("upg_" + i + "_desc");
-            });
         }
     },
 

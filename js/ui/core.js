@@ -1,0 +1,142 @@
+/**
+ * js/ui/core.js — Base UI logic and element caching
+ */
+
+const UI = {
+    els: {},
+    buyQty: 1,
+
+    init() {
+        this.els = {
+            stock: document.getElementById("stock"),
+            totalTransistors: document.getElementById("total-transistors"),
+            perYear: document.getElementById("per-year"),
+            money: document.getElementById("money"),
+            stickyMoney: document.getElementById("sticky-money"),
+            stickyPerYear: document.getElementById("sticky-per-year"),
+            unitPrice: document.getElementById("unit-price"),
+            playTime: document.getElementById("play-time"),
+            currentYear: document.getElementById("current-year"),
+            eraName: document.getElementById("era-name"),
+            mobileEraName: document.getElementById("mobile-era-name"),
+            clickBtn: document.getElementById("click-btn"),
+            clickPowerDisplay: document.getElementById("click-power-display"),
+            floatingNumbers: document.getElementById("floating-numbers"),
+            machinesList: document.getElementById("machines-list"),
+            upgradesList: document.getElementById("upgrades-list"),
+            notifications: document.getElementById("notifications"),
+            milestonePopup: document.getElementById("milestone-popup"),
+            milestoneTitle: document.getElementById("milestone-title"),
+            milestoneText: document.getElementById("milestone-text"),
+            milestoneClose: document.getElementById("milestone-close"),
+            worldProd: document.getElementById("world-prod"),
+            marketShare: document.getElementById("market-share"),
+            yearTotalProduced: document.getElementById("year-total-produced"),
+            yearProgressFill: document.getElementById("year-progress-fill"),
+            yearNextLabel: document.getElementById("year-next-label"),
+            nextYearDisplay: document.getElementById("next-year-display"),
+            botPlanner: document.getElementById("bot-planner"),
+            botNextAction: document.getElementById("bot-next-action"),
+            boostProgressText: document.getElementById("boost-progress-text"),
+            boostProgressBar: document.getElementById("boost-progress-bar"),
+            useBoostBtn: document.getElementById("use-boost-btn"),
+            boostStock: document.getElementById("boost-stock"),
+            boostActiveDisplay: document.getElementById("boost-active-display"),
+            boostTimer: document.getElementById("boost-timer"),
+        };
+
+        // Initialize sub-modules
+        if (this.Stats) this.Stats.init();
+        if (this.Shop) this.Shop.init();
+        if (this.Notifications) this.Notifications.init();
+
+        // Listen for language changes
+        Events.on('languageChanged', () => {
+            if (this.Shop) this.Shop.fullRefresh();
+            this.updateStats();
+        });
+    },
+
+    updateStats() {
+        if (this.Stats) this.Stats.update();
+    },
+
+    // Global helpers inherited by submodules or used externally
+    formatNumber(val) {
+        const d = new Decimal(val);
+        if (d.eq(0)) return "0";
+        if (d.lt(0)) return "-" + this.formatNumber(d.abs());
+
+        const suffixes = [
+            { value: new Decimal(1e93), suffix: " Tg" },
+            { value: new Decimal(1e90), suffix: " Nv" },
+            { value: new Decimal(1e87), suffix: " Ov" },
+            { value: new Decimal(1e84), suffix: " Spv" },
+            { value: new Decimal(1e81), suffix: " Sxv" },
+            { value: new Decimal(1e78), suffix: " Qiv" },
+            { value: new Decimal(1e75), suffix: " Qav" },
+            { value: new Decimal(1e72), suffix: " Tv" },
+            { value: new Decimal(1e69), suffix: " Dv" },
+            { value: new Decimal(1e66), suffix: " Uv" },
+            { value: new Decimal(1e63), suffix: " V" },
+            { value: new Decimal(1e60), suffix: " Nd" },
+            { value: new Decimal(1e57), suffix: " Od" },
+            { value: new Decimal(1e54), suffix: " Spd" },
+            { value: new Decimal(1e51), suffix: " Sxd" },
+            { value: new Decimal(1e48), suffix: " Qid" },
+            { value: new Decimal(1e45), suffix: " Qad" },
+            { value: new Decimal(1e42), suffix: " Td" },
+            { value: new Decimal(1e39), suffix: " Dd" },
+            { value: new Decimal(1e36), suffix: " Ud" },
+            { value: new Decimal(1e33), suffix: " Dc" },
+            { value: new Decimal(1e30), suffix: " Nn" },
+            { value: new Decimal(1e27), suffix: " Oc" },
+            { value: new Decimal(1e24), suffix: " Sp" },
+            { value: new Decimal(1e21), suffix: " Sx" },
+            { value: new Decimal(1e18), suffix: " Qi" },
+            { value: new Decimal(1e15), suffix: " Qa" },
+            { value: new Decimal(1e12), suffix: " T" },
+            { value: new Decimal(1e9), suffix: " G" },
+            { value: new Decimal(1e6), suffix: " M" },
+            { value: new Decimal(1e3), suffix: " K" },
+        ];
+
+        for (const { value, suffix } of suffixes) {
+            if (d.gte(value)) {
+                const display = d.div(value).toNumber();
+                return display.toFixed(display < 10 ? 2 : display < 100 ? 1 : 0) + suffix;
+            }
+        }
+
+        return d.floor().toNumber().toLocaleString("fr-FR");
+    },
+
+    formatMoney(val) {
+        const d = new Decimal(val);
+        if (d.gte(1e3)) return "$" + this.formatNumber(d);
+        if (d.gte(1)) return "$" + d.toNumber().toFixed(2);
+        if (d.gte(0.01)) return "$" + d.toNumber().toFixed(4);
+        if (d.gte(0.0001)) return "$" + d.toNumber().toFixed(6);
+        if (d.gt(0)) return "$" + d.toExponential(2);
+        return "$0.00";
+    },
+
+    formatPrice(val) {
+        const d = new Decimal(val);
+        if (d.eq(0)) return "$0.00";
+        if (d.gte(1)) return "$" + d.toNumber().toFixed(2);
+        if (d.lt(0.001)) return "$" + d.toExponential(0);
+        return "$" + d.toPrecision(1);
+    },
+
+    formatTime(ms) {
+        if (ms === undefined || ms === null) return "—";
+        const totalSec = Math.floor(ms / 1000);
+        const h = Math.floor(totalSec / 3600);
+        const m = Math.floor((totalSec % 3600) / 60);
+        const s = totalSec % 60;
+        if (h > 0) return `${h}h ${m}m ${s}s`;
+        if (m > 0) return `${m}m ${s}s`;
+        return `${s}s`;
+    }
+};

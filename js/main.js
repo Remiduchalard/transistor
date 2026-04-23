@@ -7,9 +7,9 @@
 
     // Initialize
     Game.init();
-    I18n.updateGameData();
     const loadResult = Game.load();
     UI.init();
+    Bot.init();
 
     // Global App object to expose functions to desktop.js and mobile.js
     window.App = {
@@ -19,6 +19,8 @@
             updateExpertMode();
         },
         triggerResetPopup: () => {
+            const resetPopup = document.getElementById("reset-popup");
+            const settingsPopup = document.getElementById("settings-popup");
             resetPopup.classList.remove("hidden");
             settingsPopup.classList.add("hidden"); 
             if (Game.globals.unlockedMusk) {
@@ -28,12 +30,14 @@
             }
         },
         openStats: () => {
+            const settingsPopup = document.getElementById("settings-popup");
+            const statsPopup = document.getElementById("stats-popup");
             settingsPopup.classList.add("hidden");
             buildStatsTable();
             statsPopup.classList.remove("hidden");
         },
         toggleBot: () => {
-            toggleBot();
+            Bot.toggle();
         },
         toggleLanguage: () => {
             const newLang = I18n.lang === 'fr' ? 'en' : 'fr';
@@ -61,11 +65,10 @@
             document.querySelectorAll(".dev-option").forEach(el => el.classList.add("hidden"));
         }
         
-        const el = document.createElement("div");
-        el.className = "notification " + (Game.globals.devModeUnlocked ? "unlock" : "");
-        el.textContent = Game.globals.devModeUnlocked ? "Mode développeur activé !" : "Mode développeur désactivé !";
-        document.getElementById("notifications").appendChild(el);
-        setTimeout(() => el.remove(), 3000);
+        Events.emit('notify', {
+            message: Game.globals.devModeUnlocked ? "Mode développeur activé !" : "Mode développeur désactivé !",
+            type: Game.globals.devModeUnlocked ? "unlock" : ""
+        });
     }
 
     if (Game.globals.devModeUnlocked) {
@@ -94,11 +97,8 @@
     const introPopup = document.getElementById("intro-popup");
     document.getElementById("intro-start-btn").addEventListener("click", () => {
         introPopup.classList.add("hidden");
-        // Analytics: Game Started
         if (typeof gtag === "function") {
-            gtag('event', 'tutorial_complete', {
-                'tutorial_id': 'intro_popup'
-            });
+            gtag('event', 'tutorial_complete', { 'tutorial_id': 'intro_popup' });
             gtag('event', 'game_start');
         }
     });
@@ -124,28 +124,10 @@
     }
 
     // Initial render
-    UI.updateStats();
-    UI.renderMachines();
-    UI.renderUpgrades();
-    UI.initSellButtons();
-    UI.initMilestoneClose();
+    Events.emit('statsUpdated');
+    Events.emit('shopUpdated');
     
     if (loadResult === false || Game.virtualElapsed === 0) checkIntroPopup();
-
-    // Auto-save every 10 seconds
-    setInterval(() => {
-        Game.save();
-    }, 10000);
-
-    // === Buy quantity selector ===
-    document.querySelectorAll(".qty-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            document.querySelectorAll(".qty-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            UI.buyQty = parseInt(btn.dataset.qty);
-            UI.renderMachines();
-        });
-    });
 
     // Expert mode toggle
     const expertToggleBtn = document.getElementById("expert-toggle-btn");
@@ -172,21 +154,29 @@
     
     updateExpertMode();
 
+    // App export for specific submodule needs
+    window.App.updateExpertMode = updateExpertMode;
+
     const settingsPopup = document.getElementById("settings-popup");
-    document.getElementById("settings-close").addEventListener("click", () => {
-        settingsPopup.classList.add("hidden");
-    });
+    const settingsClose = document.getElementById("settings-close");
+    if (settingsClose) {
+        settingsClose.addEventListener("click", () => {
+            settingsPopup.classList.add("hidden");
+        });
+    }
     settingsPopup.addEventListener("click", (e) => {
         if (e.target === settingsPopup) settingsPopup.classList.add("hidden");
     });
     
     const resetPopup = document.getElementById("reset-popup");
-    document.getElementById("reset-cancel-btn").addEventListener("click", () => {
-        resetPopup.classList.add("hidden");
-    });
+    const resetCancel = document.getElementById("reset-cancel-btn");
+    if (resetCancel) {
+        resetCancel.addEventListener("click", () => {
+            resetPopup.classList.add("hidden");
+        });
+    }
 
     function performReset(startingMoney) {
-        // Analytics: End of run
         if (typeof gtag === "function") {
             gtag('event', 'level_end', {
                 'level_name': 'Max Year Reached',
@@ -197,9 +187,8 @@
         }
 
         Game.archiveAndReset(startingMoney);
-        UI.updateStats();
-        UI.renderMachines();
-        UI.renderUpgrades();
+        Events.emit('statsUpdated');
+        Events.emit('shopUpdated');
         resetPopup.classList.add("hidden");
         checkIntroPopup();
     }
@@ -220,7 +209,6 @@
     }
 
     // === Game speed ===
-    // Restore active button from saved speed
     const updateSpeedBtns = () => {
         document.querySelectorAll(".speed-btn, .speed-btn-mobile").forEach(b => {
             b.classList.toggle("active", parseFloat(b.dataset.speed) === Game.gameSpeed);
@@ -228,21 +216,26 @@
     };
     updateSpeedBtns();
 
+    // Bind speed buttons
+    document.querySelectorAll(".speed-btn, .speed-btn-mobile").forEach(btn => {
+        btn.addEventListener("click", () => {
+            window.App.updateSpeed(parseFloat(btn.dataset.speed));
+        });
+    });
+
     // === Stats popup ===
     const statsPopup = document.getElementById("stats-popup");
-    document.getElementById("stats-close").addEventListener("click", () => {
-        statsPopup.classList.add("hidden");
-    });
+    const statsClose = document.getElementById("stats-close");
+    if (statsClose) {
+        statsClose.addEventListener("click", () => {
+            statsPopup.classList.add("hidden");
+        });
+    }
     document.getElementById("stats-export-btn").addEventListener("click", () => {
-        Game.save(); // Ensure latest state is in localStorage
+        Game.save();
         const saveData = JSON.parse(localStorage.getItem("transistor_clicker_save") || "{}");
         const historyData = JSON.parse(localStorage.getItem("transistor_clicker_history") || "[]");
-        
-        const exportObj = {
-            save: saveData,
-            history: historyData
-        };
-        
+        const exportObj = { save: saveData, history: historyData };
         const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -253,740 +246,211 @@
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     });
-    statsPopup.addEventListener("click", (e) => {
-        if (e.target === statsPopup) statsPopup.classList.add("hidden");
-    });
-
-    function formatElapsed(ms) {
-        if (ms === undefined || ms === null) return "—";
-        const totalSec = Math.floor(ms / 1000);
-        const h = Math.floor(totalSec / 3600);
-        const m = Math.floor((totalSec % 3600) / 60);
-        const s = totalSec % 60;
-        if (h > 0) return `${h}h ${m}m ${s}s`;
-        if (m > 0) return `${m}m ${s}s`;
-        return `${s}s`;
-    }
 
     function buildStatsTable() {
         const container = document.getElementById("stats-table-container");
         const history = Game.getHistory();
-
-        // Decades to show: 1950 to max reached across all runs + current
         const decades = [];
         for (let d = 1950; d <= 2100; d += 10) decades.push(d);
 
-        // Current run data (virtual elapsed = speed-weighted time)
         const currentElapsed = Game.virtualElapsed;
         const currentMilestones = { ...Game.decadeMilestones };
-
-        // Filter decades to only show ones that at least one run reached
         const relevantDecades = decades.filter(d => {
             if (currentMilestones[d]) return true;
             return history.some(run => run.milestones && run.milestones[d]);
         });
 
-        // Build table
-        let html = '<table class="stats-table">';
-
-        // Header row
-        html += "<thead><tr><th></th>";
+        let html = '<table class="stats-table"><thead><tr><th></th>';
         history.forEach((run, i) => {
             html += `<th>Run ${i + 1}<br><span style="font-weight:400;font-size:0.65rem">${run.date}</span></th>`;
         });
-        html += '<th class="current-run">En cours</th>';
-        html += "</tr></thead><tbody>";
+        html += '<th class="current-run">En cours</th></tr></thead><tbody>';
 
-        // Total time row
         html += '<tr><td class="row-label">Temps total</td>';
-        history.forEach(run => {
-            html += `<td>${formatElapsed(run.totalElapsed)}</td>`;
-        });
-        html += `<td class="current-run">${formatElapsed(currentElapsed)}</td>`;
-        html += "</tr>";
+        history.forEach(run => html += `<td>${UI.formatTime(run.totalElapsed)}</td>`);
+        html += `<td class="current-run">${UI.formatTime(currentElapsed)}</td></tr>`;
 
-        // Assistance row
-        html += '<tr><td class="row-label" title="Utilisation de l\'accélérateur de temps ou du bot">Assistée</td>';
-        history.forEach(run => {
-            const ast = run.usedAssistance ? '<span style="color:var(--gold)">Oui 🤖</span>' : '<span style="color:var(--text-dim)">Non</span>';
-            html += `<td>${ast}</td>`;
-        });
-        const cAst = Game.usedAssistance ? '<span style="color:var(--gold)">Oui 🤖</span>' : '<span style="color:var(--text-dim)">Non</span>';
-        html += `<td class="current-run">${cAst}</td>`;
-        html += "</tr>";
+        html += '<tr><td class="row-label">Assistée</td>';
+        history.forEach(run => html += `<td>${run.usedAssistance ? 'Oui 🤖' : 'Non'}</td>`);
+        html += `<td class="current-run">${Game.usedAssistance ? 'Oui 🤖' : 'Non'}</td></tr>`;
 
-        // Global production row
         html += '<tr><td class="row-label">Prod. mondiale max</td>';
-        history.forEach(run => {
-            const prod = run.maxYear ? _worldProd(run.maxYear) : 0;
-            html += `<td>${UI.formatNumber(prod)}/an</td>`;
-        });
-        const currentProd = _worldProd(Game.currentYear);
-        html += `<td class="current-run">${UI.formatNumber(currentProd)}/an</td>`;
-        html += "</tr>";
+        history.forEach(run => html += `<td>${UI.formatNumber(_worldProd(run.maxYear || 1947))}/an</td>`);
+        html += `<td class="current-run">${UI.formatNumber(_worldProd(Game.currentYear))}/an</td></tr>`;
 
-        // Max year row
         html += '<tr><td class="row-label">Année max</td>';
-        history.forEach(run => {
-            html += `<td>${run.maxYear || "?"}</td>`;
-        });
-        html += `<td class="current-run">${Game.currentYear}</td>`;
-        html += "</tr>";
+        history.forEach(run => html += `<td>${run.maxYear || "?"}</td>`);
+        html += `<td class="current-run">${Game.currentYear}</td></tr>`;
 
-        // Decade rows
         for (const d of relevantDecades) {
             html += `<tr><td class="row-label">${d}</td>`;
-
-            // Find best time across all runs for highlighting
             let bestMs = Infinity;
             history.forEach(run => {
-                const milestone = run.milestones && run.milestones[d];
-                const t = typeof milestone === 'object' ? milestone.time : milestone;
+                const t = run.milestones?.[d]?.time;
                 if (t !== undefined && t < bestMs) bestMs = t;
             });
-            const currentMilestone = currentMilestones[d];
-            const ct = typeof currentMilestone === 'object' ? currentMilestone.time : currentMilestone;
+            const ct = currentMilestones[d]?.time;
             if (ct !== undefined && ct < bestMs) bestMs = ct;
 
-            function formatShare(share) {
-                const s = new Decimal(share);
-                if (s.gte(100)) return UI.formatNumber(s) + "%";
-                if (s.gte(1)) return s.toNumber().toFixed(1) + "%";
-                if (s.gte(0.01)) return s.toNumber().toFixed(3) + "%";
-                return s.toExponential(1) + "%";
-            }
-
             history.forEach(run => {
-                const milestone = run.milestones && run.milestones[d];
-                const t = typeof milestone === 'object' ? milestone.time : milestone;
-                const share = typeof milestone === 'object' ? milestone.share : undefined;
-                
-                const isBest = t !== undefined && t <= bestMs;
-                let cellHtml = formatElapsed(t);
-                if (share !== undefined) {
-                    cellHtml += `<br><span style="font-size:0.7em; color:var(--text-dim)">Part: ${formatShare(share)}</span>`;
-                }
-                html += `<td class="${isBest ? "best-time" : ""}">${cellHtml}</td>`;
+                const m = run.milestones?.[d];
+                const isBest = m?.time !== undefined && m.time <= bestMs;
+                html += `<td class="${isBest ? "best-time" : ""}">${UI.formatTime(m?.time)}</td>`;
             });
-
             const isBest = ct !== undefined && ct <= bestMs;
-            let currentCellHtml = formatElapsed(ct);
-            const currentShare = typeof currentMilestone === 'object' ? currentMilestone.share : undefined;
-            if (currentShare !== undefined) {
-                currentCellHtml += `<br><span style="font-size:0.7em; color:var(--text-dim)">Part: ${formatShare(currentShare)}</span>`;
-            }
-            html += `<td class="current-run ${isBest ? "best-time" : ""}">${currentCellHtml}</td>`;
-            html += "</tr>";
+            html += `<td class="current-run ${isBest ? "best-time" : ""}">${UI.formatTime(ct)}</td></tr>`;
         }
-
         html += "</tbody></table>";
-
-        if (history.length === 0 && relevantDecades.length === 0) {
-            html = '<p style="color:var(--text-dim)">Aucune statistique pour le moment. Joue et atteins des décennies !</p>';
-        }
-
-        container.innerHTML = html;
-
-        // Render Chart
+        container.innerHTML = (history.length === 0 && relevantDecades.length === 0) ? '<p>Aucune statistique.</p>' : html;
         renderStatsChart(history, currentMilestones, relevantDecades);
     }
 
-    // Chart Mode Toggle
-    let chartMode = 'year'; // or 'time'
-    document.getElementById("chart-toggle-btn").addEventListener("click", (e) => {
-        chartMode = chartMode === 'year' ? 'time' : 'year';
-        e.target.textContent = `Axe : ${chartMode === 'year' ? 'Année' : 'Temps de jeu'}`;
-        buildStatsTable(); // Re-render to update the chart
-    });
+    let chartMode = 'year';
+    const chartToggle = document.getElementById("chart-toggle-btn");
+    if (chartToggle) {
+        chartToggle.addEventListener("click", (e) => {
+            chartMode = chartMode === 'year' ? 'time' : 'year';
+            e.target.textContent = `Axe : ${chartMode === 'year' ? 'Année' : 'Temps de jeu'}`;
+            buildStatsTable();
+        });
+    }
 
     let statsChartInstance = null;
-
     function renderStatsChart(history, currentMilestones, relevantDecades) {
         const chartContainer = document.getElementById("stats-chart-container");
         const canvas = document.getElementById("stats-chart");
-
-        const currentYearProduction = Game.yearlyProduction;
-        const hasCurrentData = Object.keys(currentYearProduction).length > 0;
-        const hasHistoryData = history.some(run => run.yearlyProduction && Object.keys(run.yearlyProduction).length > 0);
-
-        if (!hasCurrentData && !hasHistoryData) {
+        if (!Object.keys(Game.yearlyProduction).length && !history.length) {
             chartContainer.style.display = "none";
             return;
         }
-
         chartContainer.style.display = "block";
-
-        // Find min and max year across all datasets
-        let minYear = 1947;
+        
         let maxYear = Game.currentYear;
-        history.forEach(run => {
-            if (run.maxYear && run.maxYear > maxYear) maxYear = run.maxYear;
-        });
-
+        history.forEach(run => { if (run.maxYear > maxYear) maxYear = run.maxYear; });
         const labels = [];
-        for (let y = minYear; y <= maxYear; y++) {
-            labels.push(y.toString());
-        }
+        for (let y = 1947; y <= maxYear; y++) labels.push(y.toString());
 
         const datasets = [];
-        const colors = [
-            "#f87171", "#fbbf24", "#34d399", "#38bdf8", "#a78bfa", "#f472b6"
-        ];
+        const colors = ["#f87171", "#fbbf24", "#34d399", "#38bdf8", "#a78bfa", "#f472b6"];
 
-        // Helper to extract prod and time from mixed data structures
-        function getProdAndTime(val) {
-            if (val === undefined || val === null) return null;
-            if (typeof val === 'number') return { prod: val, time: null };
-            return { prod: val.prod || 0, time: val.time };
-        }
-
-        // Process history runs
         history.forEach((run, i) => {
             if (!run.yearlyProduction) return;
+            const data = chartMode === 'year' 
+                ? labels.map(y => run.yearlyProduction[y]?.prod || null)
+                : Object.values(run.yearlyProduction).map(v => ({ x: v.time, y: v.prod }));
             
-            if (chartMode === 'year') {
-                const data = labels.map(y => {
-                    const info = getProdAndTime(run.yearlyProduction[y]);
-                    return info ? info.prod : null;
-                });
-
-                if (data.some(val => val !== null)) {
-                    datasets.push({
-                        label: `Run ${i + 1}`,
-                        data: data,
-                        borderColor: colors[i % colors.length],
-                        backgroundColor: colors[i % colors.length] + '40',
-                        borderWidth: 2,
-                        pointRadius: 0,
-                        hitRadius: 5,
-                        fill: false,
-                        tension: 0.1
-                    });
-                }
-            } else {
-                // Time mode
-                const dataPoints = [];
-                for (let y = minYear; y <= maxYear; y++) {
-                    const info = getProdAndTime(run.yearlyProduction[y]);
-                    if (info && info.time !== null && info.time !== undefined) {
-                        dataPoints.push({ x: info.time, y: info.prod });
-                    }
-                }
-                
-                if (dataPoints.length > 0) {
-                    datasets.push({
-                        label: `Run ${i + 1}`,
-                        data: dataPoints,
-                        borderColor: colors[i % colors.length],
-                        backgroundColor: colors[i % colors.length] + '40',
-                        borderWidth: 2,
-                        pointRadius: 0,
-                        hitRadius: 5,
-                        fill: false,
-                        tension: 0.1
-                    });
-                }
-            }
+            datasets.push({
+                label: `Run ${i + 1}`,
+                data: data,
+                borderColor: colors[i % colors.length],
+                borderWidth: 2, pointRadius: 0, fill: false, tension: 0.1
+            });
         });
 
-        // Add current run
-        if (chartMode === 'year') {
-            const currentData = labels.map(y => {
-                const info = getProdAndTime(currentYearProduction[y]);
-                return info ? info.prod : null;
-            });
+        const currentData = chartMode === 'year'
+            ? labels.map(y => Game.yearlyProduction[y]?.prod || null)
+            : Object.values(Game.yearlyProduction).map(v => ({ x: v.time, y: v.prod }));
+        
+        datasets.push({
+            label: 'En cours',
+            data: currentData,
+            borderColor: '#ffffff',
+            borderWidth: 2, pointRadius: 0, borderDash: [5, 5], fill: false, tension: 0.1
+        });
 
-            if (currentData.some(val => val !== null)) {
-                datasets.push({
-                    label: 'En cours',
-                    data: currentData,
-                    borderColor: '#ffffff',
-                    backgroundColor: '#ffffff40',
-                    borderWidth: 2,
-                    pointRadius: 0,
-                    hitRadius: 5,
-                    borderDash: [5, 5],
-                    fill: false,
-                    tension: 0.1
-                });
-            }
-        } else {
-            const currentDataPoints = [];
-            for (let y = minYear; y <= maxYear; y++) {
-                const info = getProdAndTime(currentYearProduction[y]);
-                if (info && info.time !== null && info.time !== undefined) {
-                    currentDataPoints.push({ x: info.time, y: info.prod });
-                }
-            }
-            if (currentDataPoints.length > 0) {
-                datasets.push({
-                    label: 'En cours',
-                    data: currentDataPoints,
-                    borderColor: '#ffffff',
-                    backgroundColor: '#ffffff40',
-                    borderWidth: 2,
-                    pointRadius: 0,
-                    hitRadius: 5,
-                    borderDash: [5, 5],
-                    fill: false,
-                    tension: 0.1
-                });
-            }
-        }
-
-        if (statsChartInstance) {
-            statsChartInstance.destroy();
-        }
-
-        const chartConfig = {
+        if (statsChartInstance) statsChartInstance.destroy();
+        statsChartInstance = new Chart(canvas, {
             type: 'line',
-            data: {
-                datasets: datasets
-            },
+            data: { datasets, labels: chartMode === 'year' ? labels : undefined },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {
-                    mode: 'nearest',
-                    intersect: false,
-                    axis: 'x'
+                responsive: true, maintainAspectRatio: false,
+                scales: {
+                    x: chartMode === 'year' ? { type: 'category' } : { type: 'linear', ticks: { callback: v => UI.formatTime(v) } },
+                    y: { type: 'logarithmic', ticks: { callback: v => UI.formatNumber(v) } }
                 },
                 plugins: {
-                    legend: {
-                        labels: {
-                            color: '#e2e8f0',
-                            font: { size: 10 }
-                        }
-                    },
                     tooltip: {
                         callbacks: {
-                            title: function(context) {
-                                if (chartMode === 'time') {
-                                    return formatElapsed(context[0].parsed.x);
-                                } else {
-                                    return context[0].label;
-                                }
-                            },
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) label += ': ';
-                                if (context.parsed.y !== null) {
-                                    label += UI.formatNumber(context.parsed.y) + '/an';
-                                }
-                                return label;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: chartMode === 'year' ? {
-                        type: 'category',
-                        labels: labels,
-                        grid: { display: false },
-                        ticks: {
-                            color: '#8892a4',
-                            maxRotation: 0,
-                            autoSkip: true,
-                            maxTicksLimit: 20
-                        }
-                    } : {
-                        type: 'linear',
-                        grid: { color: '#2a3a4e' },
-                        ticks: {
-                            color: '#8892a4',
-                            maxRotation: 0,
-                            callback: function(value) {
-                                return formatElapsed(value);
-                            },
-                            maxTicksLimit: 10
-                        }
-                    },
-                    y: {
-                        type: 'logarithmic',
-                        grid: { color: '#2a3a4e' },
-                        ticks: {
-                            color: '#8892a4',
-                            callback: function(value) {
-                                return UI.formatNumber(value);
-                            }
+                            title: items => chartMode === 'time' ? UI.formatTime(items[0].parsed.x) : items[0].label,
+                            label: item => `${item.dataset.label}: ${UI.formatNumber(item.parsed.y)}/an`
                         }
                     }
                 }
             }
-        };
-
-        if (chartMode === 'year') {
-            chartConfig.data.labels = labels;
-        }
-
-        statsChartInstance = new Chart(canvas, chartConfig);
+        });
     }
 
-    // === Bot ===
-    let botActive = false;
-    let botClickAccumulator = 0;   // game-time ms accumulator for clicks
-    let botSellAccumulator = 0;    // game-time ms accumulator for selling
-    const BOT_CLICK_INTERVAL = 500;   // 2 clicks/sec in game-time (500ms)
-    const BOT_SELL_INTERVAL = 3000;   // sell every 3s in game-time
-    const BOT_CLICK_STOP = 10_000;    // stop clicking after 10k total transistors
-
-    const botToggleBtn = document.getElementById("bot-toggle-btn");
-    const botToggleBtnMobile = document.getElementById("bot-toggle-btn-mobile");
-    const botStatus = document.getElementById("bot-status");
-    const botStatusMobile = document.getElementById("bot-status-mobile");
-
-    const toggleBot = () => {
-        botActive = !botActive;
-        const txt = botActive ? "Désactiver le Bot" : "Activer le Bot";
-        const col = botActive ? "var(--red)" : "var(--green)";
-        const statTxt = botActive ? "Actif" : "Inactif";
-        const cls = botActive ? "bot-status-on" : "bot-status-off";
-
-        [botToggleBtn, botToggleBtnMobile].forEach(b => {
-            if(!b) return;
-            b.textContent = txt;
-            b.style.borderColor = col;
-            b.style.color = col;
-        });
-
-        [botStatus, botStatusMobile].forEach(s => {
-            if(!s) return;
-            s.textContent = statTxt;
-            s.className = cls;
-        });
-
-        if (botActive) {
-            Game.usedAssistance = true;
-            botClickAccumulator = 0;
-            botSellAccumulator = 0;
-        } else {
-            UI.setBotNextAction(null);
-        }
-    };
-
-    function botTick(effectiveDeltaMs) {
-        if (!botActive) return;
-
-        // --- Auto-click (2/sec game-time), stops after 10k total ---
-        if (Game.totalTransistors < BOT_CLICK_STOP) {
-            botClickAccumulator += effectiveDeltaMs;
-            while (botClickAccumulator >= BOT_CLICK_INTERVAL && Game.totalTransistors < BOT_CLICK_STOP) {
-                Game.click();
-                botClickAccumulator -= BOT_CLICK_INTERVAL;
-            }
-        }
-
-        // --- Auto-sell all stock every 3s game-time ---
-        botSellAccumulator += effectiveDeltaMs;
-        if (botSellAccumulator >= BOT_SELL_INTERVAL) {
-            botSellAccumulator -= BOT_SELL_INTERVAL;
-            if (Game.transistors > 0) {
-                Game.sell("max");
-            }
-        }
-
-        // --- ROI-based Purchasing (Payback Time) ---
-        // Loop to buy everything that is currently the best ROI and affordable
-        let iterations = 0;
-        // À vitesse normale (x1 ou x2), on limite à 1 achat par tick pour bien voir le bot acheter "un par un".
-        // À haute vitesse, on augmente la limite pour ne pas prendre de retard sur l'accumulation d'argent.
-        let maxIterations = 1;
-        if (Game.gameSpeed > 2) maxIterations = 50;
-        if (Game.gameSpeed >= 500) maxIterations = 200; 
-
-        while (iterations < maxIterations) {
-            iterations++;
-            const unitPrice = new Decimal(Game.getEffectivePrice());
-            const incomeFromProduction = Game.productionPerYear.div(CONFIG.SECONDS_PER_YEAR).mul(unitPrice);
-            let incomeFromClicking = new Decimal(0);
-            if (Game.totalTransistors.lt(BOT_CLICK_STOP)) {
-                incomeFromClicking = new Decimal(1000 / BOT_CLICK_INTERVAL).mul(Game.clickPower).mul(unitPrice);
-            }
-            const currentIncomePerSec = incomeFromProduction.add(incomeFromClicking);
-
-            const investments = [];
-
-            // 1. Upgrades
-            for (const upgrade of UPGRADES) {
-                if (Game.purchasedUpgrades.has(upgrade.id)) continue;
-                if (Game.currentYear < upgrade.unlockYear) continue;
-
-                let gainPerSec = new Decimal(0);
-                if (upgrade.type === "click_multiplier") {
-                    if (Game.totalTransistors.lt(BOT_CLICK_STOP)) {
-                        const currentClickPower = Game.clickPower;
-                        const newClickPower = currentClickPower.mul(upgrade.value);
-                        const gainPerClick = newClickPower.sub(currentClickPower);
-                        const clicksPerSec = 1000 / BOT_CLICK_INTERVAL;
-                        gainPerSec = gainPerClick.mul(clicksPerSec).mul(unitPrice);
-                    }
-                } else if (upgrade.type === "autosell") {
-                    const currentRate = Game.autoSellRate;
-                    const newRate = upgrade.value;
-                    if (newRate > currentRate) {
-                        const gainPerYear = Game.productionPerYear.mul(newRate - currentRate);
-                        gainPerSec = gainPerYear.div(CONFIG.SECONDS_PER_YEAR).mul(unitPrice);
-                    }
-                } else if (upgrade.type === "offline_prod") {
-                    // C'est un investissement "confort", on le prend si c'est très abordable (ex: s'amortit virtuellement vite)
-                    // Disons arbitrairement que ça "rapporte" 1% de la prod globale pour le calcul ROI.
-                    gainPerSec = Game.productionPerYear.div(CONFIG.SECONDS_PER_YEAR).mul(unitPrice).mul(0.01);
-                }
-
-                if (gainPerSec.gt(0)) {
-                    investments.push({
-                        type: "upgrade",
-                        id: upgrade.id,
-                        cost: new Decimal(upgrade.cost),
-                        gainPerSec: gainPerSec
-                    });
-                }
-            }
-
-            // 2. Machines (Already unlocked)
-            for (const machine of MACHINES) {
-                if (!Game.unlockedRD[machine.id]) continue;
-
-                const owned = Game.ownedMachines[machine.id] || 0;
-                const cost = getMachineCost(machine, owned, Game.currentYear);
-                const gainPerSec = new Decimal(machine.baseProduction).div(CONFIG.SECONDS_PER_YEAR).mul(unitPrice);
-
-                investments.push({
-                    type: "machine",
-                    id: machine.id,
-                    cost: cost,
-                    gainPerSec: gainPerSec
-                });
-            }
-
-            // 3. R&D (Unlock + first machine)
-            for (const machine of MACHINES) {
-                // Same visibility threshold as UI
-                if (Game.currentYear < machine.unlockYear - 10) continue;
-                if (Game.unlockedRD[machine.id]) continue;
-
-                const rdCost = getDynamicRDCost(machine, Game.currentYear);
-                const cost = rdCost.add(getMachineCost(machine, 0, Game.currentYear));
-                const gainPerSec = new Decimal(machine.baseProduction).div(CONFIG.SECONDS_PER_YEAR).mul(unitPrice);
-
-                investments.push({
-                    type: "rd",
-                    id: machine.id,
-                    cost: cost,
-                    rdCost: rdCost,
-                    gainPerSec: gainPerSec
-                });
-            }
-
-            if (investments.length === 0) break;
-
-            // Score each investment: Score = Time to afford + Time to payback
-            for (const inv of investments) {
-                // Le score doit TOUJOURS prendre en compte le coût total de l'investissement final (usine incluse)
-                // Sinon le bot sous-estime le temps d'attente, achète la R&D, et réalise ensuite que l'usine est trop chère.
-                const waitingTime = Game.money.gte(inv.cost) ? 0 :
-                    (currentIncomePerSec.gt(0) ? inv.cost.sub(Game.money).div(currentIncomePerSec).toNumber() : Infinity);
-
-                const paybackTime = inv.gainPerSec.gt(0) ? inv.cost.div(inv.gainPerSec).toNumber() : Infinity;
-                inv.score = waitingTime + paybackTime;
-            }
-
-            // Find best ROI (lowest score)
-            investments.sort((a, b) => a.score - b.score);
-            const best = investments[0];
-
-            if (best.score === Infinity) {
-                UI.setBotNextAction("Rien à faire");
-                break;
-            }
-
-            // If best is affordable, buy it and loop. If not, wait (don't buy anything else).
-            const isAffordable = (best.type === "rd") ? (Game.money.gte(best.rdCost)) : (Game.money.gte(best.cost));
-
-            // Update UI with bot's plan
-            if (iterations === 1) {
-                let itemName = "Objet";
-                if (best.type === "upgrade") itemName = UPGRADES.find(u => u.id === best.id)?.name || "Amélioration";
-                else if (best.type === "rd") itemName = "R&D " + (MACHINES.find(m => m.id === best.id)?.name || "");
-                else if (best.type === "machine") itemName = MACHINES.find(m => m.id === best.id)?.name || "Machine";
-
-                const actionVerb = isAffordable ? "Achat de" : "Économie pour";
-                UI.setBotNextAction(`${actionVerb} : ${itemName}`);
-            }
-
-            if (isAffordable) {
-                let success = false;
-
-                if (best.type === "upgrade") {
-                    success = Game.buyUpgrade(best.id);
-                    if (success) UI.highlightAction("upgrade", best.id);
-                } else if (best.type === "machine") {
-                    success = Game.buyMachine(best.id, 1) > 0;
-                    if (success) UI.highlightAction("machine", best.id);
-                } else if (best.type === "rd") {
-                    success = Game.unlockRD(best.id);
-                    if (success) UI.highlightAction("rd", best.id);
-                }
-
-                if (success) {
-                    // Refresh UI immediately after a successful bot action
-                    UI.renderMachines();
-                    UI.renderUpgrades();
-                    UI.updateStats();
-                } else {
-                    // Évite de boucler dans le vide si l'achat a échoué (ex: problème d'arrondi)
-                    break;
-                }
-            } else {
-                break;
-            }
-        }    }
-
     // === Click handler ===
-    UI.els.clickBtn.addEventListener("click", (e) => {
-        const produced = Game.click();
-        UI.spawnFloatingNumber(produced);
-        UI.pulseClickBtn();
-        UI.updateStats();
+    const clickBtn = document.getElementById("click-btn");
+    if (clickBtn) {
+        clickBtn.addEventListener("click", () => {
+            const produced = Game.click();
+            
+            const el = document.createElement("div");
+            el.className = "float-number";
+            el.textContent = "+" + UI.formatNumber(produced);
+            el.style.left = (Math.random() * 160 + 30) + "px";
+            document.getElementById("floating-numbers").appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+            
+            clickBtn.classList.remove("pulse");
+            void clickBtn.offsetWidth;
+            clickBtn.classList.add("pulse");
+            
+            Events.emit('statsUpdated');
+            if (Game.hasYearChanged()) {
+                Game.checkDecadeMilestone();
+                Events.emit('shopUpdated');
+            }
+        });
+    }
 
-        if (Game.hasYearChanged()) {
-            Game.checkDecadeMilestone();
-            UI.checkUnlocks(Game.previousYear, Game.currentYear);
-            UI.renderMachines();
-            UI.renderUpgrades();
-        }
-    });
-
-    // Keyboard shortcut: space to click
     document.addEventListener("keydown", (e) => {
         if (e.code === "Space" && e.target === document.body) {
             e.preventDefault();
-            UI.els.clickBtn.click();
+            const btn = document.getElementById("click-btn");
+            if (btn) btn.click();
         }
     });
 
     // === Game Loop ===
     let lastTick = performance.now();
     let renderAccumulator = 0;
-    const RENDER_INTERVAL = 250; // UI update every 250ms
+    const RENDER_INTERVAL = 250;
 
     function gameLoop(now) {
         const delta = now - lastTick;
         lastTick = now;
-
-        // Physics tick + bot tick
         const oldYear = Game.currentYear;
         Game.tick(delta);
-        
-        // Pass the effective time multiplier to the bot so it acts 50x faster too
-        const effectiveBotDelta = delta * Game.getEffectiveTimeMultiplier();
-        botTick(effectiveBotDelta);
+        Bot.tick(delta * Game.getEffectiveTimeMultiplier());
 
-        // Check year changes from production + bot actions
         if (Game.currentYear !== oldYear) {
             Game.checkDecadeMilestone();
-            UI.checkUnlocks(oldYear, Game.currentYear);
-            UI.renderMachines();
-            UI.renderUpgrades();
+            Events.emit('shopUpdated');
         }
 
-        // Render at lower frequency
         renderAccumulator += delta;
         if (renderAccumulator >= RENDER_INTERVAL) {
             renderAccumulator = 0;
-            UI.updateStats();
-            // Refresh machine affordability
-            refreshMachineAffordability();
+            Events.emit('statsUpdated');
+            if (UI.Shop) UI.Shop.updateMachines(); 
         }
-
         requestAnimationFrame(gameLoop);
     }
 
-    /**
-     * Quick pass to update affordable/locked classes without full re-render
-     */
-    function refreshMachineAffordability() {
-        const qty = UI.buyQty;
-        const cards = document.querySelectorAll(".machine-card");
-        cards.forEach(card => {
-            const id = card.dataset.id;
-            const machine = MACHINES.find(m => m.id === id);
-            if (!machine) return;
-
-            const owned = Game.ownedMachines[machine.id] || 0;
-            const bulkCost = getBulkMachineCost(machine, owned, qty, Game.currentYear);
-            const unlocked = Game.currentYear >= machine.unlockYear;
-            const rdDone = !!Game.unlockedRD[machine.id];
-            const affordable = Game.money.gte(bulkCost);
-            const rdAffordable = Game.money.gte(getDynamicRDCost(machine, Game.currentYear));
-            const isEarly = Game.currentYear < machine.unlockYear;
-
-            // Reset all state classes
-            card.classList.remove("locked", "needs-rd", "affordable", "early-access");
-
-            // Apply new state classes mutually exclusively where it matters
-            if (!rdDone && !rdAffordable && isEarly) {
-                // Not historically unlocked and can't afford the R&D penalty: totally locked out
-                card.classList.add("locked");
-            } else if (!rdDone) {
-                // Needs R&D (either historical or early access)
-                card.classList.add("needs-rd");
-                if (rdAffordable) card.classList.add("affordable");
-                if (isEarly) card.classList.add("early-access");
-            } else {
-                // R&D is done, just regular factory buying
-                if (affordable) card.classList.add("affordable");
-                if (isEarly) card.classList.add("early-access");
-            }
-
-            // Update R&D button state
-            const rdBtn = card.querySelector(".machine-rd-btn");
-            if (rdBtn) {
-                rdBtn.classList.toggle("locked", !rdAffordable);
-            }
-
-            // Update cost display (only for machines with R&D done)
-            const costEl = card.querySelector(".machine-cost");
-            if (costEl) {
-                costEl.textContent = qty > 1
-                    ? `${UI.formatMoney(bulkCost)} (x${qty})`
-                    : UI.formatMoney(bulkCost);
-            }
-
-            // Update count
-            const countEl = card.querySelector(".machine-count");
-            if (countEl) countEl.textContent = "x" + owned;
-
-            // Update total production display
-            const totalProdEl = card.querySelector(".machine-production-total");
-            if (totalProdEl && owned > 0) {
-                const totalProd = new Decimal(machine.baseProduction).mul(owned);
-                totalProdEl.textContent = "Total: " + UI.formatNumber(totalProd) + "/an";
+    const useBoostBtn = document.getElementById("use-boost-btn");
+    if (useBoostBtn) {
+        useBoostBtn.addEventListener("click", () => {
+            if (Game.useConsumable()) {
+                Events.emit('notify', { message: "🔥 Boost temporel activé !", type: "bonus" });
+                Events.emit('statsUpdated');
             }
         });
     }
 
-    // === Boost ===
-    document.getElementById("use-boost-btn").addEventListener("click", () => {
-        if (Game.useConsumable()) {
-            if (typeof UI !== 'undefined' && UI.notify) {
-                UI.notify("🔥 Boost temporel activé !", "bonus");
-            }
-            UI.updateStats();
-        }
-    });
-
-    // Start game loop
     requestAnimationFrame(gameLoop);
-
-    // === Auto-save every 30 seconds ===
-    setInterval(() => {
-        Game.save();
-    }, 30_000);
-
-    // Save on page close
-    window.addEventListener("beforeunload", () => {
-        Game.save();
-    });
+    setInterval(() => Game.save(), 30_000);
+    window.addEventListener("beforeunload", () => Game.save());
 
 })();

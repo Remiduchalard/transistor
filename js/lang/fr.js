@@ -108,6 +108,8 @@ window.Locales.fr = {
     "settings_bot_status_on": "Actif",
     "settings_bot_status_off": "Inactif",
     "settings_close": "Fermer",
+    "research": "Rechercher",
+    "boost_earned": "🎁 Boost x50 gagné !",
     "machine_0_name": "Assemblage à la main",
     "machine_0_desc": "Soudure point par point de transistors au germanium.",
     "machine_0_real": "1947 — Bell Labs, Bardeen, Brattain & Shockley inventent le transistor à pointe de contact.",
