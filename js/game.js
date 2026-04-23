@@ -60,9 +60,10 @@ const Game = {
                 this.globals = JSON.parse(raw);
                 if (this.globals.expertMode === undefined) this.globals.expertMode = false;
                 if (this.globals.devModeUnlocked === undefined) this.globals.devModeUnlocked = false;
+                if (!this.globals.achievements) this.globals.achievements = {};
             } catch (e) {}
         } else {
-            this.globals = { unlockedMusk: false, expertMode: false, devModeUnlocked: false };
+            this.globals = { unlockedMusk: false, unlockedWeyland: false, expertMode: false, devModeUnlocked: false, achievements: {} };
         }
     },
 
@@ -184,13 +185,8 @@ const Game = {
         const newYear = computeYear(this.totalTransistors.toNumber());
         
         if (newYear > this.previousYear && this.autoSellRate > 0) {
-            // Sell at end of year using the price of the year that just ended
             for (let y = this.previousYear; y < newYear; y++) {
                 if (this.transistors.lte(0)) break;
-                // Rough approximation of stock to sell per year elapsed
-                // If skipping multiple years, sell a fraction per year, but simple is just selling all at once at previous year price?
-                // Wait, if we want to be exact, we should do it correctly. 
-                // But normally we only advance 1 year at a time.
                 let toSell = this.transistors.mul(this.autoSellRate).floor();
                 if (toSell.gt(0)) {
                     let unitPrice = getTransistorPrice(y);
@@ -201,6 +197,17 @@ const Game = {
         }
         
         this.currentYear = newYear;
+
+        // Check Equivalences Achievements
+        if (this.totalTransistors.gt(0)) {
+            for (const eq of EQUIVALENCES) {
+                if (this.totalTransistors.gte(eq.trans) && !this.globals.achievements[eq.id]) {
+                    this.globals.achievements[eq.id] = true;
+                    this.saveGlobals();
+                    Events.emit("achievementUnlocked", eq.id);
+                }
+            }
+        }
     },
 
     /**

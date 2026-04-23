@@ -303,6 +303,75 @@
         html += "</tbody></table>";
         container.innerHTML = (history.length === 0 && relevantDecades.length === 0) ? '<p>Aucune statistique.</p>' : html;
         renderStatsChart(history, currentMilestones, relevantDecades);
+        buildEquivalences();
+    }
+
+    function buildEquivalences() {
+        const container = document.getElementById("stats-equiv-container");
+        if (!container) return;
+        
+        let html = `<h3 style="margin-top: 30px; color: var(--gold); text-align: left;">${I18n.t("equiv_title")}</h3>`;
+        html += `<div style="display: flex; flex-direction: column; gap: 10px;">`;
+        
+        EQUIVALENCES.forEach(eq => {
+            const canProduce = Game.totalTransistors.div(eq.trans).floor();
+            const percentage = canProduce.div(eq.world).mul(100);
+            
+            let pctStr = "";
+            if (percentage.gte(100)) pctStr = UI.formatNumber(percentage) + "%";
+            else if (percentage.gte(0.01)) pctStr = percentage.toNumber().toFixed(2) + "%";
+            else pctStr = percentage.toExponential(2).replace("e-", "e-") + "%";
+            
+            html += `
+            <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 10px; border-radius: 8px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <span style="font-size: 1.5rem; margin-right: 10px;">${eq.icon}</span>
+                    <strong style="color: var(--text);">${I18n.t("equiv_" + eq.id)}</strong>
+                </div>
+                <div style="text-align: right; font-size: 0.9rem;">
+                    <div style="color: var(--accent);">${I18n.t("equiv_can_produce")}: <b>${UI.formatNumber(canProduce)}</b></div>
+                    <div style="color: var(--text-dim);">${I18n.t("equiv_world_pct")}: <b>${pctStr}</b></div>
+                </div>
+            </div>`;
+        });
+        
+        // Time to produce 1970
+        const prod1970 = new Decimal(1014120480); // Exact value from _worldProd(1970)
+        let timeStr = I18n.t("time_infinity");
+        if (Game.productionPerYear.gt(0)) {
+            const prodPerSec = Game.productionPerYear.div(CONFIG.SECONDS_PER_YEAR); // Real seconds
+            const effectiveProdPerSec = prodPerSec.mul(Game.getEffectiveTimeMultiplier());
+            const secondsNeeded = prod1970.div(effectiveProdPerSec).toNumber();
+            
+            timeStr = formatDuration(secondsNeeded);
+        }
+        
+        html += `<div style="margin-top: 15px; padding: 15px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent); border-radius: 8px; text-align: left; font-size: 0.95rem; color: var(--text); line-height: 1.5;">
+            ${I18n.t("time_to_1970")} : <br><strong style="color: var(--accent); font-size: 1.1rem;">${timeStr}</strong>
+        </div>`;
+        
+        html += `</div>`;
+        container.innerHTML = html;
+    }
+
+    function formatDuration(seconds) {
+        if (!isFinite(seconds) || seconds < 0) return I18n.t("time_infinity");
+        if (seconds < 1) return I18n.t("time_instant");
+        
+        const days = Math.floor(seconds / 86400);
+        seconds -= days * 86400;
+        const hours = Math.floor(seconds / 3600);
+        seconds -= hours * 3600;
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        
+        const parts = [];
+        if (days > 0) parts.push(`${days} ${I18n.t("time_days")}`);
+        if (hours > 0) parts.push(`${hours} ${I18n.t("time_hours")}`);
+        if (minutes > 0) parts.push(`${minutes} ${I18n.t("time_mins")}`);
+        if (secs > 0 || parts.length === 0) parts.push(`${secs} ${I18n.t("time_secs")}`);
+        
+        return parts.slice(0, 2).join(" et "); // Keep only the two largest units
     }
 
     let chartMode = 'year';

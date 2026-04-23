@@ -33,6 +33,11 @@ UI.Notifications = {
     showAchievement(id) {
         const popup = document.getElementById("achievement-popup");
         if (popup) {
+            const titleEl = document.getElementById("achievement-title");
+            const descEl = document.getElementById("achievement-desc");
+            if (titleEl) titleEl.textContent = I18n.t("achiev_" + id + "_title");
+            if (descEl) descEl.innerHTML = I18n.t("achiev_" + id + "_desc");
+            
             popup.classList.remove("hidden");
             setTimeout(() => {
                 popup.classList.add("hidden");
