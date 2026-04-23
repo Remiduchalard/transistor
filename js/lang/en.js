@@ -60,6 +60,8 @@ window.Locales.en = {
     "temps_de_jeu_label": "Playtime:",
     "temps_virtuel": "Time elapsed in-game. The accelerator and boosts increase this counter faster than real time.",
     "temps_virtuel_desc": "Time elapsed in-game. The accelerator and boosts increase this counter faster than real time.",
+    "perf_metric": "Performance:",
+    "perf_desc": "Frames per second and game cycle duration in ms.",
     "lang_toggle": "Langue : Français",
     "nav_action": "Action",
     "nav_upgrades": "Upgrades",

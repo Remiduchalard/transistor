@@ -418,10 +418,17 @@
     let renderAccumulator = 0;
     const RENDER_INTERVAL = 250;
 
+    let frameCount = 0;
+    let lastFpsTime = performance.now();
+    let currentFps = 0;
+    let lastTickDuration = 0;
+
     function gameLoop(now) {
+        const tickStart = performance.now();
         const delta = now - lastTick;
         lastTick = now;
         const oldYear = Game.currentYear;
+        
         Game.tick(delta);
         Bot.tick(delta * Game.getEffectiveTimeMultiplier());
 
@@ -436,6 +443,17 @@
             Events.emit('statsUpdated');
             if (UI.Shop) UI.Shop.update(); 
         }
+        
+        lastTickDuration = performance.now() - tickStart;
+
+        frameCount++;
+        if (now - lastFpsTime >= 1000) {
+            currentFps = Math.round((frameCount * 1000) / (now - lastFpsTime));
+            frameCount = 0;
+            lastFpsTime = now;
+            Events.emit('perfUpdated', { fps: currentFps, tick: lastTickDuration });
+        }
+
         requestAnimationFrame(gameLoop);
     }
 

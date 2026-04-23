@@ -60,6 +60,8 @@ window.Locales.fr = {
     "temps_de_jeu_label": "Temps de jeu:",
     "temps_virtuel": "Temps écoulé dans le jeu. L'accélérateur et les boosts augmentent ce compteur plus vite que le temps réel.",
     "temps_virtuel_desc": "Temps écoulé dans le jeu. L'accélérateur et les boosts augmentent ce compteur plus vite que le temps réel.",
+    "perf_metric": "Performance :",
+    "perf_desc": "Images par seconde et durée du cycle de jeu en ms.",
     "lang_toggle": "Language: English",
     "nav_action": "Action",
     "nav_upgrades": "Bonus",
