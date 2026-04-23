@@ -295,7 +295,7 @@
                     
                     Game.tick(delta);
                     if (window.Bot && window.Bot.active) {
-                        Bot.tick(delta * Game.getEffectiveTimeMultiplier(), delta);
+                        Bot.tick(delta * Game.getEffectiveTimeMultiplier());
                     }
                     
                     if (Game.currentYear !== oldYear) {

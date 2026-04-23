@@ -218,11 +218,10 @@ const Bot = {
                 this.highlightAction(best.type, best.id);
                 madePurchases = true;
 
-                // Target has been bought, force a recalculation on the next while iteration
-                // But specifically for machines, if we want to buy only one per tick, we break out here
-                // to avoid the bot instantly spamming 100 purchases in the same UI tick if it has infinite money.
                 this.needsRecalculation = true;
-                break;
+                
+                // If it's a machine, we break out to avoid instantly buying thousands of them in one frame
+                if (best.type === "machine") break;
             } else {
                 break;
             }
