@@ -43,7 +43,7 @@ const Bot = {
         });
 
         if (this.active) {
-            Game.usedAssistance = true;
+            Game.state.usedAssistance = true;
             this.clickAccumulator = 0;
             this.sellAccumulator = 0;
             this.needsRecalculation = true;
@@ -81,9 +81,9 @@ const Bot = {
         if (!this.active) return;
 
         // Auto-click
-        if (Game.totalTransistors.lt(this.CLICK_STOP)) {
+        if (Game.state.totalTransistors.lt(this.CLICK_STOP)) {
             this.clickAccumulator += effectiveDeltaMs;
-            while (this.clickAccumulator >= this.CLICK_INTERVAL && Game.totalTransistors.lt(this.CLICK_STOP)) {
+            while (this.clickAccumulator >= this.CLICK_INTERVAL && Game.state.totalTransistors.lt(this.CLICK_STOP)) {
                 Game.click();
                 this.clickAccumulator -= this.CLICK_INTERVAL;
             }
@@ -93,7 +93,7 @@ const Bot = {
         this.sellAccumulator += effectiveDeltaMs;
         if (this.sellAccumulator >= this.SELL_INTERVAL) {
             this.sellAccumulator -= this.SELL_INTERVAL;
-            if (Game.transistors.gt(0)) {
+            if (Game.state.transistors.gt(0)) {
                 Game.sell("max");
             }
         }
@@ -109,7 +109,7 @@ const Bot = {
         const incomeFromProd = Game.productionPerYear.div(CONFIG.SECONDS_PER_YEAR).mul(unitPrice);
         let incomeFromClick = new Decimal(0);
         
-        if (Game.totalTransistors.lt(this.CLICK_STOP)) {
+        if (Game.state.totalTransistors.lt(this.CLICK_STOP)) {
             incomeFromClick = new Decimal(1000 / this.CLICK_INTERVAL).mul(Game.clickPower).mul(unitPrice);
         }
         const currentIncomePerSec = incomeFromProd.add(incomeFromClick);
@@ -118,11 +118,11 @@ const Bot = {
 
         // Upgrades Analysis
         UPGRADES.forEach((upgrade, index) => {
-            if (Game.purchasedUpgrades.has(upgrade.id)) return;
+            if (Game.state.purchasedUpgrades.has(upgrade.id)) return;
             if (Game.currentYear < upgrade.unlockYear) return;
 
             let gainPerSec = new Decimal(0);
-            if (upgrade.type === "click_multiplier" && Game.totalTransistors.lt(this.CLICK_STOP)) {
+            if (upgrade.type === "click_multiplier" && Game.state.totalTransistors.lt(this.CLICK_STOP)) {
                 gainPerSec = Game.clickPower.mul(upgrade.value - 1).mul(1000 / this.CLICK_INTERVAL).mul(unitPrice);
             } else if (upgrade.type === "autosell") {
                 gainPerSec = Game.productionPerYear.mul(upgrade.value - Game.autoSellRate).div(CONFIG.SECONDS_PER_YEAR).mul(unitPrice);
@@ -139,10 +139,10 @@ const Bot = {
         MACHINES.forEach((machine) => {
             if (Game.currentYear < machine.unlockYear - 10) return;
             
-            const owned = Game.ownedMachines[machine.id] || 0;
+            const owned = Game.state.ownedMachines[machine.id] || 0;
             const gainPerSec = new Decimal(machine.baseProduction).div(CONFIG.SECONDS_PER_YEAR).mul(unitPrice);
 
-            if (!Game.unlockedRD[machine.id]) {
+            if (!Game.state.unlockedRD[machine.id]) {
                 const rdCost = getDynamicRDCost(machine, Game.currentYear);
                 const totalCost = rdCost.add(getMachineCost(machine, 0, Game.currentYear));
                 investments.push({ type: "rd", id: machine.id, cost: totalCost, rdCost, gainPerSec });
@@ -160,7 +160,7 @@ const Bot = {
 
         // Score based on Waiting Time + Payback Time
         investments.forEach(inv => {
-            const waitingTime = Game.money.gte(inv.cost) ? 0 : (currentIncomePerSec.gt(0) ? inv.cost.sub(Game.money).div(currentIncomePerSec).toNumber() : Infinity);
+            const waitingTime = Game.state.money.gte(inv.cost) ? 0 : (currentIncomePerSec.gt(0) ? inv.cost.sub(Game.state.money).div(currentIncomePerSec).toNumber() : Infinity);
             const paybackTime = inv.gainPerSec.gt(0) ? inv.cost.div(inv.gainPerSec).toNumber() : Infinity;
             inv.score = waitingTime + paybackTime;
         });
@@ -171,8 +171,8 @@ const Bot = {
 
     processInvestments() {
         let iterations = 0;
-        let maxIterations = Game.gameSpeed > 2 ? 50 : 1;
-        if (Game.gameSpeed >= 500) maxIterations = 200;
+        let maxIterations = Game.state.gameSpeed > 2 ? 50 : 1;
+        if (Game.state.gameSpeed >= 500) maxIterations = 200;
 
         let madePurchases = false;
 
@@ -184,7 +184,7 @@ const Bot = {
             if (!this.currentTarget) break;
 
             const best = this.currentTarget;
-            const isAffordable = (best.type === "rd") ? Game.money.gte(best.rdCost) : Game.money.gte(best.cost);
+            const isAffordable = (best.type === "rd") ? Game.state.money.gte(best.rdCost) : Game.state.money.gte(best.cost);
 
             // Dynamically update UI on the first frame only to avoid overhead
             if (iterations === 0) {

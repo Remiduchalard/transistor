@@ -108,7 +108,7 @@ const UI = {
             }
         }
 
-        return d.floor().toNumber().toLocaleString("fr-FR");
+        return d.floor().toNumber().toLocaleString(I18n.lang === 'fr' ? 'fr-FR' : 'en-US');
     },
 
     formatMoney(val) {

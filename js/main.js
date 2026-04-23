@@ -44,8 +44,8 @@
             I18n.setLanguage(newLang);
         },
         updateSpeed: (speed) => {
-            Game.gameSpeed = speed;
-            if (Game.gameSpeed > 1) Game.usedAssistance = true;
+            Game.state.gameSpeed = speed;
+            if (Game.state.gameSpeed > 1) Game.state.usedAssistance = true;
             updateSpeedBtns();
             Game.save();
         }
@@ -104,7 +104,7 @@
     });
     
     function checkIntroPopup() {
-        if (Game.virtualElapsed === 0) {
+        if (Game.state.virtualElapsed === 0) {
             introPopup.classList.remove("hidden");
         }
     }
@@ -127,7 +127,7 @@
     Events.emit('statsUpdated');
     Events.emit('shopUpdated');
     
-    if (loadResult === false || Game.virtualElapsed === 0) checkIntroPopup();
+    if (loadResult === false || Game.state.virtualElapsed === 0) checkIntroPopup();
 
     // Expert mode toggle
     const expertToggleBtn = document.getElementById("expert-toggle-btn");
@@ -182,7 +182,7 @@
                 'level_name': 'Max Year Reached',
                 'success': true,
                 'score': Game.currentYear,
-                'virtual_elapsed_time': Math.floor(Game.virtualElapsed / 1000)
+                'virtual_elapsed_time': Math.floor(Game.state.virtualElapsed / 1000)
             });
         }
 
@@ -211,7 +211,7 @@
     // === Game speed ===
     const updateSpeedBtns = () => {
         document.querySelectorAll(".speed-btn, .speed-btn-mobile").forEach(b => {
-            b.classList.toggle("active", parseFloat(b.dataset.speed) === Game.gameSpeed);
+            b.classList.toggle("active", parseFloat(b.dataset.speed) === Game.state.gameSpeed);
         });
     };
     updateSpeedBtns();
@@ -253,8 +253,8 @@
         const decades = [];
         for (let d = 1950; d <= 2100; d += 10) decades.push(d);
 
-        const currentElapsed = Game.virtualElapsed;
-        const currentMilestones = { ...Game.decadeMilestones };
+        const currentElapsed = Game.state.virtualElapsed;
+        const currentMilestones = { ...Game.state.decadeMilestones };
         const relevantDecades = decades.filter(d => {
             if (currentMilestones[d]) return true;
             return history.some(run => run.milestones && run.milestones[d]);
@@ -272,7 +272,7 @@
 
         html += '<tr><td class="row-label">Assistée</td>';
         history.forEach(run => html += `<td>${run.usedAssistance ? 'Oui 🤖' : 'Non'}</td>`);
-        html += `<td class="current-run">${Game.usedAssistance ? 'Oui 🤖' : 'Non'}</td></tr>`;
+        html += `<td class="current-run">${Game.state.usedAssistance ? 'Oui 🤖' : 'Non'}</td></tr>`;
 
         html += '<tr><td class="row-label">Prod. mondiale max</td>';
         history.forEach(run => html += `<td>${UI.formatNumber(_worldProd(run.maxYear || 1947))}/an</td>`);
@@ -319,7 +319,7 @@
     function renderStatsChart(history, currentMilestones, relevantDecades) {
         const chartContainer = document.getElementById("stats-chart-container");
         const canvas = document.getElementById("stats-chart");
-        if (!Object.keys(Game.yearlyProduction).length && !history.length) {
+        if (!Object.keys(Game.state.yearlyProduction).length && !history.length) {
             chartContainer.style.display = "none";
             return;
         }
@@ -348,8 +348,8 @@
         });
 
         const currentData = chartMode === 'year'
-            ? labels.map(y => Game.yearlyProduction[y]?.prod || null)
-            : Object.values(Game.yearlyProduction).map(v => ({ x: v.time, y: v.prod }));
+            ? labels.map(y => Game.state.yearlyProduction[y]?.prod || null)
+            : Object.values(Game.state.yearlyProduction).map(v => ({ x: v.time, y: v.prod }));
         
         datasets.push({
             label: 'En cours',
