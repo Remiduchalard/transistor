@@ -212,11 +212,11 @@ UI.Stats = {
         }
         html += "</tbody></table>";
         container.innerHTML = (history.length === 0 && relevantDecades.length === 0) ? `<p>${I18n.t("stats_no_data")}</p>` : html;
-        this.renderStatsChart(history, currentMilestones, relevantDecades);
+        renderStatsChart(history, currentMilestones, relevantDecades);
         this.buildEquivalences();
-    }
+    },
 
-    this.buildEquivalences() {
+    buildEquivalences() {
         const container = document.getElementById("stats-equiv-container");
         if (!container) return;
         
@@ -273,7 +273,7 @@ UI.Stats = {
         container.innerHTML = html;
     }
 
-    this.formatDuration(seconds) {
+    formatDuration(seconds) {
         if (!isFinite(seconds) || seconds < 0) return I18n.t("time_infinity");
         if (seconds === 0) return I18n.t("time_instant");
         
@@ -299,7 +299,7 @@ UI.Stats = {
         return parts.slice(0, 2).join(I18n.lang === 'fr' ? " et " : " and "); // Keep only the two largest units
     }
 
-    this.renderStatsChart(history, currentMilestones, relevantDecades) {
+    renderStatsChart(history, currentMilestones, relevantDecades) {
         const chartContainer = document.getElementById("stats-chart-container");
         const canvas = document.getElementById("stats-chart");
         if (!Object.keys(Game.yearlyProduction).length && !history.length) {
