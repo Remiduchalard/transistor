@@ -28,6 +28,11 @@
             } else {
                 document.getElementById("reset-musk-btn").classList.add("hidden");
             }
+            if (Game.globals.unlockedWeyland) {
+                document.getElementById("reset-weyland-btn").classList.remove("hidden");
+            } else {
+                document.getElementById("reset-weyland-btn").classList.add("hidden");
+            }
         },
         openStats: () => {
             const settingsPopup = document.getElementById("settings-popup");

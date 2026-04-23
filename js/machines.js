@@ -285,7 +285,7 @@ const MACHINES = [
     {
         id: "mars_fab",
                         icon: "🔴",
-        unlockYear: 2065,
+        unlockYear: 2060,
         baseCost: 500_000_000_000_000,
         rdCost: 100_000_000_000_000,
         baseProduction: 500_000_000_000_000_000_000_000,
@@ -294,7 +294,7 @@ const MACHINES = [
     {
         id: "kuiper_mining",
                         icon: "☄️",
-        unlockYear: 2080,
+        unlockYear: 2070,
         baseCost: 10_000_000_000_000_000,
         rdCost: 5_000_000_000_000_000,
         baseProduction: 25_000_000_000_000_000_000_000_000,
@@ -303,7 +303,7 @@ const MACHINES = [
     {
         id: "jupiter_brain",
                         icon: "🪐",
-        unlockYear: 2100,
+        unlockYear: 2080,
         baseCost: 1_000_000_000_000_000_000,
         rdCost: 500_000_000_000_000_000,
         baseProduction: 1_000_000_000_000_000_000_000_000_000,
@@ -312,7 +312,7 @@ const MACHINES = [
     {
         id: "dyson_swarm",
                         icon: "☀️",
-        unlockYear: 2150,
+        unlockYear: 2090,
         baseCost: 100_000_000_000_000_000_000,
         rdCost: 50_000_000_000_000_000_000,
         baseProduction: 500_000_000_000_000_000_000_000_000_000,
@@ -321,7 +321,7 @@ const MACHINES = [
     {
         id: "galactic_forge",
                         icon: "🌌",
-        unlockYear: 2300,
+        unlockYear: 2100,
         baseCost: 10_000_000_000_000_000_000_000,
         rdCost: 5_000_000_000_000_000_000_000,
         baseProduction: 200_000_000_000_000_000_000_000_000_000_000,
@@ -330,7 +330,7 @@ const MACHINES = [
     {
         id: "universal_fabricator",
                         icon: "✨",
-        unlockYear: 3000,
+        unlockYear: 2120,
         baseCost: 1_000_000_000_000_000_000_000_000,
         rdCost: 500_000_000_000_000_000_000_000,
         baseProduction: 1_000_000_000_000_000_000_000_000_000_000_000_000,
