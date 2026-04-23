@@ -297,7 +297,7 @@ UI.Stats = {
         if (secs > 0 || parts.length === 0) parts.push(`${secs} ${I18n.t("time_secs")}`);
         
         return parts.slice(0, 2).join(I18n.lang === 'fr' ? " et " : " and "); // Keep only the two largest units
-    }
+    },
 
     renderStatsChart(history, currentMilestones, relevantDecades) {
         const chartContainer = document.getElementById("stats-chart-container");
