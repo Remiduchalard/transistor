@@ -78,7 +78,18 @@ UI.Stats = {
         if (Game.boostMs > 0) {
             displayClickPower = displayClickPower.mul(50);
         }
-        UI.els.clickPowerDisplay.textContent = I18n.t("per_click", { val: UI.formatNumber(displayClickPower) });
+        
+        let clickText = I18n.t("per_click", { val: UI.formatNumber(displayClickPower) });
+        if (Game.globals.expertMode && Game.productionPerYear.gt(0)) {
+            // Compare real click power vs real yearly production (x25 cancels out)
+            const clickPct = displayClickPower.div(Game.productionPerYear).mul(100);
+            let pctStr;
+            if (clickPct.gte(1)) pctStr = clickPct.toNumber().toFixed(1);
+            else if (clickPct.gte(0.01)) pctStr = clickPct.toNumber().toFixed(3);
+            else pctStr = clickPct.toExponential(1);
+            clickText += ` [${pctStr}%]`;
+        }
+        UI.els.clickPowerDisplay.textContent = clickText;
         
         const worldProdValue = new Decimal(_worldProd(Game.currentYear));
         // World production is historical (x1)
@@ -142,7 +153,10 @@ UI.Stats = {
 
         // Exact numbers for Settings tab
         document.querySelectorAll(".exact-total-produced").forEach(el => {
-            el.textContent = new Decimal(Game.totalTransistors).floor().toNumber().toLocaleString(I18n.lang === 'fr' ? 'fr-FR' : 'en-US');
+            el.textContent = UI.formatExact(Game.totalTransistors);
+        });
+        document.querySelectorAll(".exact-per-year").forEach(el => {
+            el.textContent = UI.formatExact(Game.productionPerYear.mul(CONFIG.DISPLAY_MULTIPLIER));
         });
 
         if (yp.needed > 0) {
