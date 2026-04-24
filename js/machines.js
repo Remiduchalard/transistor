@@ -214,9 +214,9 @@ const MACHINES = [
         id: "euv_litho",
                         icon: "☀️",
         unlockYear: 2018,
-        baseCost: 90000000000,
+        baseCost: 135000000000,
         rdCost: 45000000000,                // $15B — R&D EUV (~20 ans de développement)
-        baseProduction: 6_200_000_000_000_000,
+        baseProduction: 9300000000000000,
         tier: 10,
                     },
     {
