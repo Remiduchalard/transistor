@@ -259,9 +259,9 @@ const MACHINES = [
         id: "tmdc_2d",
                         icon: "🕸️",
         unlockYear: 2038,
-        baseCost: 1800000000000,
+        baseCost: 2700000000000,
         rdCost: 360000000000,
-        baseProduction: 1.800000e+20,
+        baseProduction: 2.700000e+20,
         tier: 12,
                     },
     {
