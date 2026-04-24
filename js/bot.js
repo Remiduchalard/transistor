@@ -10,7 +10,6 @@ const Bot = {
     sellAccumulator: 0,
     CLICK_INTERVAL: 500,
     SELL_INTERVAL: 3000,
-    CLICK_STOP: 10_000,
 
     init() {
         // Whenever the shop updates externally (e.g., player buys manually, year changes),
@@ -81,12 +80,10 @@ const Bot = {
         if (!this.active) return;
 
         // Auto-click
-        if (Game.totalTransistors.lt(this.CLICK_STOP)) {
-            this.clickAccumulator += effectiveDeltaMs;
-            while (this.clickAccumulator >= this.CLICK_INTERVAL && Game.totalTransistors.lt(this.CLICK_STOP)) {
-                Game.click();
-                this.clickAccumulator -= this.CLICK_INTERVAL;
-            }
+        this.clickAccumulator += effectiveDeltaMs;
+        while (this.clickAccumulator >= this.CLICK_INTERVAL) {
+            Game.click();
+            this.clickAccumulator -= this.CLICK_INTERVAL;
         }
 
         // Auto-sell
@@ -107,11 +104,7 @@ const Bot = {
         
         const unitPrice = Game.getEffectivePrice();
         const incomeFromProd = Game.productionPerYear.div(CONFIG.SECONDS_PER_YEAR).mul(unitPrice);
-        let incomeFromClick = new Decimal(0);
-        
-        if (Game.totalTransistors.lt(this.CLICK_STOP)) {
-            incomeFromClick = new Decimal(1000 / this.CLICK_INTERVAL).mul(Game.clickPower).mul(unitPrice);
-        }
+        const incomeFromClick = new Decimal(1000 / this.CLICK_INTERVAL).mul(Game.clickPower).mul(unitPrice);
         const currentIncomePerSec = incomeFromProd.add(incomeFromClick);
 
         const investments = [];
@@ -122,7 +115,7 @@ const Bot = {
             if (Game.currentYear < upgrade.unlockYear) return;
 
             let gainPerSec = new Decimal(0);
-            if (upgrade.type === "click_multiplier" && Game.totalTransistors.lt(this.CLICK_STOP)) {
+            if (upgrade.type === "click_multiplier") {
                 gainPerSec = Game.clickPower.mul(upgrade.value - 1).mul(1000 / this.CLICK_INTERVAL).mul(unitPrice);
             } else if (upgrade.type === "autosell") {
                 gainPerSec = Game.productionPerYear.mul(upgrade.value - Game.autoSellRate).div(CONFIG.SECONDS_PER_YEAR).mul(unitPrice);
