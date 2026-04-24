@@ -133,8 +133,8 @@ const MACHINES = [
         id: "lsi_plant",
                         icon: "🔧",
         unlockYear: 1975,
-        baseCost: 500_000_000,
-        rdCost: 100_000_000,                   // $100M — R&D LSI
+        baseCost: 700000000,
+        rdCost: 140000000,                   // $100M — R&D LSI
         baseProduction: 70_000_000,
         tier: 5,
                     },
@@ -142,8 +142,8 @@ const MACHINES = [
         id: "vlsi_fab",
                         icon: "🏢",
         unlockYear: 1980,
-        baseCost: 700_000_000,
-        rdCost: 250_000_000,                   // $250M — R&D VLSI
+        baseCost: 980000000,
+        rdCost: 350000000,                   // $250M — R&D VLSI
         baseProduction: 1_000_000_000,
         tier: 6,
                     },
@@ -151,8 +151,8 @@ const MACHINES = [
         id: "cmos_line",
                         icon: "💎",
         unlockYear: 1985,
-        baseCost: 3_200_000_000,
-        rdCost: 1_000_000_000,                   // $500M — R&D CMOS avancé
+        baseCost: 4480000000,
+        rdCost: 1400000000,                   // $500M — R&D CMOS avancé
         baseProduction: 10_000_000_000,
         tier: 6,
                     },
@@ -160,8 +160,8 @@ const MACHINES = [
         id: "deep_uv",
                         icon: "🔆",
         unlockYear: 1990,
-        baseCost: 4_000_000_000,
-        rdCost: 2_000_000_000,                 // $1B — R&D lithographie DUV
+        baseCost: 5600000000,
+        rdCost: 2800000000,                 // $1B — R&D lithographie DUV
         baseProduction: 50_000_000_000,
         tier: 7,
                     },
