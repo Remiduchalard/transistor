@@ -343,7 +343,17 @@
                 else if (share.gte(0.01)) shareStr = share.toNumber().toFixed(3) + "%";
                 else shareStr = share.toExponential(1) + "%";
                 
-                console.log(`[Bot] ${Game.currentYear} atteinte | Temps de jeu : ${UI.formatTime(Game.virtualElapsed)} | Part de marché : ${shareStr}`);
+                let clickPctStr = "0%";
+                if (Game.productionPerYear.gt(0)) {
+                    let displayClickPower = Game.clickPower;
+                    if (Game.boostMs > 0) displayClickPower = displayClickPower.mul(50);
+                    const clickPct = displayClickPower.div(Game.productionPerYear).mul(100);
+                    if (clickPct.gte(1)) clickPctStr = clickPct.toNumber().toFixed(1) + "%";
+                    else if (clickPct.gte(0.01)) clickPctStr = clickPct.toNumber().toFixed(3) + "%";
+                    else clickPctStr = clickPct.toExponential(1) + "%";
+                }
+                
+                console.log(`[Bot] ${Game.currentYear} atteinte | Temps de jeu : ${UI.formatTime(Game.virtualElapsed)} | Part de marché : ${shareStr} | Clic = ${clickPctStr} de la prod annuelle`);
             }
         }
 

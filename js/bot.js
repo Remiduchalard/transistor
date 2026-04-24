@@ -163,6 +163,11 @@ const Bot = {
             const waitingTime = Game.money.gte(inv.cost) ? 0 : (currentIncomePerSec.gt(0) ? inv.cost.sub(Game.money).div(currentIncomePerSec).toNumber() : Infinity);
             const paybackTime = inv.gainPerSec.gt(0) ? inv.cost.div(inv.gainPerSec).toNumber() : Infinity;
             inv.score = waitingTime + paybackTime;
+            
+            // Prioritize click upgrades to ensure the bot always grabs them ASAP if affordable
+            if (inv.type === "upgrade" && UPGRADES.find(u => u.id === inv.id)?.type === "click_multiplier") {
+                inv.score *= 0.0001; 
+            }
         });
 
         let bestInvestment = investments[0];
