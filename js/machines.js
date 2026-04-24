@@ -142,9 +142,9 @@ const MACHINES = [
         id: "vlsi_fab",
                         icon: "🏢",
         unlockYear: 1980,
-        baseCost: 980000000,
-        rdCost: 350000000,                   // $250M — R&D VLSI
-        baseProduction: 1_000_000_000,
+        baseCost: 686000000,
+        rdCost: 245000000,                   // $250M — R&D VLSI
+        baseProduction: 500000000,
         tier: 6,
                     },
     {
