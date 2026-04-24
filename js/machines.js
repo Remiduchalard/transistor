@@ -142,9 +142,9 @@ const MACHINES = [
         id: "vlsi_fab",
                         icon: "🏢",
         unlockYear: 1980,
-        baseCost: 686000000,
-        rdCost: 350000000,                   // $250M — R&D VLSI
-        baseProduction: 500000000,
+        baseCost: 823200000,
+        rdCost: 525000000,                   // $250M — R&D VLSI
+        baseProduction: 350000000,
         tier: 6,
                     },
     {
@@ -161,7 +161,7 @@ const MACHINES = [
                         icon: "🔆",
         unlockYear: 1990,
         baseCost: 5600000000,
-        rdCost: 2800000000,                 // $1B — R&D lithographie DUV
+        rdCost: 5600000000,                 // $1B — R&D lithographie DUV
         baseProduction: 50_000_000_000,
         tier: 7,
                     },
