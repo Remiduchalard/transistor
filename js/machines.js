@@ -115,8 +115,8 @@ const MACHINES = [
         id: "msi_fab",
                         icon: "🏗️",
         unlockYear: 1968,
-        baseCost: 78_000_000,
-        rdCost: 65_000_000,                    // $25M — R&D MSI + fondation d'Intel
+        baseCost: 109200000,
+        rdCost: 91000000,                    // $25M — R&D MSI + fondation d'Intel
         baseProduction: 2_000_000,
         tier: 4,
                     },
