@@ -143,7 +143,7 @@ const MACHINES = [
                         icon: "🏢",
         unlockYear: 1980,
         baseCost: 686000000,
-        rdCost: 245000000,                   // $250M — R&D VLSI
+        rdCost: 350000000,                   // $250M — R&D VLSI
         baseProduction: 500000000,
         tier: 6,
                     },
@@ -151,9 +151,9 @@ const MACHINES = [
         id: "cmos_line",
                         icon: "💎",
         unlockYear: 1985,
-        baseCost: 4480000000,
+        baseCost: 3136000000,
         rdCost: 1400000000,                   // $500M — R&D CMOS avancé
-        baseProduction: 10_000_000_000,
+        baseProduction: 5000000000,
         tier: 6,
                     },
     {
