@@ -115,8 +115,8 @@ const MACHINES = [
         id: "msi_fab",
                         icon: "🏗️",
         unlockYear: 1968,
-        baseCost: 60_000_000,
-        rdCost: 50_000_000,                    // $25M — R&D MSI + fondation d'Intel
+        baseCost: 78_000_000,
+        rdCost: 65_000_000,                    // $25M — R&D MSI + fondation d'Intel
         baseProduction: 2_000_000,
         tier: 4,
                     },
@@ -124,8 +124,8 @@ const MACHINES = [
         id: "intel_4004",
                         icon: "🖥️",
         unlockYear: 1971,
-        baseCost: 200_000_000,
-        rdCost: 50_000_000,                    // $50M — R&D premier microprocesseur
+        baseCost: 260_000_000,
+        rdCost: 65_000_000,                    // $50M — R&D premier microprocesseur
         baseProduction: 10_000_000,
         tier: 5,
                     },
