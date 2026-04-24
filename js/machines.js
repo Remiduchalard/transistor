@@ -205,9 +205,9 @@ const MACHINES = [
         id: "finfet",
                         icon: "🦈",
         unlockYear: 2012,
-        baseCost: 45000000000,
+        baseCost: 67500000000,
         rdCost: 24000000000,                 // $8B — R&D FinFET
-        baseProduction: 600_000_000_000_000,
+        baseProduction: 900000000000000,
         tier: 9,
                     },
     {
