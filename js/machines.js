@@ -250,9 +250,9 @@ const MACHINES = [
         id: "silicon_photonics",
                         icon: "🌈",
         unlockYear: 2033,
-        baseCost: 1200000000000,
+        baseCost: 1800000000000,
         rdCost: 210000000000,
-        baseProduction: 20_000_000_000_000_000_000,
+        baseProduction: 30000000000000000000,
         tier: 12,
                     },
     {
