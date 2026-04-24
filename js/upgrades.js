@@ -138,14 +138,14 @@ const UPGRADES = [
                         cost: 590568,
         unlockYear: 1982,
         type: "click_multiplier",
-        value: 3,
+        value: 4,
     },
     {
         id: "click_upg_19",
                         cost: 956720,
         unlockYear: 1984,
         type: "click_multiplier",
-        value: 3,
+        value: 4,
     },
     {
         id: "click_upg_20",
