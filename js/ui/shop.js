@@ -209,7 +209,7 @@ UI.Shop = {
                     ${earlyLabel}
                     <div class="machine-cost">${costLabel}</div>
                     ${owned > 0 ? `<div class="machine-count">x${owned}</div>` : ""}
-                    ${owned > 0 ? `<div class="machine-production-total">Total: ${I18n.t("per_year", { val: UI.formatNumber(totalProd) })}</div>` : ""}
+                    ${owned > 0 ? `<div class="machine-production-total">Total: ${I18n.t("per_year", { val: UI.formatNumber(totalProd.mul(CONFIG.DISPLAY_MULTIPLIER)) })}</div>` : ""}
                 `;
             }
         });

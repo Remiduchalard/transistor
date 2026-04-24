@@ -81,11 +81,13 @@ UI.Stats = {
         UI.els.clickPowerDisplay.textContent = I18n.t("per_click", { val: UI.formatNumber(displayClickPower) });
         
         const worldProdValue = new Decimal(_worldProd(Game.currentYear));
-        UI.els.worldProd.textContent = I18n.t("per_year", { val: UI.formatNumber(worldProdValue.mul(CONFIG.DISPLAY_MULTIPLIER)) });
+        // World production is historical (x1)
+        UI.els.worldProd.textContent = I18n.t("per_year", { val: UI.formatNumber(worldProdValue) });
 
-        // Market share
+        // Market share calculation: uses the x25 scaled production vs historical world production
         if (worldProdValue.gt(0) && Game.productionPerYear.gt(0)) {
-            const share = Game.productionPerYear.div(worldProdValue).mul(100);
+            const playerProdScaled = Game.productionPerYear.mul(CONFIG.DISPLAY_MULTIPLIER);
+            const share = playerProdScaled.div(worldProdValue).mul(100);
             if (share.gte(100)) {
                 UI.els.marketShare.textContent = UI.formatNumber(share) + "%";
             } else if (share.gte(1)) {
@@ -130,22 +132,19 @@ UI.Stats = {
         const era = getCurrentEra(Game.currentYear);
         UI.els.eraName.textContent = era.name;
 
-        // Year progress
+        // Year progress (Reverted to x1 as requested)
         const yp = getYearProgress(Game.totalTransistors);
         UI.els.yearTotalProduced.textContent = UI.formatNumber(Game.totalTransistors);
         UI.els.yearProgressFill.style.width = (yp.progress * 100).toFixed(1) + "%";
         
         const advancedTotalEl = document.getElementById("total-transistors-advanced");
         if (advancedTotalEl) advancedTotalEl.textContent = UI.formatNumber(Game.totalTransistors);
-        
+
         // Exact numbers for Settings tab
         document.querySelectorAll(".exact-total-produced").forEach(el => {
             el.textContent = new Decimal(Game.totalTransistors).floor().toNumber().toLocaleString(I18n.lang === 'fr' ? 'fr-FR' : 'en-US');
         });
-        document.querySelectorAll(".exact-per-year").forEach(el => {
-            el.textContent = new Decimal(Game.productionPerYear).mul(CONFIG.DISPLAY_MULTIPLIER).floor().toNumber().toLocaleString(I18n.lang === 'fr' ? 'fr-FR' : 'en-US');
-        });
-        
+
         if (yp.needed > 0) {
             UI.els.yearNextLabel.textContent = UI.formatNumber(yp.needed);
             const exactProg = document.getElementById("exact-progression");
@@ -185,8 +184,8 @@ UI.Stats = {
         html += `<td class="current-run">${Game.usedAssistance ? I18n.t("stats_yes") + ' 🤖' : I18n.t("stats_no")}</td></tr>`;
 
         html += `<tr><td class="row-label">${I18n.t("stats_max_world_prod")}</td>`;
-        history.forEach(run => html += `<td>${UI.formatNumber(new Decimal(_worldProd(run.maxYear || 1947)).mul(CONFIG.DISPLAY_MULTIPLIER))}/an</td>`);
-        html += `<td class="current-run">${UI.formatNumber(new Decimal(_worldProd(Game.currentYear)).mul(CONFIG.DISPLAY_MULTIPLIER))}/an</td></tr>`;
+        history.forEach(run => html += `<td>${UI.formatNumber(new Decimal(_worldProd(run.maxYear || 1947)))}/an</td>`);
+        html += `<td class="current-run">${UI.formatNumber(new Decimal(_worldProd(Game.currentYear)))}/an</td></tr>`;
 
         html += `<tr><td class="row-label">${I18n.t("stats_max_year")}</td>`;
         history.forEach(run => html += `<td>${run.maxYear || "?"}</td>`);
