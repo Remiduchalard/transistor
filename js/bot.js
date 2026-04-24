@@ -215,6 +215,9 @@ const Bot = {
             else if (best.type === "rd") success = Game.unlockRD(best.id);
 
             if (success) {
+                const costLog = (best.type === "rd") ? best.rdCost : best.cost;
+                console.log(`[Bot] Achat : ${name} | Prix : $${costLog.toExponential(2).replace('e+', 'e')}`);
+                
                 this.highlightAction(best.type, best.id);
                 madePurchases = true;
 

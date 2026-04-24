@@ -333,6 +333,18 @@
         if (Game.currentYear !== oldYear) {
             Game.checkDecadeMilestone();
             Events.emit('shopUpdated');
+            if (typeof Bot !== 'undefined' && Bot.active) {
+                const worldProd = new Decimal(_worldProd(Game.currentYear));
+                const share = worldProd.gt(0) && Game.productionPerYear.gt(0) ? Game.productionPerYear.mul(CONFIG.DISPLAY_MULTIPLIER).div(worldProd).mul(100) : new Decimal(0);
+                
+                let shareStr = "";
+                if (share.gte(100)) shareStr = UI.formatNumber(share) + "%";
+                else if (share.gte(1)) shareStr = share.toNumber().toFixed(1) + "%";
+                else if (share.gte(0.01)) shareStr = share.toNumber().toFixed(3) + "%";
+                else shareStr = share.toExponential(1) + "%";
+                
+                console.log(`[Bot] ${Game.currentYear} atteinte | Temps de jeu : ${UI.formatTime(Game.virtualElapsed)} | Part de marché : ${shareStr}`);
+            }
         }
 
         renderAccumulator += delta;
