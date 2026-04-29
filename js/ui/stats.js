@@ -309,27 +309,89 @@ UI.Stats = {
         html += `</div>`;
 
         
-        // Time to produce 1970
+        // Time to produce 1970 (Historical In-Game Time)
         const prod1970 = new Decimal(CONFIG.WORLD_PROD_1970); // Exact value from _worldProd(1970)
         let timeStr = I18n.t("time_infinity");
         if (Game.productionPerYear.gt(0)) {
-            const prodPerSec = Game.productionPerYear.div(CONFIG.SECONDS_PER_YEAR); // Real seconds
-            const effectiveProdPerSec = prodPerSec.mul(Game.getEffectiveTimeMultiplier());
-            const secondsNeeded = prod1970.div(effectiveProdPerSec).toNumber();
-            
-            timeStr = this.formatDuration(secondsNeeded);
+            // How many in-game years does it take to produce the 1970 amount?
+            const yearsNeeded = prod1970.div(Game.productionPerYear).toNumber();
+            timeStr = this.formatHistoricalDuration(yearsNeeded);
         }
-        
+
         html += `<div style="margin-top: 15px; padding: 15px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent); border-radius: 8px; text-align: left; font-size: 0.95rem; color: var(--text); line-height: 1.5;">
             ${I18n.t("time_to_1970")} : <br><strong style="color: var(--accent); font-size: 1.1rem;">${timeStr}</strong>
         </div>`;
-        
+
         html += `</div>`;
         container.innerHTML = html;
-    },
+        },
 
-    formatDuration(seconds) {
-        if (!isFinite(seconds) || seconds < 0) return I18n.t("time_infinity");
+        formatHistoricalDuration(years) {
+        if (!isFinite(years) || years < 0) return I18n.t("time_infinity");
+        if (years === 0) return I18n.t("time_instant");
+
+        // If it takes more than 1 year
+        if (years >= 1) {
+            const wholeYears = Math.floor(years);
+            const remainingMonths = Math.floor((years - wholeYears) * 12);
+            let result = `${UI.formatNumber(new Decimal(wholeYears))} ${I18n.lang === 'fr' ? 'an(s)' : 'year(s)'}`;
+            if (remainingMonths > 0) result += ` ${remainingMonths} mois`; // Simple fallback for months, should ideally use i18n
+            return result;
+        }
+
+        // Less than a year, calculate months
+        const months = years * 12;
+        if (months >= 1) {
+            const wholeMonths = Math.floor(months);
+            const remainingDays = Math.floor((months - wholeMonths) * 30.416); // Average days in a month
+            let result = `${wholeMonths} ${I18n.lang === 'fr' ? 'mois' : 'month(s)'}`;
+            if (remainingDays > 0) result += ` ${remainingDays} ${I18n.t("time_days")}`;
+            return result;
+        }
+
+        // Less than a month, calculate days
+        const days = years * 365.25;
+        if (days >= 1) {
+            const wholeDays = Math.floor(days);
+            const remainingHours = Math.floor((days - wholeDays) * 24);
+            let result = `${wholeDays} ${I18n.t("time_days")}`;
+            if (remainingHours > 0) result += ` ${remainingHours} ${I18n.t("time_hours")}`;
+            return result;
+        }
+
+        // Less than a day, calculate hours
+        const hours = days * 24;
+        if (hours >= 1) {
+            const wholeHours = Math.floor(hours);
+            const remainingMins = Math.floor((hours - wholeHours) * 60);
+            let result = `${wholeHours} ${I18n.t("time_hours")}`;
+            if (remainingMins > 0) result += ` ${remainingMins} ${I18n.t("time_mins")}`;
+            return result;
+        }
+
+        // Less than an hour, calculate minutes
+        const minutes = hours * 60;
+        if (minutes >= 1) {
+            const wholeMins = Math.floor(minutes);
+            const remainingSecs = Math.floor((minutes - wholeMins) * 60);
+            let result = `${wholeMins} ${I18n.t("time_mins")}`;
+            if (remainingSecs > 0) result += ` ${remainingSecs} ${I18n.t("time_secs")}`;
+            return result;
+        }
+
+        // Less than a minute, show seconds
+        const seconds = minutes * 60;
+        if (seconds >= 1) {
+            return `${Math.floor(seconds)} ${I18n.t("time_secs")}`;
+        }
+
+        // Extremely fast
+        if (seconds >= 1e-3) return (seconds * 1000).toFixed(0) + " " + I18n.t("time_ms");
+        if (seconds >= 1e-6) return (seconds * 1e6).toFixed(0) + " " + I18n.t("time_us");
+        return (seconds * 1e9).toFixed(0) + " " + I18n.t("time_ns");
+        },
+
+        formatDuration(seconds) {        if (!isFinite(seconds) || seconds < 0) return I18n.t("time_infinity");
         if (seconds === 0) return I18n.t("time_instant");
         
         if (seconds < 1) {

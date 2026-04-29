@@ -313,4 +313,15 @@
     #intro-popup > div, #offline-popup > div, #reset-popup > div, #stats-popup > div, #settings-popup > div, #milestone-popup > div {
         max-height: calc(100vh - 100px) !important; /* Leave space for bottom nav */
     }
+
+    /* Center achievement popup on mobile */
+    #achievement-popup {
+        bottom: auto !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 90% !important;
+        max-width: 400px;
+        animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
 }
