@@ -1,0 +1,316 @@
+/* === Mobile Styles (< 768px) === */
+
+@media (max-width: 1100px) {
+    .stats-main-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+    .left-stats, .right-stats {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    .desktop-only-btn {
+        display: none !important;
+    }
+
+    /* Make the game container full width to remove side gaps */
+    #game-container {
+        padding: 0;
+    }
+
+    body {
+        padding-bottom: 70px; /* Space for fixed bottom nav */
+    }
+
+    #stats-bar { 
+        position: static; /* Let it scroll naturally */
+        padding: 8px 12px; /* Reduced padding */
+        box-shadow: none;
+        background: transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle separator */
+        min-height: auto; /* Allow it to shrink */
+    }
+
+    .stats-main-row {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        grid-template-rows: auto auto;
+        gap: 4px 8px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .left-stats, .right-stats {
+        display: contents; /* Allows children to be direct grid items of .stats-main-row */
+    }
+
+    /* Column 1: Money & Production */
+    .money-stat { 
+        grid-column: 1; 
+        grid-row: 1; 
+        justify-content: flex-start !important; 
+    }
+    .production-stat { 
+        grid-column: 1; 
+        grid-row: 2; 
+        justify-content: flex-start !important; 
+    }
+
+    /* Column 2: Year block (spans 2 rows) */
+    .stats-center-group { 
+        grid-column: 2; 
+        grid-row: 1 / span 2; 
+        min-width: 120px !important; 
+        margin-top: 0 !important;
+        background: transparent;
+        border: none;
+    }
+
+    /* Column 3: Stock & Price */
+    .stock-stat { 
+        grid-column: 3; 
+        grid-row: 1; 
+        justify-content: flex-end !important; 
+    }
+    .price-stat { 
+        grid-column: 3; 
+        grid-row: 2; 
+        justify-content: flex-end !important; 
+    }
+
+    /* Minimalist (épuré) stat boxes on mobile */
+    .main-stat { 
+        font-size: 0.85rem !important; 
+        padding: 2px 0 !important; 
+        background: transparent !important; 
+        border: none !important; 
+        white-space: nowrap;
+    }
+    
+    .stat-icon {
+        font-size: 1.1rem !important;
+    }
+    
+    .year-header {
+        background: transparent;
+        border: none;
+        padding: 0;
+    }
+    
+    .year-progress-container {
+        background: rgba(0,0,0,0.3); /* Keep progress bar visible but subtle */
+        border-radius: 4px;
+        padding: 2px 6px !important;
+        margin-top: 2px;
+    }
+
+    .year-value { font-size: 1.8rem; line-height: 1; }
+    .progress-labels { font-size: 0.6rem !important; }
+    .era-label { display: none; } /* Hide era label in the compact bar to save vertical space */
+    
+    #main-area { 
+        display: flex; 
+        flex-direction: column; 
+        gap: 0; 
+        padding: 0 16px; /* Put padding back into main content so it doesn't touch edges */
+        margin-top: 10px; 
+    }
+
+    /* Mobile Nav "En dur" */
+    #mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-panel);
+        border-top: 1px solid var(--border);
+        padding-bottom: env(safe-area-inset-bottom);
+        margin: 0;
+        z-index: 5000;
+        box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+    }
+
+    .nav-btn {
+        flex: 1;
+        padding: 10px 0;
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s;
+    }
+
+    .nav-btn.active {
+        color: var(--accent);
+        background: rgba(56, 189, 248, 0.1);
+    }
+
+    .nav-icon {
+        display: block;
+        font-size: 1.4rem;
+        filter: grayscale(1);
+    }
+
+    .nav-btn.active .nav-icon {
+        filter: grayscale(0);
+    }
+
+    /* Sticky Scrolled Stats Bar */
+    #mobile-sticky-stats {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-panel);
+        border-bottom: 1px solid var(--border);
+        z-index: 5000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    
+    body.scrolled #mobile-sticky-stats {
+        transform: translateY(0);
+    }
+
+    .sticky-stat-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--bg-card);
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    /* Clean up tabs and layout */
+    .mobile-tab {
+        display: none !important;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 10px;
+        box-sizing: border-box;
+        animation: fadeIn 0.2s ease;
+    }
+
+    .mobile-era-display {
+        color: var(--gold);
+        font-size: 1.1rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+        text-shadow: 0 0 10px var(--gold-glow);
+        text-align: center;
+        width: 100%;
+    }
+
+    .mobile-tab.active-tab {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    #left-panel, #shop-zone, #click-zone, #tab-upgrades {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    #tab-action > *, #tab-upgrades > *, #tab-machines > *, #tab-settings > * {
+        max-width: 100%;
+    }
+
+    /* Fix Machines cutoff */
+    #shop-header {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+        align-items: center !important;
+    }
+    
+    #shop-header h2 {
+        text-align: center !important;
+    }
+
+    #machines-list {
+        width: 100%;
+    }
+    .machine-card { grid-template-columns: 40px 1fr auto; padding: 10px; gap: 10px; margin-bottom: 8px; }
+    .machine-icon { width: 40px; height: 40px; font-size: 1.4rem; }
+    .machine-name { font-size: 0.9rem; }
+    .machine-cost { font-size: 0.85rem; }
+    .machine-cost-area { align-items: flex-end; }
+    
+    .machine-desc {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .tooltip-text {
+        position: fixed !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 90vw !important;
+        max-width: 320px !important;
+        font-size: 0.85rem !important;
+        z-index: 9999 !important;
+        box-shadow: 0 0 0 100vmax rgba(0,0,0,0.5) !important;
+    }
+    .tooltip-right { left: 50% !important; right: auto !important; transform: translate(-50%, -50%) !important; }
+
+    #tab-machines.active-tab {
+        position: static;
+        max-height: none;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .settings-content, .stats-content, .milestone-content {
+        margin-bottom: 40px;
+    }
+
+    #tab-settings .settings-content {
+        background: transparent !important;
+        padding: 10px 0 !important;
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    /* Popups responsive adjustments */
+    #intro-popup, #offline-popup, #reset-popup, #stats-popup, #settings-popup, #milestone-popup {
+        align-items: flex-start !important; /* Start from the top instead of centering vertically */
+        padding-top: 15px !important; /* Ensure top space matches left/right space */
+    }
+
+    #intro-popup > div, #offline-popup > div, #reset-popup > div, #stats-popup > div, #settings-popup > div, #milestone-popup > div {
+        max-height: calc(100vh - 100px) !important; /* Leave space for bottom nav */
+    }
+}

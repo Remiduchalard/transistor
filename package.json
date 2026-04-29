@@ -1,5 +1,26 @@
 {
+  "name": "transistor-clicker",
+  "version": "1.0.0",
+  "description": "Un jeu incrémental éducatif sur la loi de Moore et la fabrication de semi-conducteurs.",
+  "main": "js/main.js",
+  "scripts": {
+    "build": "powershell -Command \"if (Test-Path www) { Remove-Item -Recurse -Force www }; New-Item -ItemType Directory -Path www; Copy-Item -Path index.html, proliferation.html, manifest.json, sw.js, favicon.svg, icon-192.png, icon-512.png -Destination www; Copy-Item -Path css, js -Recurse -Destination www\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "clicker",
+    "game",
+    "transistor",
+    "incremental"
+  ],
+  "author": "Tarah",
+  "license": "ISC",
   "dependencies": {
     "break_eternity.js": "^2.1.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/android": "^6.0.0"
   }
 }

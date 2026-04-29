@@ -1,0 +1,305 @@
+/* === Machine Cards === */
+.machine-card {
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    align-items: start;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: default;
+    transition: all 0.2s;
+    position: relative;
+}
+
+/* 1. Locked (Historical, hasn't happened yet, no R&D available) */
+.machine-card.locked {
+    opacity: 0.4;
+    filter: grayscale(100%);
+    cursor: not-allowed;
+    border-color: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.machine-card.locked:hover {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: none;
+}
+
+/* 2. Needs R&D (Unlocked chronologically or early access, but R&D not bought) */
+.machine-card.needs-rd {
+    border-color: rgba(251, 191, 36, 0.2); /* Faint gold */
+    background: rgba(251, 191, 36, 0.02);
+}
+
+/* 3. Needs R&D + Affordable (Can buy R&D right now) */
+.machine-card.needs-rd.affordable {
+    border-color: var(--gold);
+    background: rgba(251, 191, 36, 0.05);
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.1);
+}
+
+.machine-card.needs-rd.affordable:hover {
+    border-color: #fcd34d;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+}
+
+/* 4. R&D Done + Unaffordable (Normal state when broke) */
+/* Uses base .machine-card styles */
+.machine-card:not(.locked):not(.needs-rd):not(.affordable) {
+    border-color: var(--border);
+    opacity: 0.8;
+}
+
+.machine-card:not(.locked):not(.needs-rd):not(.affordable):hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 5. R&D Done + Affordable (Can buy factory right now) */
+.machine-card.affordable:not(.needs-rd) {
+    border-color: var(--green);
+    background: linear-gradient(to right, rgba(52, 211, 153, 0.05), var(--bg-card));
+    cursor: pointer;
+}
+
+.machine-card.affordable:not(.needs-rd):hover {
+    background: linear-gradient(to right, rgba(52, 211, 153, 0.1), var(--bg-card-hover));
+    box-shadow: 0 0 20px rgba(52, 211, 153, 0.2);
+    border-color: #6ee7b7;
+    transform: translateY(-2px);
+}
+
+/* === Early Access indicator === */
+.machine-card.early-access {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, var(--bg-card) 100%);
+    border-style: dashed;
+}
+
+/* 7. Obsolete (Passed by 3+ tiers) */
+.machine-card.obsolete {
+    opacity: 0.5;
+    filter: grayscale(90%);
+    cursor: default;
+    border-color: var(--border);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.machine-card.obsolete:hover {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: var(--border);
+    box-shadow: none;
+    transform: none;
+}
+
+.obsolete-badge {
+    position: absolute;
+    top: 50%;
+    right: 20%;
+    transform: translateY(-50%) rotate(-10deg);
+    color: var(--red);
+    border: 2px solid var(--red);
+    padding: 4px 8px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    pointer-events: none;
+    background: rgba(10, 14, 23, 0.9);
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(248, 113, 113, 0.3);
+    z-index: 10;
+}
+
+/* Count badge */
+.machine-count {
+    background: var(--accent);
+    color: var(--bg-dark);
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 10px;
+    min-width: 24px;
+    text-align: center;
+    align-self: flex-end;
+}
+
+/* Icon */
+.machine-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    flex-shrink: 0;
+}
+
+/* Info */
+.machine-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.machine-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.machine-desc {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    line-height: 1.3;
+}
+
+.machine-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2px;
+    width: 100%;
+}
+
+.machine-stat {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.machine-stat.production {
+    color: var(--accent);
+}
+
+.machine-stat.year-tag {
+    color: var(--gold);
+}
+
+.machine-base-cost {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    opacity: 0.6;
+    margin-top: 2px;
+}
+
+/* Cost area */
+.machine-cost-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    padding-right: 4px;
+}
+
+.machine-cost {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--gold);
+    white-space: nowrap;
+}
+
+.machine-production-total {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+}
+
+/* R&D unlock */
+.machine-rd-cost {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--gold);
+    white-space: nowrap;
+}
+
+.machine-rd-btn {
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--gold);
+    background: rgba(251, 191, 36, 0.1);
+    color: var(--gold);
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.machine-rd-btn:hover:not(.locked) {
+    background: rgba(251, 191, 36, 0.25);
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.2);
+}
+
+.machine-rd-btn.locked {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Info button — inside the icon cell */
+.machine-icon-wrapper {
+    position: relative;
+    width: 52px;
+    flex-shrink: 0;
+}
+
+.machine-info-btn {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-dark);
+    color: var(--text-dim);
+    font-size: 0.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    z-index: 2;
+    line-height: 1;
+}
+
+.machine-info-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(56, 189, 248, 0.1);
+}
+
+/* Info tooltip */
+.machine-real-info {
+    grid-column: 1 / -1;
+    padding: 8px 12px;
+    margin-top: 4px;
+    background: rgba(56, 189, 248, 0.05);
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    border-radius: 6px;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: var(--text-dim);
+}
+
+/* Tier color coding */
+.machine-card[data-tier="0"] .machine-icon { background: rgba(148, 163, 184, 0.15); border-color: rgba(148, 163, 184, 0.3); }
+.machine-card[data-tier="1"] .machine-icon { background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.25); }
+.machine-card[data-tier="2"] .machine-icon { background: rgba(52, 211, 153, 0.1); border-color: rgba(52, 211, 153, 0.25); }
+.machine-card[data-tier="3"] .machine-icon { background: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.3); }
+.machine-card[data-tier="4"] .machine-icon { background: rgba(167, 139, 250, 0.12); border-color: rgba(167, 139, 250, 0.3); }
+.machine-card[data-tier="5"] .machine-icon { background: rgba(248, 113, 113, 0.12); border-color: rgba(248, 113, 113, 0.3); }
+.machine-card[data-tier="6"] .machine-icon { background: rgba(251, 191, 36, 0.15); border-color: rgba(251, 191, 36, 0.35); }
+.machine-card[data-tier="7"] .machine-icon { background: rgba(52, 211, 153, 0.15); border-color: rgba(52, 211, 153, 0.35); }
+.machine-card[data-tier="8"] .machine-icon { background: rgba(56, 189, 248, 0.18); border-color: rgba(56, 189, 248, 0.4); }
+.machine-card[data-tier="9"] .machine-icon { background: rgba(167, 139, 250, 0.18); border-color: rgba(167, 139, 250, 0.4); }
+.machine-card[data-tier="10"] .machine-icon { background: rgba(236, 72, 153, 0.15); border-color: rgba(236, 72, 153, 0.35); }
+.machine-card[data-tier="11"] .machine-icon { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.3); }

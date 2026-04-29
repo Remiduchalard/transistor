@@ -1,0 +1,53 @@
+/* === Desktop Styles (>= 769px) === */
+
+@media (min-width: 769px) {
+    /* Hide Mobile Navigation on Desktop */
+    #mobile-nav, #mobile-sticky-stats, .mobile-era-display {
+        display: none !important;
+    }
+
+    .mobile-tab {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    #tab-action {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #tab-upgrades {
+        width: 100%;
+        max-width: 500px;
+        margin: 30px auto 0 auto;
+    }
+    
+    #tab-machines {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        position: sticky;
+        top: 140px; /* adjusted for the new taller header */
+        align-self: start;
+        max-height: calc(100vh - 150px);
+        overflow-y: auto;
+        padding-right: 10px; /* space for scrollbar */
+    }
+
+    /* Add scrollbar styling for machines list on desktop */
+    #tab-machines::-webkit-scrollbar {
+        width: 6px;
+    }
+    #tab-machines::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 3px;
+    }
+    
+    #tab-settings {
+        display: none !important;
+    }
+}
