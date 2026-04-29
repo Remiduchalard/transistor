@@ -6,11 +6,11 @@
 
     // Mobile Tab Navigation
     function switchTab(targetId) {
-        const btn = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
-        if (!btn) return;
+        const btns = document.querySelectorAll(`.nav-btn[data-target="${targetId}"]`);
+        if (btns.length === 0) return;
 
         document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
+        btns.forEach(btn => btn.classList.add("active"));
         
         document.querySelectorAll(".mobile-tab").forEach(tab => tab.classList.remove("active-tab"));
         const targetEl = document.getElementById(targetId);
