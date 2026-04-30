@@ -117,7 +117,10 @@
         flex-direction: column; 
         gap: 0; 
         padding: 0 16px; /* Put padding back into main content so it doesn't touch edges */
-        margin-top: 10px; 
+        margin-top: 10px;
+        flex: 1;
+        min-height: calc(100vh - 180px); /* Ensure it covers most of the screen to catch swipes */
+        touch-action: pan-y; /* Allow vertical scroll but handle horizontal swipe via JS */
     }
 
     /* Mobile Nav "En dur" */
@@ -201,7 +204,6 @@
         font-weight: bold;
     }
 
-    /* Clean up tabs and layout */
     .mobile-tab {
         display: none !important;
         width: 100%;
@@ -210,6 +212,7 @@
         padding: 10px;
         box-sizing: border-box;
         animation: fadeIn 0.2s ease;
+        touch-action: pan-y; /* Ensure horizontal swipes bubble up to main-area */
     }
 
     .mobile-era-display {

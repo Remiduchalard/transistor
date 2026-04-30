@@ -311,15 +311,26 @@ UI.Stats = {
         
         // Time to produce 1970 (Historical In-Game Time)
         const prod1970 = new Decimal(CONFIG.WORLD_PROD_1970); // Exact value from _worldProd(1970)
-        let timeStr = I18n.t("time_infinity");
+        let timeStr1970 = I18n.t("time_infinity");
         if (Game.productionPerYear.gt(0)) {
-            // How many in-game years does it take to produce the 1970 amount?
-            const yearsNeeded = prod1970.div(Game.productionPerYear).toNumber();
-            timeStr = this.formatHistoricalDuration(yearsNeeded);
+            const yearsNeeded1970 = prod1970.div(Game.productionPerYear).toNumber();
+            timeStr1970 = this.formatHistoricalDuration(yearsNeeded1970);
         }
 
         html += `<div style="margin-top: 15px; padding: 15px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent); border-radius: 8px; text-align: left; font-size: 0.95rem; color: var(--text); line-height: 1.5;">
-            ${I18n.t("time_to_1970")} : <br><strong style="color: var(--accent); font-size: 1.1rem;">${timeStr}</strong>
+            ${I18n.t("time_to_1970")} : <br><strong style="color: var(--accent); font-size: 1.1rem;">${timeStr1970}</strong>
+        </div>`;
+        
+        // Time to produce 2025 (Historical In-Game Time)
+        const prod2025 = new Decimal(_worldProd(2025)); 
+        let timeStr2025 = I18n.t("time_infinity");
+        if (Game.productionPerYear.gt(0)) {
+            const yearsNeeded2025 = prod2025.div(Game.productionPerYear).toNumber();
+            timeStr2025 = this.formatHistoricalDuration(yearsNeeded2025);
+        }
+
+        html += `<div style="margin-top: 15px; padding: 15px; background: rgba(217, 70, 239, 0.1); border: 1px solid rgba(217, 70, 239, 0.5); border-radius: 8px; text-align: left; font-size: 0.95rem; color: var(--text); line-height: 1.5;">
+            ${I18n.t("time_to_2025")} : <br><strong style="color: rgba(217, 70, 239, 1); font-size: 1.1rem;">${timeStr2025}</strong>
         </div>`;
 
         html += `</div>`;
@@ -329,13 +340,25 @@ UI.Stats = {
         formatHistoricalDuration(years) {
         if (!isFinite(years) || years < 0) return I18n.t("time_infinity");
         if (years === 0) return I18n.t("time_instant");
+        
+        // Handle exceptionally large years explicitly instead of using general short formatting
+        if (years >= 1000) {
+            let val = new Decimal(years);
+            if (val.gte(1e9)) {
+                return `${val.div(1e9).toNumber().toFixed(1).replace(/\\.0$/, '')} ${I18n.lang === 'fr' ? "milliards d'années" : 'billion years'}`;
+            }
+            if (val.gte(1e6)) {
+                return `${val.div(1e6).toNumber().toFixed(1).replace(/\\.0$/, '')} ${I18n.lang === 'fr' ? "millions d'années" : 'million years'}`;
+            }
+            return `${val.div(1e3).toNumber().toFixed(1).replace(/\\.0$/, '')} ${I18n.lang === 'fr' ? 'mille ans' : 'thousand years'}`;
+        }
 
         // If it takes more than 1 year
         if (years >= 1) {
             const wholeYears = Math.floor(years);
             const remainingMonths = Math.floor((years - wholeYears) * 12);
-            let result = `${UI.formatNumber(new Decimal(wholeYears))} ${I18n.lang === 'fr' ? 'an(s)' : 'year(s)'}`;
-            if (remainingMonths > 0) result += ` ${remainingMonths} mois`; // Simple fallback for months, should ideally use i18n
+            let result = `${wholeYears} ${I18n.lang === 'fr' ? 'an(s)' : 'year(s)'}`;
+            if (remainingMonths > 0) result += ` ${remainingMonths} ${I18n.lang === 'fr' ? 'mois' : 'month(s)'}`; 
             return result;
         }
 

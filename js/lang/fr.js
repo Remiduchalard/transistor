@@ -627,6 +627,7 @@ window.Locales.fr = {
     "equiv_can_produce": "Quantité possible",
     "equiv_world_pct": "Couverture mondiale",
     "time_to_1970": "Temps réel estimé pour produire la demande mondiale de 1970 entière",
+    "time_to_2025": "Temps réel estimé pour produire la demande mondiale de 2025 entière",
     "time_days": "jour(s)",
     "time_hours": "h",
     "time_mins": "min",

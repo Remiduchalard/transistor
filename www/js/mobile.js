@@ -57,19 +57,30 @@
                 }
             }
         }
+        
+        // Reset
+        touchStartX = 0;
+        touchEndX = 0;
+        touchStartY = 0;
+        touchEndY = 0;
     }
 
     const mainArea = document.getElementById("main-area");
     if (mainArea) {
         mainArea.addEventListener("touchstart", (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
+            touchStartX = e.changedTouches[0].clientX;
+            touchStartY = e.changedTouches[0].clientY;
         }, { passive: true });
 
         mainArea.addEventListener("touchend", (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
+            touchEndX = e.changedTouches[0].clientX;
+            touchEndY = e.changedTouches[0].clientY;
             handleSwipe();
+        }, { passive: true });
+
+        mainArea.addEventListener("touchcancel", () => {
+            touchStartX = 0;
+            touchStartY = 0;
         }, { passive: true });
     }
 
