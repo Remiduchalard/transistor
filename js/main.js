@@ -115,16 +115,48 @@
     }
 
     // Handle Offline Popup
-    if (typeof loadResult === "object" && loadResult !== null && loadResult !== true) {
-        const offlinePopup = document.getElementById("offline-popup");
-        document.getElementById("offline-time").textContent = UI.formatTime(loadResult.offlineMs);
-        document.getElementById("offline-rate").textContent = Math.round(loadResult.rate * 100);
-        document.getElementById("offline-produced").textContent = UI.formatNumber(loadResult.produced);
-        document.getElementById("offline-earned").textContent = UI.formatMoney(loadResult.earned);
-        offlinePopup.classList.remove("hidden");
-        
-        document.getElementById("offline-close-btn").addEventListener("click", () => {
-            offlinePopup.classList.add("hidden");
+    function handleOfflineData(data) {
+        if (typeof data === "object" && data !== null && data !== true) {
+            const offlinePopup = document.getElementById("offline-popup");
+            document.getElementById("offline-time").textContent = UI.formatTime(data.offlineMs);
+            document.getElementById("offline-rate").textContent = Math.round(data.rate * 100);
+            document.getElementById("offline-produced").textContent = UI.formatNumber(data.produced);
+            document.getElementById("offline-earned").textContent = UI.formatMoney(data.earned);
+            offlinePopup.classList.remove("hidden");
+            
+            const closeBtn = document.getElementById("offline-close-btn");
+            // Remove old listeners to avoid multiple popups stacking behaviors
+            const newCloseBtn = closeBtn.cloneNode(true);
+            closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
+            
+            newCloseBtn.addEventListener("click", () => {
+                offlinePopup.classList.add("hidden");
+            });
+        }
+    }
+
+    handleOfflineData(loadResult);
+
+    // Capacitor App State Handling
+    let isPaused = false;
+    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+        const App = window.Capacitor.Plugins.App;
+        App.addListener('appStateChange', ({ isActive }) => {
+            if (isActive) {
+                console.log("App resumed. Calculating offline progress...");
+                isPaused = false;
+                lastTick = performance.now();
+                const offlineData = Game.processOfflineProgress();
+                if (offlineData) {
+                    handleOfflineData(offlineData);
+                    Events.emit('shopUpdated');
+                    Events.emit('statsUpdated');
+                }
+            } else {
+                console.log("App backgrounded. Saving and pausing...");
+                Game.save();
+                isPaused = true;
+            }
         });
     }
 
@@ -150,10 +182,14 @@
             btn.style.borderColor = col;
         });
 
+        const statsExportBtn = document.getElementById("stats-export-btn");
+
         if (Game.globals.expertMode) {
             expertStatsRow.classList.remove("hidden");
+            if (statsExportBtn) statsExportBtn.classList.remove("hidden");
         } else {
             expertStatsRow.classList.add("hidden");
+            if (statsExportBtn) statsExportBtn.classList.add("hidden");
         }
     }
     
@@ -281,36 +317,25 @@
             const now = performance.now();
             const missedMs = now - lastTick;
             
-            // If we missed more than 1 second (tab was inactive)
-            if (missedMs > 1000) {
+            // If we missed more than 10 seconds (tab was inactive)
+            // Using processOfflineProgress to apply offlineRate as requested
+            if (missedMs > 10000) {
                 console.log(`Tab was inactive for ${missedMs}ms. Catching up...`);
-                // Process the missed time in chunks of 1 second to avoid browser freeze
-                // but still simulate the exact time passed.
-                let remainingMissed = missedMs;
-                const chunkMs = 1000;
-                
-                while (remainingMissed > 0) {
-                    const delta = Math.min(remainingMissed, chunkMs);
-                    const oldYear = Game.currentYear;
-                    
-                    Game.tick(delta);
-                    if (typeof Bot !== 'undefined' && Bot.active) {
-                        Bot.tick(delta * Game.getEffectiveTimeMultiplier());
-                    }
-                    
-                    if (Game.currentYear !== oldYear) {
-                        Game.checkDecadeMilestone();
-                    }
-                    remainingMissed -= delta;
+                const offlineData = Game.processOfflineProgress();
+                if (offlineData) {
+                    handleOfflineData(offlineData);
+                    Events.emit('shopUpdated');
+                    Events.emit('statsUpdated');
+                    if (UI.Shop) UI.Shop.update();
                 }
-                
-                Events.emit('shopUpdated');
-                Events.emit('statsUpdated');
-                if (UI.Shop) UI.Shop.update();
             }
             
             // Reset lastTick to now so the main loop doesn't process the huge delta again
             lastTick = performance.now();
+            isPaused = false;
+        } else {
+            isPaused = true;
+            Game.save();
         }
     });
 
@@ -318,9 +343,13 @@
         const tickStart = performance.now();
         let delta = now - lastTick;
         lastTick = now;
+
+        if (isPaused) {
+            requestAnimationFrame(gameLoop);
+            return;
+        }
         
         // Prevent huge lag spikes when switching tabs (cap at 1 second)
-        // This is a safety net; the visibilitychange event handles large gaps properly.
         if (delta > 1000) {
             delta = 1000;
         }
@@ -388,7 +417,9 @@
     }
 
     requestAnimationFrame(gameLoop);
-    setInterval(() => Game.save(), 30_000);
+    setInterval(() => {
+        if (!isPaused) Game.save();
+    }, 30_000);
     window.addEventListener("beforeunload", () => Game.save());
 
 })();

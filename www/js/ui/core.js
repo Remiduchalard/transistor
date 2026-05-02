@@ -102,7 +102,7 @@ const UI = {
                 }
             }
         } else {
-            str = Math.floor(val).toString();
+            str = d.floor().toString();
         }
         
         // Add spaces every 3 digits

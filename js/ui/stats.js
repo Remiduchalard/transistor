@@ -310,10 +310,11 @@ UI.Stats = {
 
         
         // Time to produce 1970 (Historical In-Game Time)
+        const currentHistoricalProd = new Decimal(typeof _worldProd === 'function' ? _worldProd(Game.currentYear) : 1);
         const prod1970 = new Decimal(CONFIG.WORLD_PROD_1970); // Exact value from _worldProd(1970)
         let timeStr1970 = I18n.t("time_infinity");
-        if (Game.productionPerYear.gt(0)) {
-            const yearsNeeded1970 = prod1970.div(Game.productionPerYear).toNumber();
+        if (currentHistoricalProd.gt(0)) {
+            const yearsNeeded1970 = prod1970.div(currentHistoricalProd).toNumber();
             timeStr1970 = this.formatHistoricalDuration(yearsNeeded1970);
         }
 
@@ -322,10 +323,10 @@ UI.Stats = {
         </div>`;
         
         // Time to produce 2025 (Historical In-Game Time)
-        const prod2025 = new Decimal(_worldProd(2025)); 
+        const prod2025 = new Decimal(typeof _worldProd === 'function' ? _worldProd(2025) : 1.9149337191832453e+23); 
         let timeStr2025 = I18n.t("time_infinity");
-        if (Game.productionPerYear.gt(0)) {
-            const yearsNeeded2025 = prod2025.div(Game.productionPerYear).toNumber();
+        if (currentHistoricalProd.gt(0)) {
+            const yearsNeeded2025 = prod2025.div(currentHistoricalProd).toNumber();
             timeStr2025 = this.formatHistoricalDuration(yearsNeeded2025);
         }
 

@@ -318,7 +318,27 @@ const Game = {
         this.unlockedRD[machineId] = true;
         this.addPurchases(1); // Gain 1 purchase towards consumable
         this.recalculate();
+        
+        // Check for prestige unlocks upon R&D completion
+        this.checkPrestigeUnlocks(machineId);
+        
         return true;
+    },
+
+    /**
+     * Check if a machine/RD unlock should trigger a prestige character
+     */
+    checkPrestigeUnlocks(machineId) {
+        if (machineId === "terrafab" && !this.globals.unlockedMusk) {
+            this.globals.unlockedMusk = true;
+            this.saveGlobals();
+            Events.emit("achievementUnlocked", "terrafab_musk");
+        }
+        if (machineId === "kuiper_mining" && !this.globals.unlockedWeyland) {
+            this.globals.unlockedWeyland = true;
+            this.saveGlobals();
+            Events.emit("achievementUnlocked", "kuiper_weyland");
+        }
     },
 
     /**
@@ -342,16 +362,7 @@ const Game = {
         if (bought > 0) {
             this.addPurchases(bought); // Gain towards consumable
             this.recalculate();
-            if (machineId === "terrafab" && this.ownedMachines[machineId] === 1 && !this.globals.unlockedMusk) {
-                this.globals.unlockedMusk = true;
-                this.saveGlobals();
-                Events.emit("achievementUnlocked", "terrafab_musk");
-            }
-            if (machineId === "kuiper_mining" && this.ownedMachines[machineId] === 1 && !this.globals.unlockedWeyland) {
-                this.globals.unlockedWeyland = true;
-                this.saveGlobals();
-                Events.emit("achievementUnlocked", "kuiper_weyland");
-            }
+            this.checkPrestigeUnlocks(machineId);
         }
         return bought;
     },
@@ -363,10 +374,11 @@ const Game = {
         const upgrade = UPGRADES.find(u => u.id === upgradeId);
         if (!upgrade) return false;
         if (this.purchasedUpgrades.has(upgradeId)) return false;
-        if (this.money.lt(upgrade.cost)) return false;
+        const cost = new Decimal(upgrade.cost);
+        if (this.money.lt(cost)) return false;
         if (this.currentYear < upgrade.unlockYear) return false;
 
-        this.money = this.money.sub(upgrade.cost);
+        this.money = this.money.sub(cost);
         this.purchasedUpgrades.add(upgradeId);
         this.recalculate();
         return true;
@@ -476,64 +488,74 @@ const Game = {
             this.recalculate(); // Need this first for offline logic
 
             // Process offline progress
-            const now = Date.now();
-            const offlineMs = now - this.lastSavedTime;
-            let offlineData = null;
+            const offlineData = this.processOfflineProgress();
 
-            // Only calculate if more than 10 seconds offline and offline rate > 0
-            if (offlineMs > 10000 && this.offlineRate > 0 && this.productionPerYear.gt(0)) {
-                const effectiveOfflineMs = offlineMs * this.gameSpeed;
-                const msPerYear = CONFIG.SECONDS_PER_YEAR * 1000;
-                
-                const productionPerMs = this.productionPerYear.div(msPerYear);
-                const totalProduced = productionPerMs.mul(effectiveOfflineMs).mul(this.offlineRate).floor();
-
-                if (totalProduced.gt(0)) {
-                    let remaining = new Decimal(totalProduced);
-                    let startMoney = new Decimal(this.money);
-
-                    while (remaining.gt(0)) {
-                        const nextThreshold = CONFIG.YEAR_THRESHOLDS.find(t => t.year === this.currentYear + 1);
-                        let step = remaining;
-                        if (nextThreshold && this.totalTransistors.add(step).gt(nextThreshold.transistors)) {
-                            step = new Decimal(nextThreshold.transistors).sub(this.totalTransistors);
-                            if (step.lte(0)) step = new Decimal(1);
-                        }
-                        step = Decimal.min(step, remaining);
-
-                        // If beyond all thresholds, take a larger step (e.g., 10%)
-                        if (!nextThreshold && remaining.gt(100)) {
-                            step = remaining.div(10).floor();
-                            if (step.lte(0)) step = remaining;
-                        }
-
-                        this.transistors = this.transistors.add(step);
-                        this.totalTransistors = this.totalTransistors.add(step);
-                        remaining = remaining.sub(step);
-                        
-                        this.recalculate();
-                    }
-
-                    let earned = this.money.sub(startMoney);
-
-                    // Add elapsed time so it counts in stats correctly
-                    this.virtualElapsed += effectiveOfflineMs;
-
-                    offlineData = {
-                        offlineMs,
-                        produced: totalProduced,
-                        earned: earned,
-                        rate: this.offlineRate
-                    };
-                }
-            }
-
-            this.lastSavedTime = now;
+            this.lastSavedTime = Date.now();
             return offlineData || true; // Returns object if progress happened, otherwise true
         } catch (e) {
             console.error(e);
             return false;
         }
+    },
+
+    /**
+     * Calculate and apply offline progress based on lastSavedTime
+     */
+    processOfflineProgress() {
+        const now = Date.now();
+        const offlineMs = now - this.lastSavedTime;
+        let offlineData = null;
+
+        // Only calculate if more than 10 seconds offline and offline rate > 0
+        if (offlineMs > 10000 && this.offlineRate > 0 && this.productionPerYear.gt(0)) {
+            const effectiveOfflineMs = offlineMs * this.gameSpeed;
+            const msPerYear = CONFIG.SECONDS_PER_YEAR * 1000;
+            
+            const productionPerMs = this.productionPerYear.div(msPerYear);
+            const totalProduced = productionPerMs.mul(effectiveOfflineMs).mul(this.offlineRate).floor();
+
+            if (totalProduced.gt(0)) {
+                let remaining = new Decimal(totalProduced);
+                let startMoney = new Decimal(this.money);
+
+                while (remaining.gt(0)) {
+                    const nextThreshold = CONFIG.YEAR_THRESHOLDS.find(t => t.year === this.currentYear + 1);
+                    let step = remaining;
+                    if (nextThreshold && this.totalTransistors.add(step).gt(nextThreshold.transistors)) {
+                        step = new Decimal(nextThreshold.transistors).sub(this.totalTransistors);
+                        if (step.lte(0)) step = new Decimal(1);
+                    }
+                    step = Decimal.min(step, remaining);
+
+                    // If beyond all thresholds, take a larger step (e.g., 10%)
+                    if (!nextThreshold && remaining.gt(100)) {
+                        step = remaining.div(10).floor();
+                        if (step.lte(0)) step = remaining;
+                    }
+
+                    this.transistors = this.transistors.add(step);
+                    this.totalTransistors = this.totalTransistors.add(step);
+                    remaining = remaining.sub(step);
+                    
+                    this.recalculate();
+                }
+
+                let earned = this.money.sub(startMoney);
+
+                // Add elapsed time so it counts in stats correctly
+                this.virtualElapsed += effectiveOfflineMs;
+
+                offlineData = {
+                    offlineMs,
+                    produced: totalProduced,
+                    earned: earned,
+                    rate: this.offlineRate
+                };
+            }
+        }
+        
+        this.lastSavedTime = now;
+        return offlineData;
     },
 
     /**

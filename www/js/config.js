@@ -180,24 +180,25 @@ function getCurrentEra(year) {
  */
 function getTransistorPrice(year) {
     const prices = CONFIG.TRANSISTOR_PRICES;
-    if (year <= prices[0].year) return prices[0].price;
+    if (year <= prices[0].year) return new Decimal(prices[0].price);
 
     // Beyond last data point: extrapolate ÷2 every 24 months
     const last = prices[prices.length - 1];
     if (year >= last.year) {
         const yearsAfter = year - last.year;
-        return last.price * Math.pow(0.5, yearsAfter / 2);
+        return new Decimal(last.price).mul(new Decimal(0.5).pow(yearsAfter / 2));
     }
 
     for (let i = 0; i < prices.length - 1; i++) {
         if (year >= prices[i].year && year < prices[i + 1].year) {
             const t = (year - prices[i].year) / (prices[i + 1].year - prices[i].year);
-            const logA = Math.log(prices[i].price);
-            const logB = Math.log(prices[i + 1].price);
-            return Math.exp(logA + t * (logB - logA));
+            const pA = new Decimal(prices[i].price);
+            const pB = new Decimal(prices[i + 1].price);
+            // Logarithmic interpolation
+            return pA.mul(pB.div(pA).pow(t));
         }
     }
-    return last.price;
+    return new Decimal(last.price);
 }
 
 /**
@@ -206,26 +207,28 @@ function getTransistorPrice(year) {
  */
 function computeYear(totalTransistors) {
     const thresholds = CONFIG.YEAR_THRESHOLDS;
-    if (totalTransistors <= 0) return CONFIG.START_YEAR;
+    const total = new Decimal(totalTransistors);
+    if (total.lte(0)) return CONFIG.START_YEAR;
 
     const last = thresholds[thresholds.length - 1];
+    const lastTransistors = new Decimal(last.transistors);
 
     // Beyond last threshold: extrapolate
-    if (totalTransistors >= last.transistors) {
+    if (total.gte(lastTransistors)) {
         // Production doubles every 14 months → cumulative grows similarly
         // Solve: last.transistors * 2^((y - last.year) * 12/14) = totalTransistors
-        const ratio = totalTransistors / last.transistors;
-        const extraYears = Math.log2(ratio) * 14 / 12;
+        const ratio = total.div(lastTransistors);
+        const extraYears = ratio.log10() / Math.log10(2) * 14 / 12;
         return Math.floor(last.year + extraYears);
     }
 
     for (let i = thresholds.length - 2; i >= 0; i--) {
-        if (totalTransistors >= thresholds[i].transistors) {
-            const current = thresholds[i];
-            const next = thresholds[i + 1];
-            const progress = (totalTransistors - current.transistors) / (next.transistors - current.transistors);
-            const yearProgress = Math.min(progress, 1) * (next.year - current.year);
-            return Math.floor(current.year + yearProgress);
+        const currentThresh = new Decimal(thresholds[i].transistors);
+        if (total.gte(currentThresh)) {
+            const nextThresh = new Decimal(thresholds[i + 1].transistors);
+            const progress = total.sub(currentThresh).div(nextThresh.sub(currentThresh));
+            const yearProgress = Decimal.min(progress, 1).toNumber() * (thresholds[i + 1].year - thresholds[i].year);
+            return Math.floor(thresholds[i].year + yearProgress);
         }
     }
     return CONFIG.START_YEAR;
@@ -236,50 +239,55 @@ function computeYear(totalTransistors) {
  */
 function getYearProgress(totalTransistors) {
     const thresholds = CONFIG.YEAR_THRESHOLDS;
-    const currentYear = computeYear(totalTransistors);
+    const total = new Decimal(totalTransistors);
+    const currentYear = computeYear(total);
 
     // Find which two thresholds we're between
     for (let i = 0; i < thresholds.length - 1; i++) {
         const current = thresholds[i];
         const next = thresholds[i + 1];
+        const currentThresh = new Decimal(current.transistors);
+        const nextThresh = new Decimal(next.transistors);
 
-        if (totalTransistors >= current.transistors && totalTransistors < next.transistors) {
+        if (total.gte(currentThresh) && total.lt(nextThresh)) {
             const yearSpan = next.year - current.year;
-            const transistorSpan = next.transistors - current.transistors;
-            const transistorsPerYear = transistorSpan / yearSpan;
+            const transistorSpan = nextThresh.sub(currentThresh);
+            const transistorsPerYear = transistorSpan.div(yearSpan);
 
-            const transistorsIntoSegment = totalTransistors - current.transistors;
+            const transistorsIntoSegment = total.sub(currentThresh);
             const currentYearInSegment = currentYear - current.year;
-            const transistorsAtCurrentYear = currentYearInSegment * transistorsPerYear;
-            const transistorsAtNextYear = (currentYearInSegment + 1) * transistorsPerYear;
+            const transistorsAtCurrentYear = transistorsPerYear.mul(currentYearInSegment);
+            const transistorsAtNextYear = transistorsPerYear.mul(currentYearInSegment + 1);
 
-            const progressInYear = (transistorsIntoSegment - transistorsAtCurrentYear) /
-                                   (transistorsAtNextYear - transistorsAtCurrentYear);
+            const progressInYear = transistorsIntoSegment.sub(transistorsAtCurrentYear).div(
+                transistorsAtNextYear.sub(transistorsAtCurrentYear)
+            );
 
             return {
-                progress: Math.max(0, Math.min(1, progressInYear)),
+                progress: Math.max(0, Math.min(1, progressInYear.toNumber())),
                 nextYear: currentYear + 1,
-                needed: Math.ceil(current.transistors + transistorsAtNextYear),
+                needed: currentThresh.add(transistorsAtNextYear).ceil(),
             };
         }
     }
 
     // Beyond last threshold: extrapolate using doubling curve
     const last = thresholds[thresholds.length - 1];
-    if (totalTransistors >= last.transistors) {
+    const lastTransistors = new Decimal(last.transistors);
+    if (total.gte(lastTransistors)) {
         // Threshold for year Y after last: last.transistors * 2^((Y-last.year)*12/14)
         const yearsFromLast = currentYear - last.year;
-        const thresholdCurrent = last.transistors * Math.pow(2, yearsFromLast * 12 / 14);
-        const thresholdNext = last.transistors * Math.pow(2, (yearsFromLast + 1) * 12 / 14);
+        const thresholdCurrent = lastTransistors.mul(new Decimal(2).pow(yearsFromLast * 12 / 14));
+        const thresholdNext = lastTransistors.mul(new Decimal(2).pow((yearsFromLast + 1) * 12 / 14));
 
-        const progressInYear = (totalTransistors - thresholdCurrent) / (thresholdNext - thresholdCurrent);
+        const progressInYear = total.sub(thresholdCurrent).div(thresholdNext.sub(thresholdCurrent));
 
         return {
-            progress: Math.max(0, Math.min(1, progressInYear)),
+            progress: Math.max(0, Math.min(1, progressInYear.toNumber())),
             nextYear: currentYear + 1,
-            needed: Math.ceil(thresholdNext),
+            needed: thresholdNext.ceil(),
         };
     }
 
-    return { progress: 0, nextYear: CONFIG.START_YEAR + 1, needed: 0 };
+    return { progress: 0, nextYear: CONFIG.START_YEAR + 1, needed: new Decimal(0) };
 }
